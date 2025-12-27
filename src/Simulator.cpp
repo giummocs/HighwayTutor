@@ -21,7 +21,7 @@ int main() {
     
     double currentTime = 0;
 
-    string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    std::string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for (int i = 0; i < 10000; ++i) { // [cite: 60]
         
         std::string plate = "";
@@ -53,3 +53,4 @@ int main() {
     return 0;
 
 }
+
