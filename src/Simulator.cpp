@@ -21,9 +21,16 @@ int main() {
     
     double currentTime = 0;
 
+    string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for (int i = 0; i < 10000; ++i) { // [cite: 60]
-        // Logica semplificata per generazione targa e percorso
-        std::string plate = "AA" + std::to_string(100 + (i % 899)) + "ZZ";
+        
+        std::string plate = "";
+        plate += letters[rand() % letters.length()];
+        plate += letters[rand() % letters.length()];
+        plate += std::to_string(rand() % 10);
+        plate += std::to_string(rand() % 10);
+        plate += letters[rand() % letters.length()];
+        plate += letters[rand() % letters.length()];
         double entryKm = hwy.points[0].km;
         double exitKm = hwy.points.back().km;
         
@@ -44,4 +51,5 @@ int main() {
         currentTime += 5.0; // Intervallo tra veicoli [cite: 59]
     }
     return 0;
+
 }
