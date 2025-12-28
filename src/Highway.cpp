@@ -40,6 +40,8 @@ bool Highway::loadFromFile(const std::string& filename) {
         }
     }
 
+    file.close();
+    
     // Ordinamento per distanza [cite: 24]
     std::sort(points.begin(), points.end(), confrontaPerKm);
 
@@ -49,14 +51,12 @@ bool Highway::loadFromFile(const std::string& filename) {
         else points[i].id = sCount++;
     }
 
-    MAX_VARCHI = --vCount;
-    MAX_SVINCOLI = --sCount;
-    
     // Validazione vincoli [cite: 25, 26, 27]
     if (vCount <= 2) return false; // Almeno due varchi
-    if (points.front().type != 'S' || points.back().type != 'S') return false; 
+    if (points.front().type != 'S' || points.back().type != 'S') return false;
 
-    file.close();
+    MAX_VARCHI = --vCount;
+    MAX_SVINCOLI = --sCount;
     
     return true;
 
@@ -79,3 +79,4 @@ bool Highway::isDouble(const std::string& s) {
         return false;
     }
 }
+
