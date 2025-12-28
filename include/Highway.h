@@ -12,9 +12,18 @@ struct Point {
 
 class Highway {
 public:
-    std::vector<Point> points;
+    const int MAX_SVINCOLI;
+    const int MAX_VARCHI;
+
     bool loadFromFile(const std::string& filename);
     std::vector<Point> getVarchiInRange(double startKm, double endKm) const;
+    double getKm(int i);
+    char getType(int i);
+    int getId(int i);
+
+private:
+    std::vector<Point> points;
 };
+
 
 #endif
