@@ -21,10 +21,12 @@ public:
 
 private:
     std::vector<Point> points;
+    bool confrontaPerKm(const Point& a, const Point& b);
 };
 
 
 #endif
+
 
 
 
