@@ -1,25 +1,99 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <fstream>
 
-struct Passage {
+double currentTime = 0;
+std::unordered_map<std::string, std::vector<PassagePlateKey>> passagesPlateKey;  //POSSIBILE PROBLEMA DI MEMORIA??? TROPPI DATI 
+std::unordered_map<int, std::vector<PassageIdKey>> passagesIdKey; 
+
+struct PassagePlateKey {
+    int id;
+    double time;
+};
+
+struct PassageIdKey {
     std::string plate;
     double time;
 };
 
-int main() {
-    double currentTime = 0;
-    std::string command;
-    std::map<int, std::vector<Passage>> data; // VarcoID -> Passaggi
+bool readFromFile(const std::string& filename){
+    std::ifstream file(filename);
+    if (!file.is_open()) return false;
 
-    // Caricamento semplificato dei dati per dimostrazione
-    std::ifstream f("Data/Passages.txt");
-    int vId; std::string plate; double t;
-    while(f >> vId >> plate >> t) {
-        data[vId].push_back({plate, t});
+    std::string line;
+    while (std::getline(file, line)) {
+        
+        std::stringstream ss(line);
+        std::string singleWord;
+        std::vector<std::string> words;
+
+        while (ss >> singleWord) {
+            words.push_back(singleWord);
+        }
+
+        if (words.size() == 3) {
+            try {
+                int id = std::stoi(words[0]);
+                std::string plate = words[1];
+                double time = std::stod(words[3]);
+                passagesPlateKey[plate].push_back({id, time});
+                passagesIdKey[id].push_back({plate, time});
+            } catch (...) {
+                return false;
+            }
+        }
     }
+}
+
+std::string set_time(int newTime){
+
+
+    if(newTime <= 0){
+        return "Errore! Inserire un argomento in un formato valido!";
+    }
+
+    currentTime += newTime;
+}
+
+//Traduce il tempo ricevuto come parametro da stringa a intero
+int decodeInput(const std::string& s){
+    bool hasM = false;
+    std::string numberPart;
+    int result;
+
+    //Controllo ultimo carattere e tolgo m
+    if (s.back() == 'm') {
+        hasM = true;
+        numberPart = s.substr(0, s.size() - 1);
+    } else {
+        numberPart = s;
+    }
+
+    //La parte numerica deve esistere
+    if (numberPart.empty()) return -1;
+
+    //Conversione
+    try {
+        result = std::stoi(numberPart);
+    } catch (...) {
+        return -1;
+    }
+    
+
+    //Se aveva m moltiplico per 60 per convertire in secondi
+    if (hasM) {
+        result *= 60;
+    }
+
+    return result;
+}
+
+int main() {
+    
+    std::string command;
+    
 
     while (std::cin >> command) {
         if (command == "set_time") {
@@ -41,7 +115,7 @@ int main() {
             break;
         }
         else {
-            std::cout << " Commando invalido!"
+            std::cout << " Commando invalido!";
         }
     }
     return 0;
