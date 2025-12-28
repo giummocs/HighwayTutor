@@ -27,10 +27,10 @@ bool Highway::loadFromFile(const std::string& filename) {
                     type = words[1][0];
                     points.push_back({km, type, 0});
                 }
-                else {
-                    continue;
-                }
             }
+        }
+        else {
+            continue;
         }
     }
 
@@ -73,5 +73,6 @@ bool Highway::isDouble(const std::string& s) {
         return false;
     }
 }
+
 
 
