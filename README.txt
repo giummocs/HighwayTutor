@@ -1,5 +1,6 @@
 Da fare:
 -controllare le slide del prof del progetto intermedio con "errori da non fare", magari ci sono indicazioni su che grandezza scrivere i main
+-mettere piu try catch, soprattutto nelle conversioni di dati
 -commentare
 -testare con molti file input
 -aggiungere eccezioni e controlli aggiuntivi (per esempio IOException per la lettura e scrittura da file)
