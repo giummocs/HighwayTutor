@@ -14,6 +14,8 @@ public:
     const std::vector<Point>& getPoints();
 
 private:
+    //Abbiamo scelto di implementare due vettori per differenziare al meglio varchi e svincoli, 
+    //il che facilita molto la logica negli altri file: codice piu facile da leggere e alleggerito nella ricerca di varchi e svincoli.
     std::vector<double> svincoli;
     std::vector<double> varchi;
     bool confrontaPerKm(const Point& a, const Point& b);
@@ -22,6 +24,7 @@ private:
 
 
 #endif
+
 
 
 
