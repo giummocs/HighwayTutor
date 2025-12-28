@@ -29,9 +29,6 @@ bool Highway::loadFromFile(const std::string& filename) {
                 }
             }
         }
-        else {
-            continue;
-        }
     }
 
     file.close();
@@ -73,6 +70,7 @@ bool Highway::isDouble(const std::string& s) {
         return false;
     }
 }
+
 
 
 
