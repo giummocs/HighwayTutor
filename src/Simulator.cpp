@@ -5,6 +5,8 @@
 #include <random>
 #include <iomanip>
 
+const int VEHICLE_NUMBER = 10000;
+
 int main() {
     Highway hwy;
     if (!hwy.loadFromFile("Data/Highway.txt")) {
@@ -22,7 +24,7 @@ int main() {
     double currentTime = 0;
 
     std::string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    for (int i = 0; i < 10000; ++i) { // [cite: 60]
+    for (int i = 0; i < VEHICLE_NUMBER; ++i) { // [cite: 60]
         
         std::string plate = "";
         plate += letters[rand() % letters.length()];
@@ -53,4 +55,5 @@ int main() {
     return 0;
 
 }
+
 
