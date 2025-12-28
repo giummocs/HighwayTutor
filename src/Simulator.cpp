@@ -2,155 +2,137 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <cstdlib>  // Per rand() e srand()
-#include <ctime>    // Per time()
-#include <cmath>    // Per calcoli matematici
-#include <iomanip>  // Per formattazione output
+#include <cstdlib>  
+#include <ctime>    
+#include <cmath>    
+#include <iomanip>  
 
 #include "Vehicle.h"
 #include "Highway.h"
 
 using namespace std;
 
-// --- Costanti di Configurazione ---
-const int NUM_VEICOLI = 10000;          // Numero totale di veicoli da generare
-const double MIN_GAP_TEMPORALE = 0.5;   // Secondi minimi tra due veicoli
-const double MAX_GAP_TEMPORALE = 10.0;  // Secondi massimi tra due veicoli
+const int NUM_VEHICLES = 10000;         
+const double MIN_TIME_GAP = 0.5;       
+const double MAX_TIME_GAP = 10.0;       
+const int MIN_SPEED = 80;
+const int MAX_SPEED = 190;
+const int MIN_DURATION_MIN = 5;
+const int MAX_DURATION_MIN = 15;
 
-// Range Velocità (km/h)
-const int MIN_VELOCITA = 80;
-const int MAX_VELOCITA = 190;
 
-// Range Durata intervallo velocità (minuti)
-const int MIN_DURATA_MIN = 5;
-const int MAX_DURATA_MIN = 15;
-
-// --- Funzioni di Utilità ---
-
-// Genera un numero double casuale tra min e max
 double randomDouble(double min, double max) {
     double f = (double)rand() / RAND_MAX;
     return min + f * (max - min);
 }
 
-// Genera un numero intero casuale tra min e max
 int randomInt(int min, int max) {
     return min + rand() % (max - min + 1);
 }
 
-// Genera una targa casuale nel formato AA 000 AA
-string generaTarga() {
-    string targa = "";
-    // Prime due lettere
-    targa += (char)('A' + rand() % 26);
-    targa += (char)('A' + rand() % 26);
-    targa += " ";
-    // Tre cifre
-    targa += to_string(rand() % 10);
-    targa += to_string(rand() % 10);
-    targa += to_string(rand() % 10);
-    targa += " ";
-    // Ultime due lettere
-    targa += (char)('A' + rand() % 26);
-    targa += (char)('A' + rand() % 26);
-    return targa;
+string generatePlate() {
+    string plate = "";
+    plate += (char)('A' + rand() % 26);
+    plate += (char)('A' + rand() % 26);
+    plate += " ";
+    plate += to_string(rand() % 10);
+    plate += to_string(rand() % 10);
+    plate += to_string(rand() % 10);
+    plate += " ";
+    plate += (char)('A' + rand() % 26);
+    plate += (char)('A' + rand() % 26);
+    return plate;
 }
 
 int main() {
-    
     srand((unsigned int)time(NULL));
 
-    cout << "--- Avvio Simulatore Autostradale ---" << endl;
+    cout << "--- Starting Highway Simulator ---" << endl;
 
-  
-    Highway autostrada;
+    Highway highway;
     string highwayFile = "Data/Highway.txt";
     
-    
-    if (!autostrada.loadFromFile(highwayFile)) {
-        cerr << "Errore: Impossibile caricare il file " << highwayFile << endl;
+    if (!highway.loadFromFile(highwayFile)) {
+        cerr << "Error: Impossible to load " << highwayFile << endl;
         return 1;
     }
 
-
-    const vector<Point>& punti = autostrada.getPoints();
+    const vector<Point>& points = highway.getPoints();
     vector<Point> svincoli;
 
-    for (size_t i = 0; i < punti.size(); i++) {
-        if (punti[i].type == 'S') {
-            svincoli.push_back(punti[i]);
+    for (size_t i = 0; i < points.size(); i++) {
+        if (points[i].type == 'S') {
+            svincoli.push_back(points[i]);
         }
     }
 
     if (svincoli.size() < 2) {
-        cerr << "Errore: Non ci sono abbastanza svincoli nell'autostrada per simulare un percorso." << endl;
+        cerr << "Error: Not enough svincoli to simulate a path." << endl;
         return 1;
     }
 
-   
     string runsFile = "Data/Runs.txt";
     ofstream outFile(runsFile);
     if (!outFile.is_open()) {
-        cerr << "Errore: Impossibile creare il file " << runsFile << endl;
+        cerr << "Error: Impossible to create " << runsFile << endl;
         return 1;
     }
 
-   
-    double tempoCorrenteSimulazione = 0.0;
+    double currentSimulationTime = 0.0;
 
-    cout << "Generazione di " << NUM_VEICOLI << " veicoli in corso..." << endl;
+    cout << "Generating " << NUM_VEHICLES << " vehicles..." << endl;
 
-    for (int i = 0; i < NUM_VEICOLI; i++) {
-        Vehicle veicolo;
+    for (int i = 0; i < NUM_VE_HICLES; i++) {
+        Vehicle vehicle;
 
+        vehicle.plate = generatePlate();
         
-        veicolo.plate = generaTarga();
-        int idxIngresso = randomInt(0, svincoli.size() - 2);
+        int entryIdx = randomInt(0, svincoli.size() - 2);
+        int exitIdx = randomInt(entryIdx + 1, svincoli.size() - 1);
+
+        Point svincoloIngresso = svincoli[entryIdx];
+        Point svincoloUscita = svincoli[exitIdx];
+
+        vehicle.startSvincolo = svincoloIngresso.id;
+        vehicle.endSvincolo = svincoloUscita.id;
         
-       
-        int idxUscita = randomInt(idxIngresso + 1, svincoli.size() - 1);
+        currentSimulationTime += randomDouble(MIN_TIME_GAP, MAX_TIME_GAP);
+        vehicle.startTime = currentSimulationTime;
 
-        Point svincoloIngresso = svincoli[idxIngresso];
-        Point svincoloUscita = svincoli[idxUscita];
+        double totalDistanceToCover = svincoloUscita.km - svincoloIngresso.km;
+        double coveredDistance = 0.0;
 
-        veicolo.startSvincolo = svincoloIngresso.id;
-        veicolo.endSvincolo = svincoloUscita.id;
-        tempoCorrenteSimulazione += randomDouble(MIN_GAP_TEMPORALE, MAX_GAP_TEMPORALE);
-        veicolo.startTime = tempoCorrenteSimulazione;
-
-        double distanzaTotaleDaPercorrere = svincoloUscita.km - svincoloIngresso.km;
-        double distanzaCoperta = 0.0;
-
-        while (distanzaCoperta < distanzaTotaleDaPercorrere) {
-            SpeedInterval intervallo;
+        while (coveredDistance < totalDistanceToCover) {
+            SpeedInterval interval;
             
-            intervallo.speed = (double)randomInt(MIN_VELOCITA, MAX_VELOCITA);
+            interval.speed = (double)randomInt(MIN_SPEED, MAX_SPEED);
             
-            double minuti = (double)randomInt(MIN_DURATA_MIN, MAX_DURATA_MIN);
-            intervallo.duration = minuti * 60.0; 
-            double ore = minuti / 60.0;
-            double distanzaIntervallo = intervallo.speed * ore;
+            double minutes = (double)randomInt(MIN_DURATION_MIN, MAX_DURATION_MIN);
+            interval.duration = minutes * 60.0; 
+            
+            double hours = minutes / 60.0;
+            double intervalDistance = interval.speed * hours;
 
-            distanzaCoperta += distanzaIntervallo;
-            veicolo.profile.push_back(intervallo);
+            coveredDistance += intervalDistance;
+            vehicle.profile.push_back(interval);
         }
 
-        outFile << veicolo.plate << " "
-                << veicolo.startSvincolo << " "
-                << veicolo.endSvincolo << " "
-                << fixed << setprecision(2) << veicolo.startTime;
+        
+        outFile << vehicle.plate << " "
+                << vehicle.startSvincolo << " "
+                << vehicle.endSvincolo << " "
+                << fixed << setprecision(2) << vehicle.startTime;
 
-        for (size_t k = 0; k < veicolo.profile.size(); k++) {
-            outFile << " " << veicolo.profile[k].speed 
-                    << " " << veicolo.profile[k].duration;
+        for (size_t k = 0; k < vehicle.profile.size(); k++) {
+            outFile << " " << vehicle.profile[k].speed 
+                    << " " << vehicle.profile[k].duration;
         }
         
         outFile << endl;
     }
 
     outFile.close();
-    cout << "Simulazione completata con successo. Dati salvati in " << runsFile << endl;
+    cout << "Simulation completed. Data saved in " << runsFile << endl;
 
     return 0;
 }
-
