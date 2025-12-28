@@ -6,6 +6,7 @@
 #include <iomanip>
 
 const int VEHICLE_NUMBER = 10000;
+const std::string PLATE_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 int main() {
     Highway hwy;
@@ -23,16 +24,15 @@ int main() {
     
     double currentTime = 0;
 
-    std::string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for (int i = 0; i < VEHICLE_NUMBER; ++i) { // [cite: 60]
         
         std::string plate = "";
-        plate += letters[rand() % letters.length()];
-        plate += letters[rand() % letters.length()];
+        plate += PLATE_LETTERS[rand() % PLATE_LETTERS.length()];
+        plate += PLATE_LETTERS[rand() % PLATE_LETTERS.length()];
         plate += std::to_string(rand() % 10);
         plate += std::to_string(rand() % 10);
-        plate += letters[rand() % letters.length()];
-        plate += letters[rand() % letters.length()];
+        plate += PLATE_LETTERS[rand() % PLATE_LETTERS.length()];
+        plate += PLATE_LETTERS[rand() % PLATE_LETTERS.length()];
         double entryKm = hwy.points[0].km;
         double exitKm = hwy.points.back().km;
         
@@ -55,5 +55,6 @@ int main() {
     return 0;
 
 }
+
 
 
