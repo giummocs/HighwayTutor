@@ -27,6 +27,9 @@ bool Highway::loadFromFile(const std::string& filename) {
     // Validazione vincoli [cite: 25, 26, 27]
     if (vCount <= 2) return false; // Almeno due varchi
     if (points.front().type != 'S' || points.back().type != 'S') return false; 
+
+    file.close();
     
     return true;
+
 }
