@@ -17,7 +17,7 @@ public:
 
     bool loadFromFile(const std::string& filename);
     std::vector<Point> getVarchiInRange(double startKm, double endKm) const;
-    Point getPoint(int i);
+    std::vector<Point> getPoints();
 
 private:
     std::vector<Point> points;
@@ -25,4 +25,5 @@ private:
 
 
 #endif
+
 
