@@ -4,12 +4,6 @@
 #include <vector>
 #include <string>
 
-struct Point {
-    double km;
-    char type; // 'V' per Varco, 'S' per Svincolo
-    int id;
-};
-
 class Highway {
 public:
     const int MAX_SVINCOLI;
@@ -20,13 +14,15 @@ public:
     const std::vector<Point>& getPoints();
 
 private:
-    std::vector<Point> points;
+    std::vector<double> svincoli;
+    std::vector<double> varchi;
     bool confrontaPerKm(const Point& a, const Point& b);
     bool isDouble(const std::string& s);
 };
 
 
 #endif
+
 
 
 
