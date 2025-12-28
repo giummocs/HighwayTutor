@@ -35,18 +35,19 @@ bool Highway::loadFromFile(const std::string& filename) {
     // Ordinamento per distanza [cite: 24]
     std::sort(varchi.begin(), varchi.end());
     std::sort(svincoli.begin(), svincoli.end());
+    
     int i = 0, j = 0;
 
     // 2. Usiamo due puntatori per scorrere gli array: O(N + M)
-    while (i < A.size() && j < B.size()) {
-        double diff = std::abs(A[i] - B[j]);
+    while (i < varchi.size() && j < svincoli.size()) {
+        double diff = std::abs(varchi[i] - svincoli[j]);
 
         if (diff < 1.0) {
             return false; // Condizione violata
         }
 
         // Muoviamo il puntatore dell'elemento più piccolo per avvicinarci all'altro
-        if (A[i] < B[j]) {
+        if (varchi[i] < svincoli[j]) {
             i++;
         } else {
             j++;
@@ -78,6 +79,7 @@ bool Highway::isDouble(const std::string& s) {
         return false;
     }
 }
+
 
 
 
