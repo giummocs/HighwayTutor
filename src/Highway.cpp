@@ -20,21 +20,15 @@ bool Highway::loadFromFile(const std::string& filename) {
             words.push_back(std::toupper(temp));
         }
 
-        if (words.size() != 2) {
-            continue;
-        }
-        else {
-            if (!isDouble(words[0])){
-                continue;
-            }
-            else {
-                if ( words[1] =! "V" || words[1] =! "S"){
-                    continue;
-                }
-                else{
+        if (words.size() == 2) {
+            if (isDouble(words[0])) {
+                if ( words[1] == "V" || words[1] == "S"){
                     km = std::stod(words[0]);
                     type = words[1][0];
                     points.push_back({km, type, 0});
+                }
+                else {
+                    continue;
                 }
             }
         }
@@ -79,4 +73,5 @@ bool Highway::isDouble(const std::string& s) {
         return false;
     }
 }
+
 
