@@ -7,8 +7,6 @@ bool Highway::loadFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) return false;
 
-    double km;
-    char type;
     std::string line;
     while (std::getline(file, line)) {
         
@@ -22,10 +20,11 @@ bool Highway::loadFromFile(const std::string& filename) {
 
         if (words.size() == 2) {
             if (isDouble(words[0])) {
-                if ( words[1] == "V" || words[1] == "S"){
-                    km = std::stod(words[0]);
-                    type = words[1][0];
-                    points.push_back({km, type, 0});
+                if (words[1] == "V"){
+                    varchi.push_back(std::stod(words[0]));
+                }
+                else if (words[1] == "S") {
+                    svincoli.push_back(std::stod(words[0]));
                 }
             }
         }
@@ -34,31 +33,23 @@ bool Highway::loadFromFile(const std::string& filename) {
     file.close();
     
     // Ordinamento per distanza [cite: 24]
-    std::sort(points.begin(), points.end(), confrontaPerKm);
-
-    int vCount = 1, sCount = 1;
-    for (int i = 0; i < points.size(); i++) {
-        if (points[i].type == 'V') points[i].id = vCount++;
-        else points[i].id = sCount++;
-    }
+    std::sort(varchi.begin(), varchi.end());
+    std::sort(svincoli.begin(), svincoli.end());
 
     // Validazione vincoli [cite: 25, 26, 27]
-    if (vCount <= 2) return false; // Almeno due varchi
-    if (points.front().type != 'S' || points.back().type != 'S') return false;
-
-    MAX_VARCHI = --vCount;
-    MAX_SVINCOLI = --sCount;
+    if (varchi.size() <= 2) return false; // Almeno due varchi
+    if (svincoli[0] > varchi[0] || svincoli[svincoli.size()-1] < varchi[varchi.size()-1]) return false;
     
     return true;
 
 }
 
-const Highway::std::vector<Point>& getPoints(){
-    return points;
+const Highway::std::vector<Point>& getSvincoli(){
+    return svincoli;
 }
 
-bool Highway::confrontaPerKm(const Point& a, const Point& b) {
-    return a.km < b.km;
+const Highway::std::vector<Point>& getVarchi(){
+    return varchi;
 }
 
 bool Highway::isDouble(const std::string& s) {
@@ -70,6 +61,7 @@ bool Highway::isDouble(const std::string& s) {
         return false;
     }
 }
+
 
 
 
