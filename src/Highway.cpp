@@ -9,8 +9,35 @@ bool Highway::loadFromFile(const std::string& filename) {
 
     double km;
     char type;
-    while (file >> km >> type) {
-        points.push_back({km, toupper(type), 0});
+    std::string line;
+    while (std::getline(file, line)) {
+        
+        std::stringstream ss(line);
+        std::string temp;
+        std::vector<std::string> words;
+
+        while (ss >> temp) {
+            words.push_back(std::toupper(temp));
+        }
+
+        if (words.size() != 2) {
+            continue;
+        }
+        else {
+            if (!isDouble(words[0])){
+                continue;
+            }
+            else {
+                if ( words[1] =! "V" || words[1] =! "S"){
+                    continue;
+                }
+                else{
+                    km = std::stod(words[0]);
+                    type = words[1][0];
+                    points.push_back({km, type, 0});
+                }
+            }
+        }
     }
 
     // Ordinamento per distanza [cite: 24]
@@ -43,3 +70,12 @@ bool Highway::confrontaPerKm(const Point& a, const Point& b) {
     return a.km < b.km;
 }
 
+bool Highway::isDouble(const std::string& s) {
+    try {
+        std::stod(s);
+        return true;
+    } 
+    catch (...) {
+        return false;
+    }
+}
