@@ -6,7 +6,7 @@ Da fare:
 -i comandi nel sistema tutor sono completamente sbagliati, gemini non ha capito niente, "set_time" "reset" e "stats" sono sbagliati. 
  Magari farei dei metodi fuori dal main chiamandoli set_time() reset() e stats() che svolgono le richieste della consegna, e dentro al ciclo while nel main li andiamo a chiamare quando l'utente digita il comando corrispondente.
 
--mettere un comando per uscire dal ciclo while in tutor.cpp
+
 -commentare
 -testare con molti file input
 -aggiungere eccezioni e controlli aggiuntivi (per esempio IOException per la lettura e scrittura da file)
@@ -15,3 +15,4 @@ Da fare:
 
 Fatto:
 -sistemare magic number 10000 nel for
+-mettere un comando per uscire dal ciclo while in tutor.cpp
