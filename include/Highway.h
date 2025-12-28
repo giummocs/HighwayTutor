@@ -17,7 +17,7 @@ public:
 private:
     //Abbiamo scelto di implementare due vettori per differenziare al meglio varchi e svincoli, al posto di una struttura dati univoca per entrambi (struct).
     //Il che facilita molto la logica negli altri file: codice piu facile da leggere e alleggerito nella ricerca di varchi e svincoli.
-    std::vector<double> svincoli;
+    std::vector<Point> svincoli;
     std::vector<double> varchi;
 
     bool isDouble(const std::string& s);
@@ -25,6 +25,7 @@ private:
 
 
 #endif
+
 
 
 
