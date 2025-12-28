@@ -22,11 +22,12 @@ public:
 private:
     std::vector<Point> points;
     bool confrontaPerKm(const Point& a, const Point& b);
-    bool isDouble(const std::string& s)
+    bool isDouble(const std::string& s);
 };
 
 
 #endif
+
 
 
 
