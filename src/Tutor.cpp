@@ -30,11 +30,20 @@ int main() {
             currentTime += value; 
             std::cout << "Nuovo istante: " << currentTime << ". Analisi violazioni..." << std::endl;
             // Qui andrebbe la logica di calcolo velocità media tra varchi consecutivi [cite: 87]
-        } else if (command == "stats") {
+        } 
+        else if (command == "stats") {
             std::cout << "Statistiche sistema tutor..." << std::endl; // [cite: 90]
-        } else if (command == "reset") {
+        } 
+        else if (command == "reset") {
             currentTime = 0; // [cite: 89]
+        }
+        else if (command == "Q" || command == "q"){
+            break;
+        }
+        else {
+            std::cout << " Commando invalido!"
         }
     }
     return 0;
+
 }
