@@ -63,7 +63,7 @@ const Highway::std::vector<double>& getGates(){
 
 double getDistance(char c, int index) {
     if (c != 'V' || c != 'S') {
-        throw std::invalid_argument("Errore! Chiave non corretto");
+        throw std::invalid_argument("Errore! Chiave non corretta");
     }
     
     std::vector<HighwayNode>& v = mappa[c];
@@ -77,7 +77,7 @@ double getDistance(char c, int index) {
 
 int getPrev(char c, int index) {
     if (c != 'V' || c != 'S') {
-        throw std::invalid_argument("Errore! Chiave non corretto");
+        throw std::invalid_argument("Errore! Chiave non corretta");
     }
     
     std::vector<HighwayNode>& v = mappa[c];
@@ -149,6 +149,7 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
 
     return;
 }
+
 
 
 
