@@ -27,7 +27,7 @@ void Highway::loadFromFile(const std::string& filename) {
         if (words.size() == 2) {
             if (isDouble(words[0])) {
                 if (words[1] == "V" || words[1] == "S"){
-                    node.distance = {std::stod(words[0]), 0, 0};
+                    node.distance = std::stod(words[0]);
                     nodes[words[1]].push_back(node);
                 }
             }
@@ -170,6 +170,7 @@ bool Highway::isDouble(const std::string& s) {
 bool Highway::compareDistance(const HighwatNode& a, const HighwayNode& b) {
     return a.distance < b.distance;
 }
+
 
 
 
