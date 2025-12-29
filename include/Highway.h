@@ -18,7 +18,7 @@ public:
     const int MAX_JUNCTIONS;
     const int MAX_GATES;
 
-    bool loadFromFile(const std::string& filename);
+    void loadFromFile(const std::string& filename);
     const std::vector<double>& getJuctions();
     const std::vector<double>& getGates();
     const std::vector<AdjacentGates>& getAdjacentGates();
@@ -35,6 +35,7 @@ private:
 
 
 #endif
+
 
 
 
