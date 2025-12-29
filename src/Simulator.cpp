@@ -29,12 +29,27 @@ int randomInt(int min, int max)
 {
     return min + std::rand() % (max - min + 1);
 }
-void generatePassages(std::ofstream& outFile,std::vector<double> gates, const Vehicle vehicle, double kmentry, double kmexit)
-{
-    int currentTime = vehicle.
-    for(int i = 0; i < gate.size(); i++)
-    {
+void generatePassages(std::ofstream& passOut, const Vehicle& vehicle, const std::vector<double>& gates, double kmEntry) {
+    int gateIdx = 0;
+    while (gateIdx < gates.size() && gates[gateIdx] <= kmEntry) {
+        gateIdx++;
+    }
+    double currentKm = kmEntry;
+    double currentTime = vehicle.startTime;
+
+    for (int i = 0; i < vehicle.profile.size(); i++) {
+        double speedKmS =  vehicle.profile[i].speed / 3600.0; 
+        double duration = vehicle.profile[i].duration;   
         
+        double nextKm = currentKm + (speedKmS * duration);
+
+        while(gateIdx < gates.size() && gates[gateIdx] <= nextKm)
+        {
+            
+        }
+        
+        currentKm = nextKm;
+        currentTime += duration;
     }
 }
 void generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle)
@@ -130,6 +145,7 @@ int main()
 
     return 0;
 }
+
 
 
 
