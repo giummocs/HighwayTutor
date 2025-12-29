@@ -35,10 +35,12 @@ private:
 
     bool isDouble(const std::string& s);
     bool compareDistance(const HighwayNode& a, const HighwayNode& b);
+    void setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b);
 };
 
 
 #endif
+
 
 
 
