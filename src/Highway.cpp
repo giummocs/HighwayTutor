@@ -7,7 +7,7 @@ Highway::Highway(const std::string& filename) { loadFromFile(filename); }
 void Highway::loadFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) 
-        throw std::runtime_error("Error! Unable to open file.") ;
+        throw std::runtime_error("Error! Unable to open file.");
 
     nodes['V'] = {};
     nodes['S'] = {};
@@ -24,14 +24,12 @@ void Highway::loadFromFile(const std::string& filename) {
             words.push_back(std::toupper(temp));
         }
 
-        if (words.size() == 2) {
-            if (isDouble(words[0])) {
-                if (words[1] == "V" || words[1] == "S"){
-                    node.distance = std::stod(words[0]);
-                    nodes[words[1]].push_back(node);
-                }
-            }
+        if (words.size() != 2 || !isDouble(words[0]) || words[1] != "V" || words[1] != "S") {
+            throw std::runtime_error("Error! Invalid file format.");
         }
+
+        node.distance = std::stod(words[0]);
+        nodes[words[1]].push_back(node)
     }
 
     file.close();
@@ -149,6 +147,7 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
 
     return;
 }
+
 
 
 
