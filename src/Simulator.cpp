@@ -19,17 +19,33 @@ const int MAX_SPEED = 190;
 const int MIN_DURATION_MIN = 5;
 const int MAX_DURATION_MIN = 15;
 
-
-double randomDouble(double min, double max) {
+double randomDouble(double min, double max) 
+{
     double f = static_cast<double>(std::rand()) / RAND_MAX;
     return min + f * (max - min);
 }
 
-int randomInt(int min, int max) {
+int randomInt(int min, int max) 
+{
     return min + std::rand() % (max - min + 1);
 }
 
-std::string generatePlate() {
+void generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle) {
+    // Scriviamo i dati base
+    outFile << vehicle.plate << " "
+            << vehicle.startSvincolo << " "
+            << vehicle.endSvincolo << " "
+            << std::fixed << std::setprecision(2) << vehicle.startTime;
+
+    // Scriviamo tutto il profilo di velocità (v1, t1, v2, t2...)
+    for (std::size_t k = 0; k < vehicle.profile.size(); k++) {
+        outFile << " " << vehicle.profile[k].speed 
+                << " " << vehicle.profile[k].duration;
+    }
+    outFile << std::endl;
+}
+std::string generatePlate() 
+{
     std::string plate = "";
     plate += static_cast<char>('A' + std::rand() % 26);
     plate += static_cast<char>('A' + std::rand() % 26);
@@ -43,64 +59,49 @@ std::string generatePlate() {
     return plate;
 }
 
-int main() {
+int main() 
+{
     std::srand(static_cast<unsigned int>(std::time(NULL))); // serve per i numeri random
 
     std::cout << "--- Starting Highway Simulator ---" << std::endl;
 
-    Highway highway;
     std::string highwayFile = "Data/Highway.txt";
+    Highway highway(highwayFile);
     
-    if (!highway.loadFromFile(highwayFile)) {
-        std::cerr << "Error: Impossible to load " << highwayFile << std::endl;
-        return 1;
-    }
+    
     //creo i vettori
-    std::vector<double> svincoli = highway.getSvincoli();
-    std::vector<double> varchi = highway.getVarchi();
-
-    if (svincoli.size() < 2) {
-        std::cerr << "Error: Not enough svincoli to simulate a path." << std::endl;
-        return 1;
-    }
-
-    if (varchi.size() < 2) {
-        std::cerr << "Error: Not enough varchi to simulate a path." << std::endl;
-        return 1;
-    }
+    std::vector<double> junctions = highway.getSvincoli();
+    std::vector<double> gates = highway.getVarchi();
 
     std::string runsFile = "Data/Runs.txt";
-    std::ofstream outFile(runsFile);
-    if (!outFile.is_open()) {
-        std::cerr << "Error: Impossible to create " << runsFile << std::endl;
-        return 1;
-    }
 
     double currentSimulationTime = 0.0;
 
     std::cout << "Generating " << NUM_VEHICLES << " vehicles..." << std::endl;
     
-    for (int i = 0; i < NUM_VEHICLES; i++) {
+    for (int i = 0; i < NUM_VEHICLES; i++) 
+    {
         Vehicle vehicle;
 
         vehicle.plate = generatePlate();
         
-        int entryIdx = randomInt(0, static_cast<int>(svincoli.size()) - 2);
-        int exitIdx = randomInt(entryIdx + 1, static_cast<int>(svincoli.size()) - 1);
+        int entryIdx = randomInt(0, static_cast<int>(junctions.size()) - 2);
+        int exitIdx = randomInt(entryIdx + 1, static_cast<int>(junctions.size()) - 1);
 
-        int svincoloIngresso = svincoli[entryIdx+1];
-        int svincoloUscita = svincoli[exitIdx+1];
+        int junctionEntry = junctions[entryIdx+1];
+        int junctionsExit = junctions[exitIdx+1];
 
-        double kmEntry = svincoli[entryId];
-        double kmExit = svincoli[exitId];
+        double kmEntry = junctions[entryId];
+        double kmExit = junctions[exitId];
         
         currentSimulationTime += randomDouble(MIN_TIME_GAP, MAX_TIME_GAP);
         vehicle.startTime = currentSimulationTime;
 
-        double totalDistanceToCover = svincoloUscita - svincoloIngresso;
+        double totalDistanceToCover = kmExit - kmEntry;
         double coveredDistance = 0.0;
 
-        while (coveredDistance < totalDistanceToCover) {
+        while (coveredDistance < totalDistanceToCover) 
+        {
             SpeedInterval interval;
             
             interval.speed = static_cast<double>(randomInt(MIN_SPEED, MAX_SPEED));
@@ -128,6 +129,7 @@ int main() {
 
     return 0;
 }
+
 
 
 
