@@ -48,62 +48,9 @@ void Highway::loadFromFile(const std::string& filename) {
 
     if (nodes['S'][0] > nodes['V'][0] || nodes['S'][nodes['S'].size()-1] < nodes['V'][nodes['V'].size()-1]) 
         throw std::runtime_error("Errore! Requisiti non soddisfatti (almeno uno svincolo precedente al primo varco e almeno uno svincolo successivo all’ultimo varco).");
-    
-    int i = 0, j = 0;
-    double minPrev = 0.0, minNext = 0.0;
 
-    // 2. Usiamo due puntatori per scorrere gli array: O(N + M)
-    while (i < nodes['V'].size() && j < nodes['S'].size()) {
-        double diff = nodes['V'][i].distance - nodes['S'][j].distance;
-
-        if (diff > -1.0 && diff < 1.0) {
-            throw std::runtime_error("Errore! Requisiti non soddisfatti (distanza minima tra svincolo e varco 1km)."); // Condizione violata
-        }
-
-        if (diff < 0.0 && diff > minPrev){
-            minPrev = diff;
-            nodes['S'][j].prev = i;
-        }
-        if (diff > 0.0 && diff < minNext){
-            minNext = diff;
-            nodes['S'][j].next = i;
-        }
-
-        // Muoviamo il puntatore dell'elemento più piccolo per avvicinarci all'altro
-        if (nodes['V'][i] < nodes['S'][j]) {
-            
-            i++;
-        } else {
-            j++;
-        }
-        
-        return;
-    }
-
-    i = 0;
-    j = 0;
-    minPrev = 0.0;
-    minNext = 0.0;
-    while (i < nodes['S'].size() && j < nodes['V'].size()) {
-        double diff = nodes['S'][i].distance - nodes['V'][j].distance;
-
-        if (diff < 0.0 && diff > minPrev){
-            minPrev = diff;
-            nodes['V'][j].prev = i;
-        }
-        if (diff > 0.0 && diff < minNext){
-            minNext = diff;
-            nodes['V'][j].next = i;
-        }
-
-        // Muoviamo il puntatore dell'elemento più piccolo per avvicinarci all'altro
-        if (nodes['S'][i] < nodes['V'][j]) {
-            
-            i++;
-        } else {
-            j++;
-        }
-    }
+    setAdjacent(nodes['S'], nodes['V']);
+    setAdjacent(nodes['V'], nodes['S']);
 }
 
 const Highway::std::vector<double>& getJunctions(){
@@ -171,6 +118,37 @@ bool Highway::compareDistance(const HighwatNode& a, const HighwayNode& b) {
     return a.distance < b.distance;
 }
 
+void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b) {
+    int i = 0, j = 0;
+    double minPrev = 0.0, minNext = 0.0;
+    while (i < a.size() && j < b.size()) {
+        double diff = a[i].distance - b[j].distance;
+
+        if (diff > -1.0 && diff < 1.0) {
+            throw std::runtime_error("Errore! Requisiti non soddisfatti (distanza minima tra svincolo e varco 1km)."); // Condizione violata
+        }
+        
+        if (diff < 0.0 && diff > minPrev){
+            minPrev = diff;
+            a[j].prev = i;
+        }
+        if (diff > 0.0 && diff < minNext){
+            minNext = diff;
+            b[j].next = i;
+        }
+
+        // Muoviamo il puntatore dell'elemento più piccolo per avvicinarci all'altro
+        if (a[i] < b[j]) {
+            
+            i++;
+        } 
+        else {
+            j++;
+        }
+    }
+
+    return;
+}
 
 
 
