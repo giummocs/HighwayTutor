@@ -16,8 +16,8 @@ public:
 
     bool loadFromFile(const std::string& filename);
     std::vector<Point> getVarchiInRange(double startKm, double endKm) const;
-    const std::vector<Point>& getSvincoli();
-    const std::vector<Point>& getVarchi();
+    const std::vector<double>& getSvincoli();
+    const std::vector<double>& getVarchi();
 
 private:
     //Abbiamo scelto di implementare due vettori per differenziare al meglio varchi e svincoli, al posto di una struttura dati univoca per entrambi (struct).
@@ -31,6 +31,7 @@ private:
 
 
 #endif
+
 
 
 
