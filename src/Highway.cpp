@@ -51,7 +51,7 @@ void Highway::loadFromFile(const std::string& filename) {
     setAdjacent(nodes['V'], nodes['S']);
 }
 
-const Highway::std::vector<double>& getJunctions(){
+const Highway::std::vector<double>& getJunctions() {
     return nodes['S'];
 }
 
@@ -147,6 +147,7 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
 
     return;
 }
+
 
 
 
