@@ -21,10 +21,10 @@ bool Highway::loadFromFile(const std::string& filename) {
         if (words.size() == 2) {
             if (isDouble(words[0])) {
                 if (words[1] == "V"){
-                    varchi.push_back(std::stod(words[0]));
+                    gates.push_back(std::stod(words[0]));
                 }
                 else if (words[1] == "S") {
-                    svincoli.push_back(std::stod(words[0]));
+                    junctions.push_back(std::stod(words[0]));
                 }
             }
         }
@@ -32,27 +32,37 @@ bool Highway::loadFromFile(const std::string& filename) {
 
     file.close();
     // Validazione vincoli [cite: 25, 26, 27]
-    if (varchi.size() <= 2) return false; // Almeno due varchi
+    if (gates.size() <= 2) return false; // Almeno due gates
     
     
     // Ordinamento per distanza [cite: 24]
-    std::sort(varchi.begin(), varchi.end());
-    std::sort(svincoli.begin(), svincoli.end());
+    std::sort(gates.begin(), gates.end());
+    std::sort(junctions.begin(), junctions.end());
 
-    if (svincoli[0] > varchi[0] || svincoli[svincoli.size()-1] < varchi[varchi.size()-1]) return false;
+    if (junctions[0] > gates[0] || junctions[junctions.size()-1] < gates[gates.size()-1]) return false;
     
     int i = 0, j = 0;
+    double minPrev = 0, minNext = 0;
 
     // 2. Usiamo due puntatori per scorrere gli array: O(N + M)
-    while (i < varchi.size() && j < svincoli.size()) {
-        double diff = std::abs(varchi[i] - svincoli[j]);
+    while (i < gates.size() && j < junctions.size()) {
+        double diff = gates[i] - junctions[j];
 
-        if (diff < 1.0) {
+        if (diff > -1.0 && diff < 1.0) {
             return false; // Condizione violata
         }
 
+        if (diff < 0.0 && diff > minPrev){
+            minPrev = diff;
+            adjacentGates[j].prev = i;
+        }
+        if (diff > 0.0 && diff < minNext){
+            minNext = diff;
+            adjacentGates[j].next = i;
+        }
+
         // Muoviamo il puntatore dell'elemento più piccolo per avvicinarci all'altro
-        if (varchi[i] < svincoli[j]) {
+        if (gates[i] < junctions[j]) {
             
             i++;
         } else {
@@ -64,23 +74,25 @@ bool Highway::loadFromFile(const std::string& filename) {
 
 }
 
-const Highway::std::vector<double>& getSvincoli(){
-    return svincoli;
+const Highway::std::vector<double>& getJunctions(){
+    return junctions;
 }
 
-const Highway::std::vector<double>& getVarchi(){
-    return varchi;
+const Highway::std::vector<double>& getGates(){
+    return gates;
 }
 
 bool Highway::isDouble(const std::string& s) {
     try {
         std::stod(s);
-        return true;
+        
     } 
     catch (...) {
         return false;
     }
+    return true;
 }
+
 
 
 
