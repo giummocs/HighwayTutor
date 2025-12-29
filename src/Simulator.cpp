@@ -55,14 +55,8 @@ int main() {
         return 1;
     }
 
-    const std::vector<Point>& points = highway.getPoints();
-    std::vector<Point> svincoli;
-
-    for (std::size_t i = 0; i < points.size(); i++) {
-        if (points[i].type == 'S') {
-            svincoli.push_back(points[i]);
-        }
-    }
+    std::vector<double> svincoli = highway.getSvincoli();
+    std::vector<double> varchi = highway.getVarchi();
 
     if (svincoli.size() < 2) {
         std::cerr << "Error: Not enough svincoli to simulate a path." << std::endl;
@@ -88,16 +82,16 @@ int main() {
         int entryIdx = randomInt(0, static_cast<int>(svincoli.size()) - 2);
         int exitIdx = randomInt(entryIdx + 1, static_cast<int>(svincoli.size()) - 1);
 
-        Point svincoloIngresso = svincoli[entryIdx];
-        Point svincoloUscita = svincoli[exitIdx];
+        int svincoloIngresso = svincoli[entryIdx+1];
+        int svincoloUscita = svincoli[exitIdx+1];
 
-        vehicle.startSvincolo = svincoloIngresso.id;
-        vehicle.endSvincolo = svincoloUscita.id;
+        double kmEntry = svincoli[entryId];
+        double kmExit = svincoli[exitId];
         
         currentSimulationTime += randomDouble(MIN_TIME_GAP, MAX_TIME_GAP);
         vehicle.startTime = currentSimulationTime;
 
-        double totalDistanceToCover = svincoloUscita.km - svincoloIngresso.km;
+        double totalDistanceToCover = svincoloUscita - svincoloIngresso;
         double coveredDistance = 0.0;
 
         while (coveredDistance < totalDistanceToCover) {
@@ -119,11 +113,6 @@ int main() {
                 << vehicle.startSvincolo << " "
                 << vehicle.endSvincolo << " "
                 << std::fixed << std::setprecision(2) << vehicle.startTime;
-
-        for (std::size_t k = 0; k < vehicle.profile.size(); k++) {
-            outFile << " " << vehicle.profile[k].speed 
-                    << " " << vehicle.profile[k].duration;
-        }
         
         outFile << std::endl;
     }
@@ -133,4 +122,5 @@ int main() {
 
     return 0;
 }
+
 
