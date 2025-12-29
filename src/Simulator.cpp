@@ -29,8 +29,15 @@ int randomInt(int min, int max)
 {
     return min + std::rand() % (max - min + 1);
 }
-
-void generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle) {
+void generatePassages(std::ofstream& outFile,std::vector<double> gates, const Vehicle vehicle, double kmentry, double kmexit)
+{
+    for(int i = 0; i < gate.size(); i++)
+    {
+        
+    }
+}
+void generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle)
+{
     // Scriviamo i dati base
     outFile << vehicle.plate << " "
             << vehicle.startSvincolo << " "
@@ -68,7 +75,6 @@ int main()
     std::string highwayFile = "Data/Highway.txt";
     Highway highway(highwayFile);
     
-    
     //creo i vettori
     std::vector<double> junctions = highway.getSvincoli();
     std::vector<double> gates = highway.getVarchi();
@@ -88,11 +94,8 @@ int main()
         int entryIdx = randomInt(0, static_cast<int>(junctions.size()) - 2);
         int exitIdx = randomInt(entryIdx + 1, static_cast<int>(junctions.size()) - 1);
 
-        int junctionEntry = junctions[entryIdx+1];
-        int junctionsExit = junctions[exitIdx+1];
-
-        double kmEntry = junctions[entryId];
-        double kmExit = junctions[exitId];
+        double kmEntry = junctions[entryIdx];
+        double kmExit = junctions[exitIdx];
         
         currentSimulationTime += randomDouble(MIN_TIME_GAP, MAX_TIME_GAP);
         vehicle.startTime = currentSimulationTime;
@@ -116,12 +119,9 @@ int main()
             vehicle.profile.push_back(interval);
         }
 
-        outFile << vehicle.plate << " "
-                << vehicle.startSvincolo << " "
-                << vehicle.endSvincolo << " "
-                << std::fixed << std::setprecision(2) << vehicle.startTime;
+        generateRunsLine("Runs.txt", vehicle);
         
-        outFile << std::endl;
+        runsFile << std::endl;
     }
 
     outFile.close();
@@ -129,6 +129,7 @@ int main()
 
     return 0;
 }
+
 
 
 
