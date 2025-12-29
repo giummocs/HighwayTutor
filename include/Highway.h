@@ -1,8 +1,12 @@
 #ifndef HIGHWAY_H
 #define HIGHWAY_H
 
+#include <fstream>
+#include <algorithm>
+#include <iostream>
 #include <vector>
 #include <string>
+#include <stdexcept>
 
 struct AdjacentGates {
     int prev;
@@ -31,6 +35,7 @@ private:
 
 
 #endif
+
 
 
 
