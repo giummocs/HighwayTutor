@@ -1,11 +1,9 @@
 #include "Highway.h"
-#include <fstream>
-#include <algorithm>
-#include <iostream>
 
-bool Highway::loadFromFile(const std::string& filename) {
+void Highway::loadFromFile(const std::string& filename) {
     std::ifstream file(filename);
-    if (!file.is_open()) return false;
+    if (!file.is_open()) 
+        throw std::runtime_error("Errore! File non aperto correttamente.") ;
 
     std::string line;
     while (std::getline(file, line)) {
@@ -32,14 +30,16 @@ bool Highway::loadFromFile(const std::string& filename) {
 
     file.close();
     // Validazione vincoli [cite: 25, 26, 27]
-    if (gates.size() <= 2) return false; // Almeno due gates
+    if (gates.size() <= 2) 
+        throw std::runtime_error("Errore! Requisiti non soddisfatti (almeno 2 svincoli)."); // Almeno due gates
     
     
     // Ordinamento per distanza [cite: 24]
     std::sort(gates.begin(), gates.end());
     std::sort(junctions.begin(), junctions.end());
 
-    if (junctions[0] > gates[0] || junctions[junctions.size()-1] < gates[gates.size()-1]) return false;
+    if (junctions[0] > gates[0] || junctions[junctions.size()-1] < gates[gates.size()-1]) 
+        throw std::runtime_error("Errore! Requisiti non soddisfatti (almeno uno svincolo precedente al primo varco e almeno uno svincolo successivo all’ultimo varco).");
     
     int i = 0, j = 0;
     double minPrev = 0, minNext = 0;
@@ -49,7 +49,7 @@ bool Highway::loadFromFile(const std::string& filename) {
         double diff = gates[i] - junctions[j];
 
         if (diff > -1.0 && diff < 1.0) {
-            return false; // Condizione violata
+            throw std::runtime_error("Errore! Requisiti non soddisfatti (distanza minima tra svincolo e varco 1km)."); // Condizione violata
         }
 
         if (diff < 0.0 && diff > minPrev){
@@ -70,7 +70,7 @@ bool Highway::loadFromFile(const std::string& filename) {
         }
     }
 
-    return true;
+    return;
 
 }
 
@@ -96,6 +96,7 @@ bool Highway::isDouble(const std::string& s) {
     }
     return true;
 }
+
 
 
 
