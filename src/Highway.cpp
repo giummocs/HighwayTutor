@@ -37,7 +37,7 @@ void Highway::loadFromFile(const std::string& filename) {
     file.close();
     // Validazione vincoli [cite: 25, 26, 27]
     if (nodes['V'].size() <= 2) 
-        throw std::runtime_error("Error! Requirements not met (at least two junctions required)."); // Almeno due gates
+        throw std::runtime_error("Error! Requirements not met: at least two junctions required."); // Almeno due gates
     
     MAX_JUNCTIONS = nodes['S'].size();
     MAX_GATES = nodes['V'].size();
@@ -47,7 +47,7 @@ void Highway::loadFromFile(const std::string& filename) {
     std::sort(nodes['S'].begin(), nodes['S'].end(), compareDistance);
 
     if (nodes['S'][0] > nodes['V'][0] || nodes['S'][nodes['S'].size()-1] < nodes['V'][nodes['V'].size()-1]) 
-        throw std::runtime_error("Error! Requirements not met (at least one junction before the first gate and at least one junction after the last gate).");
+        throw std::runtime_error("Error! Requirements not met: at least one junction before the first gate and at least one junction after the last gate.");
 
     setAdjacent(nodes['S'], nodes['V']);
     setAdjacent(nodes['V'], nodes['S']);
@@ -100,7 +100,7 @@ int Highway::getNext(char key, int index) {
             return v[index].next;
     }
 
-    throw std::out_of_range("Errore! Invalid index");
+    throw std::out_of_range("Error! Invalid index");
 }
 
 bool Highway::isDouble(const std::string& s) {
@@ -125,7 +125,7 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
         double diff = a[i].distance - b[j].distance;
 
         if (diff > -1.0 && diff < 1.0) {
-            throw std::runtime_error("Errore! Requisiti non soddisfatti (distanza minima tra svincolo e varco 1km)."); // Condizione violata
+            throw std::runtime_error("Error! Requirements not met: minimum distance between interchange and gate must be at least 1km."); // Condizione violata
         }
         
         if (diff < 0.0 && diff > minPrev){
@@ -149,6 +149,7 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
 
     return;
 }
+
 
 
 
