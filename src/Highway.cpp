@@ -1,6 +1,9 @@
 #include "Highway.h"
 
-Highway::Highway() {}
+Highway::Highway() {
+    nodes['V'];
+    nodes['S'];
+}
 
 Highway::Highway(const std::string& filename) { loadFromFile(filename); }
 
@@ -9,8 +12,8 @@ void Highway::loadFromFile(const std::string& filename) {
     if (!file.is_open()) 
         throw std::runtime_error("Error! Unable to open file.");
 
-    nodes['V'] = {};
-    nodes['S'] = {};
+    nodes['V'];
+    nodes['S'];
     
     std::string line;
     while (std::getline(file, line)) {
@@ -147,6 +150,7 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
 
     return;
 }
+
 
 
 
