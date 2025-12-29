@@ -10,6 +10,7 @@
 #include "Vehicle.h"
 #include "Highway.h"
 
+
 const int NUM_VEHICLES = 10000;         
 const double MIN_TIME_GAP = 0.5;        
 const double MAX_TIME_GAP = 10.0;       
@@ -43,7 +44,7 @@ std::string generatePlate() {
 }
 
 int main() {
-    std::srand(static_cast<unsigned int>(std::time(NULL)));
+    std::srand(static_cast<unsigned int>(std::time(NULL))); // serve per i numeri random
 
     std::cout << "--- Starting Highway Simulator ---" << std::endl;
 
@@ -54,12 +55,17 @@ int main() {
         std::cerr << "Error: Impossible to load " << highwayFile << std::endl;
         return 1;
     }
-
+    //creo i vettori
     std::vector<double> svincoli = highway.getSvincoli();
     std::vector<double> varchi = highway.getVarchi();
 
     if (svincoli.size() < 2) {
         std::cerr << "Error: Not enough svincoli to simulate a path." << std::endl;
+        return 1;
+    }
+
+    if (varchi.size() < 2) {
+        std::cerr << "Error: Not enough varchi to simulate a path." << std::endl;
         return 1;
     }
 
@@ -73,7 +79,7 @@ int main() {
     double currentSimulationTime = 0.0;
 
     std::cout << "Generating " << NUM_VEHICLES << " vehicles..." << std::endl;
-
+    
     for (int i = 0; i < NUM_VEHICLES; i++) {
         Vehicle vehicle;
 
@@ -122,6 +128,7 @@ int main() {
 
     return 0;
 }
+
 
 
 
