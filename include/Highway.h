@@ -17,6 +17,7 @@ public:
     bool loadFromFile(const std::string& filename);
     const std::vector<double>& getSvincoli();
     const std::vector<double>& getVarchi();
+    const std::vector<VarchiAdiacenti>& getVarchiAdiacenti();
 
 private:
     //Abbiamo scelto di implementare due vettori per differenziare al meglio varchi e svincoli, al posto di una struttura dati univoca per entrambi (struct).
@@ -30,6 +31,7 @@ private:
 
 
 #endif
+
 
 
 
