@@ -8,7 +8,8 @@
 #include <string>
 #include <stdexcept>
 
-struct AdjacentGates {
+struct HighwayNode {
+    double distance;
     int prev;
     int next;
 }
@@ -18,23 +19,23 @@ public:
     const int MAX_JUNCTIONS;
     const int MAX_GATES;
 
-    void loadFromFile(const std::string& filename);
-    const std::vector<double>& getJuctions();
-    const std::vector<double>& getGates();
-    const std::vector<AdjacentGates>& getAdjacentGates();
+    Highway();
+    Highway(const std::string& filename);
+    const std::vector<HighwayNode>& getJuctions();
+    const std::vector<HighwayNode>& getGates();
+    //const std::vector<AdjacentGates>& getAdjacentGates();
 
 private:
     //Abbiamo scelto di implementare due vettori per differenziare al meglio varchi e svincoli, al posto di una struttura dati univoca per entrambi (struct).
     //Il che facilita molto la logica negli altri file: codice piu facile da leggere e alleggerito nella ricerca di varchi e svincoli.
-    std::vector<double> Junctions;
-    std::vector<double> Gates;
-    std::vector<AdjacentGates> adjacentGates;
+    std::unordered_map<std::string, std::vector<HighwayNode>> nodes;
 
     bool isDouble(const std::string& s);
 };
 
 
 #endif
+
 
 
 
