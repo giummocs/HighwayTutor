@@ -82,6 +82,10 @@ const Highway::std::vector<double>& getGates(){
     return gates;
 }
 
+const Highway::std::vector<AdjacentGates>& getAdjacentGates(){
+    return adjacentGates;
+}
+
 bool Highway::isDouble(const std::string& s) {
     try {
         std::stod(s);
@@ -92,6 +96,7 @@ bool Highway::isDouble(const std::string& s) {
     }
     return true;
 }
+
 
 
 
