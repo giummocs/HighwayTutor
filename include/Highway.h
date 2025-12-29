@@ -24,9 +24,9 @@ public:
     void loadFromFile(const std::string& filename);
     const std::vector<HighwayNode>& getJuctions();
     const std::vector<HighwayNode>& getGates();
-    double getDistance(char c, int index);
-    int getPrev(char c, int index);
-    int getNext(char c, int index);
+    double getDistance(char key, int index);
+    int getPrev(char key, int index);
+    int getNext(char key, int index);
 
 private:
     //Abbiamo scelto di implementare due vettori per differenziare al meglio varchi e svincoli, al posto di una struttura dati univoca per entrambi (struct).
@@ -40,6 +40,7 @@ private:
 
 
 #endif
+
 
 
 
