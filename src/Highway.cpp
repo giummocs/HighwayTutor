@@ -24,7 +24,7 @@ void Highway::loadFromFile(const std::string& filename) {
             words.push_back(std::toupper(temp));
         }
 
-        if (words.size() != 2 || !isDouble(words[0]) || words[1] != "V" || words[1] != "S") {
+        if (words.size() != 2 || !isDouble(words[0]) || std::stod(words[0]) < 0 || words[1] != "V" || words[1] != "S") {
             throw std::runtime_error("Error! Invalid file format.");
         }
 
@@ -147,6 +147,7 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
 
     return;
 }
+
 
 
 
