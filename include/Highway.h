@@ -21,9 +21,12 @@ public:
 
     Highway();
     Highway(const std::string& filename);
+    void loadFromFile(const std::string& filename);
     const std::vector<HighwayNode>& getJuctions();
     const std::vector<HighwayNode>& getGates();
-    //const std::vector<AdjacentGates>& getAdjacentGates();
+    double getDistance(char c, int index);
+    int getPrev(char c, int index);
+    int getNext(char c, int index);
 
 private:
     //Abbiamo scelto di implementare due vettori per differenziare al meglio varchi e svincoli, al posto di una struttura dati univoca per entrambi (struct).
@@ -31,10 +34,12 @@ private:
     std::unordered_map<std::string, std::vector<HighwayNode>> nodes;
 
     bool isDouble(const std::string& s);
+    bool compareDistance(const HighwayNode& a, const HighwayNode& b);
 };
 
 
 #endif
+
 
 
 
