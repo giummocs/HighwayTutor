@@ -10,7 +10,6 @@
 #include "Vehicle.h"
 #include "Highway.h"
 
-// --- Configuration Constants ---
 const int NUM_VEHICLES = 10000;         
 const double MIN_TIME_GAP = 0.5;        
 const double MAX_TIME_GAP = 10.0;       
@@ -19,7 +18,6 @@ const int MAX_SPEED = 190;
 const int MIN_DURATION_MIN = 5;
 const int MAX_DURATION_MIN = 15;
 
-// --- Utility Functions ---
 
 double randomDouble(double min, double max) {
     double f = static_cast<double>(std::rand()) / RAND_MAX;
@@ -135,3 +133,4 @@ int main() {
 
     return 0;
 }
+
