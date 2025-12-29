@@ -69,11 +69,11 @@ double Highway::getDistance(char key, int index) {
     
     std::vector<HighwayNode>& v = nodes[key];
     
-    if (index >= 0 && index < v.size()) {
-            return v[index].distance;
+    if (index < 0 && index >= v.size()) {
+        throw std::out_of_range("Error! Invalid index");
     }
 
-    throw std::out_of_range("Error! Invalid index");
+    return v[index].distance;
 }
 
 int Highway::getPrev(char key, int index) {
@@ -83,11 +83,11 @@ int Highway::getPrev(char key, int index) {
     
     std::vector<HighwayNode>& v = nodes[key];
     
-    if (index >= 0 && index < v.size()) {
-            return v[index].prev;
+    if (index < 0 && index >= v.size()) {
+        throw std::out_of_range("Error! Invalid index");
     }
 
-    throw std::out_of_range("Error! Invalid index");
+    return v[index].prev;
 }
 
 int Highway::getNext(char key, int index) {
@@ -97,11 +97,11 @@ int Highway::getNext(char key, int index) {
     
     std::vector<HighwayNode>& v = nodes[key];
     
-    if (index >= 0 && index < v.size()) {
-            return v[index].next;
+    if (index < 0 && index >= v.size()) {
+        throw std::out_of_range("Error! Invalid index");
     }
 
-    throw std::out_of_range("Error! Invalid index");
+    return v[index].next;
 }
 
 bool Highway::isDouble(const std::string& s) {
@@ -150,6 +150,7 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
 
     return;
 }
+
 
 
 
