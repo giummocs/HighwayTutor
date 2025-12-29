@@ -31,6 +31,7 @@ int randomInt(int min, int max)
 }
 void generatePassages(std::ofstream& outFile,std::vector<double> gates, const Vehicle vehicle, double kmentry, double kmexit)
 {
+    int currentTime = vehicle.
     for(int i = 0; i < gate.size(); i++)
     {
         
@@ -129,6 +130,7 @@ int main()
 
     return 0;
 }
+
 
 
 
