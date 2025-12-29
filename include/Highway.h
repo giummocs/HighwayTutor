@@ -31,7 +31,7 @@ public:
 private:
     //Abbiamo scelto di implementare due vettori per differenziare al meglio varchi e svincoli, al posto di una struttura dati univoca per entrambi (struct).
     //Il che facilita molto la logica negli altri file: codice piu facile da leggere e alleggerito nella ricerca di varchi e svincoli.
-    std::unordered_map<std::string, std::vector<HighwayNode>> nodes;
+    std::unordered_map<char, std::vector<HighwayNode>> nodes;
 
     bool isDouble(const std::string& s);
     bool compareDistance(const HighwayNode& a, const HighwayNode& b);
@@ -40,6 +40,7 @@ private:
 
 
 #endif
+
 
 
 
