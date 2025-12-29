@@ -4,9 +4,13 @@
 #include <unordered_map>
 #include <fstream>
 
+#include "Highway.h"
+
 double currentTime = 0;
 std::unordered_map<std::string, std::vector<PassagePlateKey>> passagesPlateKey;  //POSSIBILE PROBLEMA DI MEMORIA??? TROPPI DATI 
 std::unordered_map<int, std::vector<PassageIdKey>> passagesIdKey; 
+std::vector<HighwayNode> junctions;
+std::vector<HighwayNode> gates;
 
 struct PassagePlateKey {
     int id;
@@ -93,6 +97,16 @@ int decodeInput(const std::string& s){
 int main() {
     
     std::string command;
+
+    try {
+        Highway highway("Data/Highway.txt");
+    }
+    catch (const std::runtime_error& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    junctions = highway.getJunctions();
+    gates = highway.getGates();
     
 
     while (std::cin >> command) {
