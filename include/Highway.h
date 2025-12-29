@@ -15,7 +15,6 @@ public:
     const int MAX_VARCHI;
 
     bool loadFromFile(const std::string& filename);
-    std::vector<Point> getVarchiInRange(double startKm, double endKm) const;
     const std::vector<double>& getSvincoli();
     const std::vector<double>& getVarchi();
 
@@ -31,6 +30,7 @@ private:
 
 
 #endif
+
 
 
 
