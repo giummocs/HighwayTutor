@@ -7,7 +7,7 @@ Highway::Highway(const std::string& filename) { loadFromFile(filename); }
 void Highway::loadFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) 
-        throw std::runtime_error("Errore! File non aperto correttamente.") ;
+        throw std::runtime_error("Error! Unable to open file.") ;
 
     nodes['V'] = {};
     nodes['S'] = {};
@@ -37,7 +37,7 @@ void Highway::loadFromFile(const std::string& filename) {
     file.close();
     // Validazione vincoli [cite: 25, 26, 27]
     if (nodes['V'].size() <= 2) 
-        throw std::runtime_error("Errore! Requisiti non soddisfatti (almeno 2 svincoli)."); // Almeno due gates
+        throw std::runtime_error("Error! Requirements not met (at least two junctions required)."); // Almeno due gates
     
     MAX_JUNCTIONS = nodes['S'].size();
     MAX_GATES = nodes['V'].size();
@@ -47,7 +47,7 @@ void Highway::loadFromFile(const std::string& filename) {
     std::sort(nodes['S'].begin(), nodes['S'].end(), compareDistance);
 
     if (nodes['S'][0] > nodes['V'][0] || nodes['S'][nodes['S'].size()-1] < nodes['V'][nodes['V'].size()-1]) 
-        throw std::runtime_error("Errore! Requisiti non soddisfatti (almeno uno svincolo precedente al primo varco e almeno uno svincolo successivo all’ultimo varco).");
+        throw std::runtime_error("Error! Requirements not met (at least one junction before the first gate and at least one junction after the last gate).");
 
     setAdjacent(nodes['S'], nodes['V']);
     setAdjacent(nodes['V'], nodes['S']);
@@ -61,46 +61,46 @@ const Highway::std::vector<double>& getGates(){
     return nodes['V'];
 }
 
-double getDistance(char c, int index) {
-    if (c != 'V' || c != 'S') {
-        throw std::invalid_argument("Errore! Chiave non corretta");
+double Highway::getDistance(char key, int index) {
+    if (key != 'V' || key != 'S') {
+        throw std::invalid_argument("Error! Invalid key");
     }
     
-    std::vector<HighwayNode>& v = mappa[c];
+    std::vector<HighwayNode>& v = nodes[key];
     
     if (index >= 0 && index < v.size()) {
             return v[index].distance;
     }
 
-    throw std::out_of_range("Errore! Indice invalido");
+    throw std::out_of_range("Error! Invalid index");
 }
 
-int getPrev(char c, int index) {
-    if (c != 'V' || c != 'S') {
-        throw std::invalid_argument("Errore! Chiave non corretta");
+int Highway::getPrev(char key, int index) {
+    if (key != 'V' || key != 'S') {
+        throw std::invalid_argument("Error! Invalid key");
     }
     
-    std::vector<HighwayNode>& v = mappa[c];
+    std::vector<HighwayNode>& v = nodes[key];
     
     if (index >= 0 && index < v.size()) {
             return v[index].prev;
     }
 
-    throw std::out_of_range("Errore! Indice invalido");
+    throw std::out_of_range("Error! Invalid index");
 }
 
-int Highway::getNext(char c, int index) {
-    if (c != 'V' || c != 'S') {
-        throw std::invalid_argument("Errore! Chiave non corretto");
+int Highway::getNext(char key, int index) {
+    if (key != 'V' || key != 'S') {
+        throw std::invalid_argument("Error! Invalid key");
     }
     
-    std::vector<HighwayNode>& v = mappa[c];
+    std::vector<HighwayNode>& v = nodes[key];
     
     if (index >= 0 && index < v.size()) {
             return v[index].next;
     }
 
-    throw std::out_of_range("Errore! Indice invalido");
+    throw std::out_of_range("Errore! Invalid index");
 }
 
 bool Highway::isDouble(const std::string& s) {
@@ -149,6 +149,7 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
 
     return;
 }
+
 
 
 
