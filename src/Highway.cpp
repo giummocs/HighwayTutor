@@ -31,10 +31,15 @@ bool Highway::loadFromFile(const std::string& filename) {
     }
 
     file.close();
+    // Validazione vincoli [cite: 25, 26, 27]
+    if (varchi.size() <= 2) return false; // Almeno due varchi
+    
     
     // Ordinamento per distanza [cite: 24]
     std::sort(varchi.begin(), varchi.end());
     std::sort(svincoli.begin(), svincoli.end());
+
+    if (svincoli[0] > varchi[0] || svincoli[svincoli.size()-1] < varchi[varchi.size()-1]) return false;
     
     int i = 0, j = 0;
 
@@ -48,25 +53,22 @@ bool Highway::loadFromFile(const std::string& filename) {
 
         // Muoviamo il puntatore dell'elemento più piccolo per avvicinarci all'altro
         if (varchi[i] < svincoli[j]) {
+            
             i++;
         } else {
             j++;
         }
     }
 
-    // Validazione vincoli [cite: 25, 26, 27]
-    if (varchi.size() <= 2) return false; // Almeno due varchi
-    if (svincoli[0] > varchi[0] || svincoli[svincoli.size()-1] < varchi[varchi.size()-1]) return false;
-    
     return true;
 
 }
 
-const Highway::std::vector<Point>& getSvincoli(){
+const Highway::std::vector<double>& getSvincoli(){
     return svincoli;
 }
 
-const Highway::std::vector<Point>& getVarchi(){
+const Highway::std::vector<double>& getVarchi(){
     return varchi;
 }
 
@@ -79,6 +81,7 @@ bool Highway::isDouble(const std::string& s) {
         return false;
     }
 }
+
 
 
 
