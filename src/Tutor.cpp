@@ -3,14 +3,17 @@
 #include <vector>
 #include <unordered_map>
 #include <fstream>
+#include <cmath>
 
 #include "Highway.h"
+
+const int SECONDS_IN_HOURS = 3600;
 
 double currentTime = 0;
 std::unordered_map<std::string, std::vector<PassagePlateKey>> passagesPlateKey;  //POSSIBILE PROBLEMA DI MEMORIA??? TROPPI DATI 
 std::unordered_map<int, std::vector<PassageIdKey>> passagesIdKey; 
-std::vector<HighwayNode> junctions;
-std::vector<HighwayNode> gates;
+const std::vector<HighwayNode> junctions;
+const std::vector<HighwayNode> gates;
 
 struct PassagePlateKey {
     int id;
@@ -51,14 +54,33 @@ bool readFromFile(const std::string& filename){
     }
 }
 
-std::string set_time(int newTime){
+std::string set_time(int addTime){
 
-
-    if(newTime <= 0){
-        return "Errore! Inserire un argomento in un formato valido!";
+    if(addTime <= 0){
+        throw std::runtime_error("Error! Invalid file format.");
     }
 
-    currentTime += newTime;
+    double newTime = currentTime + addTime;
+
+    for (const auto& mapElement : passagesPlateKey) {
+        std::cout << "chiave: " << mapElement.first
+                  << ", valore: " << mapElement.second << std::endl;
+        //Gate Index 1
+        for(std::size_t gIdx1=0, gIdx2=1; gIdx2 < mapElement.second.size(); gIdx1++, gIdx2++){
+
+            double distance = std::abs(gates[mapElement.second[gIdx1].id] - gates[mapElement.second[gIdx2].id]);
+            double time = std::abs(mapElement.second[gIdx1].time - mapElement.second[gIdx2].time);
+            double averageVelocity = distance / (time/SECONDS_IN_HOURS);
+
+            if(averageVelocity > 130){
+                
+            }
+        }
+    }
+
+
+
+    currentTime = newTime;
 }
 
 //Traduce il tempo ricevuto come parametro da stringa a intero
@@ -76,13 +98,13 @@ int decodeInput(const std::string& s){
     }
 
     //La parte numerica deve esistere
-    if (numberPart.empty()) return -1;
+    if (numberPart.empty()) throw std::runtime_error("Error! Invalid file format.");
 
     //Conversione
     try {
         result = std::stoi(numberPart);
     } catch (...) {
-        return -1;
+        throw std::runtime_error("Error! Invalid file format.");
     }
     
 
