@@ -10,7 +10,7 @@
 #include "Vehicle.h"
 #include "Highway.h"
 
-
+const int HOURS_IN_SECOND = 3600 ;
 const int NUM_VEHICLES = 10000;         
 const double MIN_TIME_GAP = 0.5;        
 const double MAX_TIME_GAP = 10.0;       
@@ -18,6 +18,7 @@ const int MIN_SPEED = 80;
 const int MAX_SPEED = 190;
 const int MIN_DURATION_MIN = 5;
 const int MAX_DURATION_MIN = 15;
+
 
 double randomDouble(double min, double max) 
 {
@@ -29,23 +30,34 @@ int randomInt(int min, int max)
 {
     return min + std::rand() % (max - min + 1);
 }
-void generatePassages(std::ofstream& passOut, const Vehicle& vehicle, const std::vector<double>& gates, double kmEntry) {
+void generatePassages(std::ofstream& outFile, const Vehicle& vehicle, const std::vector<double>& gates, double kmEntry, double kmExit)
+{
     int gateIdx = 0;
-    while (gateIdx < gates.size() && gates[gateIdx] <= kmEntry) {
+    int lastGateIdx = 0;
+    while (gateIdx < gates.size() && gates[gateIdx] < kmEntry) {
         gateIdx++;
     }
     double currentKm = kmEntry;
     double currentTime = vehicle.startTime;
 
     for (int i = 0; i < vehicle.profile.size(); i++) {
-        double speedKmS =  vehicle.profile[i].speed / 3600.0; 
+        double speedKmS =  vehicle.profile[i].speed / HOURS_IN_SECOND ; 
         double duration = vehicle.profile[i].duration;   
         
         double nextKm = currentKm + (speedKmS * duration);
 
-        while(gateIdx < gates.size() && gates[gateIdx] <= nextKm)
-        {
+        while( gateIdx < gates.size() && gates[gateIdx] <= nextKm && gates[gateIdx] < kmExit )
+        {    
+            double gateKm = gates[gateIdx];
+            int gateInstant = currentTime + ((gateKm - currentKm) / speedKmS);
             
+            outFile << gateIdx + 1 << " "
+                    << vehicle.plate << " " 
+                    <<gateInstant;
+            
+            outFile << std::endl;
+            
+            gateIdx++;
         }
         
         currentKm = nextKm;
@@ -62,8 +74,8 @@ void generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle)
 
     // Scriviamo tutto il profilo di velocità (v1, t1, v2, t2...)
     for (std::size_t k = 0; k < vehicle.profile.size(); k++) {
-        outFile << " " << vehicle.profile[k].speed 
-                << " " << vehicle.profile[k].duration;
+        outFile << " v" << k + 1 << " " << vehicle.profile[k].speed 
+                << " t" << k + 1 << vehicle.profile[k].duration;
     }
     outFile << std::endl;
 }
@@ -100,6 +112,9 @@ int main()
     double currentSimulationTime = 0.0;
 
     std::cout << "Generating " << NUM_VEHICLES << " vehicles..." << std::endl;
+
+    std::ofstream runsOut("Data/Runs.txt");
+    std::ofstream passOut("Data/Passages.txt");
     
     for (int i = 0; i < NUM_VEHICLES; i++) 
     {
@@ -135,9 +150,9 @@ int main()
             vehicle.profile.push_back(interval);
         }
 
-        generateRunsLine("Runs.txt", vehicle);
+        generateRunsLine(runsOut, vehicle);
+        generatePassages(passOut, vehicle, gates, kmEntry, kmExit);
         
-        runsFile << std::endl;
     }
 
     outFile.close();
@@ -145,6 +160,7 @@ int main()
 
     return 0;
 }
+
 
 
 
