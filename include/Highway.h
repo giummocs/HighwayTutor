@@ -28,6 +28,7 @@ public:
     double getDistance(char key, int index);
     int getPrev(char key, int index);
     int getNext(char key, int index);
+    double getDistanceBetween(char key, int i, int j);
 
 private:
     //Abbiamo scelto di implementare due vettori per differenziare al meglio varchi e svincoli, al posto di una struttura dati univoca per entrambi (struct).
@@ -41,6 +42,7 @@ private:
 
 
 #endif
+
 
 
 
