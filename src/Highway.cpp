@@ -32,7 +32,7 @@ void Highway::loadFromFile(const std::string& filename) {
         }
 
         node.distance = std::stod(words[0]);
-        nodes[words[1]].push_back(node)
+        nodes[words[1]].push_back(node);
     }
 
     file.close();
@@ -164,6 +164,7 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
 
     return;
 }
+
 
 
 
