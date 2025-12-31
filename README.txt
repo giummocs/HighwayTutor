@@ -4,7 +4,7 @@ Da fare:
 -commentare
 -testare con molti file input
 -aggiungere eccezioni e controlli aggiuntivi (per esempio IOException per la lettura e scrittura da file)
-
+-valutare se rimpiazzare tutti i size_t con int, se possibile e se non crea nessun tipo di problema e se e' corretto
 
 
 Fatto:
