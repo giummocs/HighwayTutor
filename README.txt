@@ -3,7 +3,7 @@ Da fare:
 -mettere piu try catch, soprattutto nelle conversioni di dati
 -commentare
 -testare con molti file input
--aggiungere eccezioni e controlli aggiuntivi (per esempio IOException per la lettura e scrittura da file)
+-aggiungere eccezioni e controlli aggiuntivi 
 -valutare se rimpiazzare tutti i size_t con int, se possibile e se non crea nessun tipo di problema e se e' corretto
 -a fine progetto inserire in README alcuni chiarimenti sui motivi di determinate implementazioni, 
  per esempio PERCHE abbiamo usato le mappe, PERCHE abbiamo fatto questo e quello... . Rimuovere queste spiegazioni dai commenti, 
