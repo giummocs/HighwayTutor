@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -44,7 +45,7 @@ private:
 
     bool isDouble(const std::string& s);
     static bool compareDistance(const HighwayNode& a, const HighwayNode& b);
-    void setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b);
+    void setAdjacent(std::vector<HighwayNode>& a, std::vector<HighwayNode>& b);
 
 };
 
