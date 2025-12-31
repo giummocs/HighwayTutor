@@ -8,6 +8,7 @@
 #include "Highway.h"
 
 const int SECONDS_IN_HOURS = 3600;
+
 //Queste var le metto globali come sono ora oppure le metto nel main e le passo per riferimento alle funzioni?????
 double currentTime = 0;
 std::unordered_map<std::string, std::vector<PassagePlateKey>> passagesPlateKey;  //POSSIBILE PROBLEMA DI MEMORIA??? TROPPI DATI 
@@ -205,4 +206,5 @@ int main() {
     return 0;
 
 }
+
 
