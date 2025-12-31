@@ -64,6 +64,7 @@ std::string set_time(int addTime){
     double newTime = currentTime + addTime;
     std::string output = "\nInfrazioni commesse tra gli istanti "+currentTime+" e "+newTime+":";
 
+    //Complessita' O(n), dove n e' il numero delle righe del file passages.txt
     //Scorro la mappa con chiave plate, cosi da scorrere un veicolo per volta
     for (const auto& mapElement : passagesPlateKey) {
 
@@ -206,5 +207,6 @@ int main() {
     return 0;
 
 }
+
 
 
