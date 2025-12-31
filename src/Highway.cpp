@@ -30,8 +30,20 @@ void Highway::loadFromFile(const std::string& filename) {
             words.push_back(temp);
         }
 
-        if (words.size() != 2 || !isDouble(words[0]) || std::stod(words[0]) < 0 || (words[1] != "V" && words[1] != "S")) {
+        /*if (words.size() != 2 || !isDouble(words[0]) || std::stod(words[0]) < 0 || (words[1] != "V" && words[1] != "S")) {
             throw std::runtime_error("Error! Invalid file format.");
+        }*/
+        if (words.size() != 2) {
+            throw std::runtime_error("Error! needs 2 arguments.");
+        }
+        if (!isDouble(words[0])) {
+            throw std::runtime_error("Error! not double.");
+        }
+        if (std::stod(words[0]) < 0) {
+            throw std::runtime_error("Error! negative.");
+        }
+        if ((words[1] != "V" && words[1] != "S")) {
+            throw std::runtime_error("Error! not S or V.");
         }
 
         node.distance = std::stod(words[0]);
@@ -40,7 +52,7 @@ void Highway::loadFromFile(const std::string& filename) {
 
     file.close();
     // Validazione vincoli [cite: 25, 26, 27]
-    if (nodes['V'].size() <= 2) 
+    if (nodes['V'].size() < 2) 
         throw std::runtime_error("Error! Requirements not met: at least two junctions required."); // Almeno due gates
     
     MAX_JUNCTIONS = nodes['S'].size();
@@ -136,36 +148,30 @@ bool Highway::compareDistance(const HighwayNode& a, const HighwayNode& b) {
     return a.distance < b.distance;
 }
 
-void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b) {
-    int i = 0, j = 0;
-    double minPrev = 0.0, minNext = 0.0;
-    while (i < a.size() && j < b.size()) {
-        double diff = a[i].distance - b[j].distance;
+void Highway::setAdjacent(std::vector<HighwayNode>& a, std::vector<HighwayNode>& b) {
+    for (int i = 0; i < a.size(); ++i) {
+        a[i].prev = -2; // Inizializza come non trovato
+        a[i].next = -2;
 
-        if (diff > -1.0 && diff < 1.0) {
-            throw std::runtime_error("Error! Requirements not met: minimum distance between interchange and gate must be at least 1km."); // Condizione violata
-        }
-        
-        if (diff < 0.0 && diff > minPrev){
-            minPrev = diff;
-            a[j].prev = i+1;
-        }
-        if (diff > 0.0 && diff < minNext){
-            minNext = diff;
-            b[j].next = i+1;
-        }
+        for (int j = 0; j < b.size(); ++j) {
+            double diff = a[i].distance - b[j].distance;
 
-        // Muoviamo il puntatore dell'elemento più piccolo per avvicinarci all'altro
-        if (a[i].distance < b[j].distance) {
             
-            i++;
-        } 
-        else {
-            j++;
+            if (diff > -1.0 && diff < 1.0) {
+                throw std::runtime_error("Error! Requirements not met: minimum distance between junction and gate must be at least 1km.");
+            }
+
+            
+            if (diff >= 1.0) {
+                a[i].prev = j; 
+            }
+            
+            else if (diff <= -1.0) {
+                a[i].next = j;
+                break;
+            }
         }
     }
-
-    return;
 }
 
 void Highway::printJunctions() {
