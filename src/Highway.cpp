@@ -24,15 +24,18 @@ void Highway::loadFromFile(const std::string& filename) {
         HighwayNode node;
 
         while (ss >> temp) {
-            words.push_back(std::toupper(temp));
+            for (int i = 0; i < temp.length(); i++) {
+            temp[i] = (char)std::toupper(static_cast<unsigned char>(temp[i]));
+            }
+            words.push_back(temp);
         }
 
-        if (words.size() != 2 || !isDouble(words[0]) || std::stod(words[0]) < 0 || words[1] != "V" || words[1] != "S") {
+        if (words.size() != 2 || !isDouble(words[0]) || std::stod(words[0]) < 0 || (words[1] != "V" && words[1] != "S")) {
             throw std::runtime_error("Error! Invalid file format.");
         }
 
         node.distance = std::stod(words[0]);
-        nodes[words[1]].push_back(node);
+        nodes[words[1][0]].push_back(node);
     }
 
     file.close();
@@ -47,7 +50,7 @@ void Highway::loadFromFile(const std::string& filename) {
     std::sort(nodes['V'].begin(), nodes['V'].end(), compareDistance);
     std::sort(nodes['S'].begin(), nodes['S'].end(), compareDistance);
 
-    if (nodes['S'][0] > nodes['V'][0] || nodes['S'][nodes['S'].size()-1] < nodes['V'][nodes['V'].size()-1]) 
+    if (nodes['S'][0].distance > nodes['V'][0].distance || nodes['S'][nodes['S'].size()-1].distance < nodes['V'][nodes['V'].size()-1].distance) 
         throw std::runtime_error("Error! Requirements not met: at least one junction before the first gate and at least one junction after the last gate.");
 
     setAdjacent(nodes['S'], nodes['V']);
@@ -63,7 +66,7 @@ const std::vector<HighwayNode>& Highway::getGates() {
 }
 
 double Highway::getDistance(char key, int index) {
-    if (key != 'V' || key != 'S') {
+    if (key != 'V' && key != 'S') {
         throw std::invalid_argument("Error! Invalid key");
     }
     
@@ -77,7 +80,7 @@ double Highway::getDistance(char key, int index) {
 }
 
 int Highway::getPrev(char key, int index) {
-    if (key != 'V' || key != 'S') {
+    if (key != 'V' && key != 'S') {
         throw std::invalid_argument("Error! Invalid key");
     }
     
@@ -91,7 +94,7 @@ int Highway::getPrev(char key, int index) {
 }
 
 int Highway::getNext(char key, int index) {
-    if (key != 'V' || key != 'S') {
+    if (key != 'V' && key != 'S') {
         throw std::invalid_argument("Error! Invalid key");
     }
     
@@ -105,7 +108,7 @@ int Highway::getNext(char key, int index) {
 }
 
 double Highway::getDistanceBetween(char key, int i, int j) {
-    if (key != 'V' || key != 'S') {
+    if (key != 'V' && key != 'S') {
         throw std::invalid_argument("Error! Invalid key");
     }
     
@@ -129,7 +132,7 @@ bool Highway::isDouble(const std::string& s) {
     return true;
 }
 
-bool Highway::compareDistance(const HighwatNode& a, const HighwayNode& b) {
+bool Highway::compareDistance(const HighwayNode& a, const HighwayNode& b) {
     return a.distance < b.distance;
 }
 
@@ -145,15 +148,15 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
         
         if (diff < 0.0 && diff > minPrev){
             minPrev = diff;
-            a[j].prev = i;
+            a[j].prev = i+1;
         }
         if (diff > 0.0 && diff < minNext){
             minNext = diff;
-            b[j].next = i;
+            b[j].next = i+1;
         }
 
         // Muoviamo il puntatore dell'elemento più piccolo per avvicinarci all'altro
-        if (a[i] < b[j]) {
+        if (a[i].distance < b[j].distance) {
             
             i++;
         } 
@@ -162,6 +165,30 @@ void Highway::setAdjacent(std::vector<HighwayNode> a, std::vector<HighwayNode> b
         }
     }
 
+    return;
+}
+
+void Highway::printJunctions() {
+    for (int i = 0; i < nodes['S'].size(); i++) {
+        double dist = nodes['S'][i].distance;
+        int next = nodes['S'][i].next;
+        int prev = nodes['S'][i].prev;
+        std::cout << "*****************************************************************\n";
+        std::cout << "Svincolo " << i+1 << " distanza : " << dist << "km\n";
+        std::cout << "Varco precedente : " << prev+1 << " successivo : " << next+1 << "\n";
+    }
+    return;
+}
+
+void Highway::printGates() {
+    for (int i = 0; i < nodes['V'].size(); i++) {
+        double dist = nodes['V'][i].distance;
+        int next = nodes['V'][i].next;
+        int prev = nodes['V'][i].prev;
+        std::cout << "*****************************************************************\n";
+        std::cout << "Varco " << i+1 << " distanza : " << dist << "km\n";
+        std::cout << "Svincolo precedente : " << prev+1 << " successivo : " << next+1 << "\n";
+    }
     return;
 }
 
