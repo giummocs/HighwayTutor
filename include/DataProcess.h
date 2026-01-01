@@ -20,14 +20,13 @@ public:
     std::string reset();
 
 private:
-    struct PassagePlateKey {int id; double time;};
-    struct PassageIdKey {std::string plate; double time;};
+    struct Passage {int id; std::string plate; double time;};
     const int SECONDS_IN_HOURS = 3600;
     double currentTime;
-    //Uso la mappa perché mi consente di semplificare gli algoritmi di ricerca delle informazioni, riducendone la complessita grazie all'accesso tramite chiave 
-    std::unordered_map<std::string, std::vector<PassagePlateKey>> passagesPlateKey;  //POSSIBILE PROBLEMA DI MEMORIA??? TROPPI DATI 
-    std::unordered_map<int, std::vector<PassageIdKey>> passagesIdKey; 
-    const std::vector<HighwayNode> gates;
+    //Uso le mappe come indici perche' mi consente di semplificare gli algoritmi di ricerca delle informazioni, riducendone la complessita grazie all'accesso tramite chiave 
+    std::unordered_map<std::string, std::vector<size_t>> indexByPlate;
+    std::unordered_map<int, std::vector<size_t>> indexById;
+    std::vector<Passage> passages;
 
     int decodeInput(const std::string& s);
     bool compareTime(const PassageIdKey& a, const PassageIdKey& b);
