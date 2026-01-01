@@ -37,7 +37,7 @@ std::string DataProcess::set_time(int addTime){
             //Controllo che tutti i due gate di riferimento siano dentro il range di tempo richiesto dal parametro addTime
             if(timeGate1 > currentTime && timeGate1 < newTime && timeGate2 > currentTime && timeGate2 > newTime){
 
-                double distanceDifference = std::abs(gates[idGate1] - gates[idGate2]); 
+                double distanceDifference = std::abs(getGates()[idGate1] - gates[idGate2]); //usare il metodo o mettere gates protected in highway??
                 double timeDifference = std::abs(timeGate1 - timeGate2);
                 double averageVelocity = distanceDifference / (timeDifference/SECONDS_IN_HOURS);
 
@@ -74,7 +74,12 @@ std::string DataProcess::stats(){
     //usare passagesPlateKey in combinazione con gates (ti verrebbe un algoritmo piu pesante ma ti libera MOLTA memoria ridondante)
     //In qualsiasi caso, devi aggiungere due nuove variabili per contenere i risultati da dare in output, devi creare due nuove struct ciascuna contenente
     //i dati scritti nell'elenco puntato della consegna. A questo punto credo convenga: togliere passagesIdKey, creare nella classe due nuove mappe per contenere i dati di output.
+    
 
+    //Grosso problema sul calcolo della velocita media: idea era quella di creare una variabile utile sia a stats sia a set_time, che salvi tutte le velocita medie di ogni macchina
+    //in ogni varco, pero per calcolare la vel media complessiva di tutte le macchine in tutta lautostrada NON devi sommare le velocita medie e dividerle per il numero di varchi, ti darebbe
+    //un ris sbagliato, la vel media si calcola facendo SEMPRE E SOLO spazio/tempo. Quindi credo che devi sommare tutto lo spazio percorso da TUTTE le macchine e sommare il tempo impegato 
+    //da OGNI macchina, poi dividerli.
 }
 
 std::string DataProcess::reset(){
@@ -139,11 +144,15 @@ void DataProcess::readFromFile(const std::string& filename){
                 int id = std::stoi(words[0]);
                 std::string plate = words[1];
                 double time = std::stod(words[3]);
-                passagesPlateKey[plate].push_back({id, time});
-                passagesIdKey[id].push_back({plate, time});
+
+                passages.push_back({id, plate, time});
+                size_t idx = passages.size() - 1;
+                indexByPlate[plate].push_back(idx);
+                indexById[id].push_back(idx);
             } catch (...) {
                 throw std::runtime_error("Error! Invalid file format.");
             }
         }
     }
+    file.close();
 }
