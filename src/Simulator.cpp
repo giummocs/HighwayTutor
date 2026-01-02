@@ -20,7 +20,7 @@ const int MIN_SPEED = 80;
 const int MAX_SPEED = 190;
 const int MIN_DURATION_MIN = 5;
 const int MAX_DURATION_MIN = 15;
-
+//FAI UN DO WHILE 
 int findFirstGate(const std::vector<double>& gates, double kmEntry)
 {
     int firstGateIdx = 0;
@@ -28,6 +28,7 @@ int findFirstGate(const std::vector<double>& gates, double kmEntry)
     {
         firstGateIdx++;
     }
+    
 }
 double randomDouble(double min, double max) 
 {
@@ -166,6 +167,7 @@ int main()
 
     return 0;
 }
+
 
 
 
