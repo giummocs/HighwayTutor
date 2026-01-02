@@ -1,20 +1,21 @@
 
 #include "DataProcess.h";
 
-DataProcess::DataProcess() : Highway(){
+DataProcess::DataProcess() : hw(){
     currentTime = 0;
 }
 
-DataProcess::DataProcess(std::string filenameHighway, std::string filenamePassages) : Highway(filenameHighway){
+DataProcess::DataProcess(std::string filenameHighway, std::string filenamePassages) : hw(filenameHighway){
     currentTime = 0;
     readFromFile(filenamePassages);
+    gates = hw.getGates();
     //CHIAMA ANCHE UNA FUNZIONE NUOVA PER PROCESSARE I DATI, PRENDI LALGORITMO DA SET TIME E TOGLILO
 }
 
 std::string DataProcess::set_time(int addTime){
     
     if(addTime <= 0){
-        throw std::runtime_error("Error! Invalid file format.");
+        throw std::runtime_error("Errore! File non valido: ");
     }
 
     double newTime = currentTime + addTime;
@@ -34,10 +35,15 @@ std::string DataProcess::set_time(int addTime){
             int idGate1 = mapElement.second[gateIdx].id;
             int idGate2 = mapElement.second[gateIdx+1].id;
 
+            //Se non sono consecutivi lancia un'eccezione
+            if(idGate1+1 != idGate2 && idGate1 != idGate2+1){
+                throw std::runtime_error("Errore! File non valido: manca il passaggio di una macchina in un varco intermedio!");
+            }
+
             //Controllo che tutti i due gate di riferimento siano dentro il range di tempo richiesto dal parametro addTime
             if(timeGate1 > currentTime && timeGate1 < newTime && timeGate2 > currentTime && timeGate2 > newTime){
 
-                double distanceDifference = std::abs(getGates()[idGate1] - gates[idGate2]); //usare il metodo o mettere gates protected in highway??
+                double distanceDifference = std::abs(gates[idGate1].distance - gates[idGate2].distance); //usare il metodo o mettere gates protected in highway??
                 double timeDifference = std::abs(timeGate1 - timeGate2);
                 double averageVelocity = distanceDifference / (timeDifference/SECONDS_IN_HOURS);
 
@@ -102,13 +108,13 @@ int DataProcess::decodeInput(const std::string& s){
     }
 
     //La parte numerica deve esistere
-    if (numberPart.empty()) throw std::runtime_error("Error! Invalid file format.");
+    if (numberPart.empty()) throw std::runtime_error("Errore! File non valido: ");
 
     //Conversione
     try {
         result = std::stoi(numberPart);
     } catch (...) {
-        throw std::runtime_error("Error! Invalid file format.");
+        throw std::runtime_error("Errore! File non valido: ");
     }
     
 
@@ -126,7 +132,7 @@ bool DataProcess::compareTime(const PassageIdKey& a, const PassageIdKey& b) {
 
 void DataProcess::readFromFile(const std::string& filename){
     std::ifstream file(filename);
-    if (!file.is_open()) throw std::runtime_error("Error! Invalid file format.");
+    if (!file.is_open()) throw std::runtime_error("Errore! Impossibile aprire il file!");
 
     std::string line;
     while (std::getline(file, line)) {
@@ -150,9 +156,14 @@ void DataProcess::readFromFile(const std::string& filename){
                 indexByPlate[plate].push_back(idx);
                 indexById[id].push_back(idx);
             } catch (...) {
-                throw std::runtime_error("Error! Invalid file format.");
+                throw std::runtime_error("Errore! File non valido: formato numeri dei valori errato!");
             }
+        }
+        else{
+            throw std::runtime_error("Errore! File non valido: numero di valori errato!");
         }
     }
     file.close();
+
+
 }
