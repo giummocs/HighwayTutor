@@ -1,5 +1,4 @@
-
-
+include "GenerateData.h"
 
 
 GenerateData::GenerateData(std::string filenameHighway, std::string filenamePassages) : hw(filenameHighway){
