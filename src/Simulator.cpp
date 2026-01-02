@@ -11,6 +11,8 @@
 #include "Highway.h"
 #include "GenerateData.h"
 
+const int NUM_VEHICLES = 10000;
+
 int main() 
 {
     std::srand(static_cast<unsigned int>(std::time(NULL))); // serve per i numeri random
@@ -19,10 +21,8 @@ int main()
 
     std::string highwayFile = "Data/Highway.txt";
     Highway hw(highwayFile);
-    
+    GenerateData simulator(highwayFile);
     //creo i vettori
-    std::vector<double> junctions = hw.getSvincoli();
-    std::vector<double> gates = hw.getVarchi();
 
     std::string runsFile = "Data/Runs.txt";
 
@@ -32,9 +32,7 @@ int main()
 
     std::ofstream runsOut("Data/Runs.txt");
     std::ofstream passOut("Data/Passages.txt");
-    
-    GenerateData simulator;
-    simulator.startVehicleSimulation(runsOut, passOut, junctions, gates);
+    simulator.startVehicleSimulation(runsOut, passOut);
 
     runsOut.close();
     passOut.close();
@@ -42,6 +40,7 @@ int main()
 
     return 0;
 }
+
 
 
 
