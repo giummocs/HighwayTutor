@@ -73,15 +73,15 @@ void GenerateData::generateRunsLine(std::ofstream& outFile, const Vehicle& vehic
 std::string GenerateData::generatePlate() 
 {
     std::string plate = "";
-    plate += static_cast<char>('A' + std::rand() % 26);
-    plate += static_cast<char>('A' + std::rand() % 26);
+    plate += static_cast<char>('A' + std::rand() % NUMERO_LETTERE);
+    plate += static_cast<char>('A' + std::rand() % NUMERO_LETTERE);
     plate += " ";
-    plate += std::to_string(std::rand() % 10);
-    plate += std::to_string(std::rand() % 10);
-    plate += std::to_string(std::rand() % 10);
+    plate += std::to_string(std::rand() %  NUMERO_CIFRE);
+    plate += std::to_string(std::rand() %  NUMERO_CIFRE);
+    plate += std::to_string(std::rand() %  NUMERO_CIFRE);
     plate += " ";
-    plate += static_cast<char>('A' + std::rand() % 26);
-    plate += static_cast<char>('A' + std::rand() % 26);
+    plate += static_cast<char>('A' + std::rand() %  NUMERO_LETTERE);
+    plate += static_cast<char>('A' + std::rand() % NUMERO_LETTERE);
     return plate;
 }
 
