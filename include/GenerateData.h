@@ -1,3 +1,5 @@
+#define GENERATEDATA_H
+
 #include <iostream>
 #include <fstream>
 #include <vector>
