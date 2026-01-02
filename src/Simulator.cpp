@@ -10,7 +10,9 @@
 #include "Vehicle.h"
 #include "Highway.h"
 
-const int HOURS_IN_SECOND = 3600 ;
+const int NUMERO_CIFRE = 26;
+const int NUMERO_LETTERE = 26;
+const int HOURS_IN_SECOND = 3600;
 const int NUM_VEHICLES = 10000;         
 const double MIN_TIME_GAP = 0.5;        
 const double MAX_TIME_GAP = 10.0;       
@@ -105,7 +107,7 @@ int main()
     std::cout << "--- Starting Highway Simulator ---" << std::endl;
 
     std::string highwayFile = "Data/Highway.txt";
-    Highway highway(highwayFile);
+    Highway hw(highwayFile);
     
     //creo i vettori
     std::vector<double> junctions = highway.getSvincoli();
@@ -164,6 +166,7 @@ int main()
 
     return 0;
 }
+
 
 
 
