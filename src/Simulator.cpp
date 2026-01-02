@@ -21,8 +21,8 @@ int main()
     Highway hw(highwayFile);
     
     //creo i vettori
-    std::vector<double> junctions = highway.getSvincoli();
-    std::vector<double> gates = highway.getVarchi();
+    std::vector<double> junctions = hw.getSvincoli();
+    std::vector<double> gates = hw.getVarchi();
 
     std::string runsFile = "Data/Runs.txt";
 
@@ -42,6 +42,7 @@ int main()
 
     return 0;
 }
+
 
 
 
