@@ -85,3 +85,63 @@ std::string GenerateData::generatePlate()
     return plate;
 }
 
+void GenerateData::startHighwaySimulation()
+{
+    std::srand(static_cast<unsigned int>(std::time(NULL))); // serve per i numeri random
+
+    std::cout << "--- Starting Highway Simulator ---" << std::endl;
+
+    std::string highwayFile = "Data/Highway.txt";
+    Highway highway(highwayFile);
+    
+    //creo i vettori
+    std::vector<double> junctions = highway.getSvincoli();
+    std::vector<double> gates = highway.getVarchi();
+
+    std::string runsFile = "Data/Runs.txt";
+
+    double currentSimulationTime = 0.0;
+
+    std::cout << "Generating " << NUM_VEHICLES << " vehicles..." << std::endl;
+
+    std::ofstream runsOut("Data/Runs.txt");
+    std::ofstream passOut("Data/Passages.txt");
+     for (int i = 0; i < NUM_VEHICLES; i++) 
+    {
+        Vehicle vehicle;
+
+        vehicle.plate = generatePlate();
+        
+        int entryIdx = randomInt(0, static_cast<int>(junctions.size()) - 2);
+        int exitIdx = randomInt(entryIdx + 1, static_cast<int>(junctions.size()) - 1);
+
+        double kmEntry = junctions[entryIdx];
+        double kmExit = junctions[exitIdx];
+        
+        currentSimulationTime += randomDouble(MIN_TIME_GAP, MAX_TIME_GAP);
+        vehicle.startTime = currentSimulationTime;
+
+        double totalDistanceToCover = kmExit - kmEntry;
+        double coveredDistance = 0.0;
+
+        while (coveredDistance < totalDistanceToCover) 
+        {
+            SpeedInterval interval;
+            
+            interval.speed = static_cast<double>(randomInt(MIN_SPEED, MAX_SPEED));
+            
+            double minutes = static_cast<double>(randomInt(MIN_DURATION_MIN, MAX_DURATION_MIN));
+            interval.duration = minutes * 60.0; 
+            
+            double hours = minutes / 60.0;
+            double intervalDistance = interval.speed * hours;
+
+            coveredDistance += intervalDistance;
+            vehicle.profile.push_back(interval);
+        }
+
+        generateRunsLine(runsOut, vehicle);
+        generatePassages(passOut, vehicle, gates, kmEntry, kmExit);
+        
+    }
+}
