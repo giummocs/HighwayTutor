@@ -1,5 +1,5 @@
 #define GENERATEDATA_H
-
+#ifndef GENERATEDATA_H
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -14,7 +14,7 @@
 
 class GenerateData : public Highway{
 public:
-    
+    void startHighwaySimulation();
 
 private:
     const int HOURS_IN_SECOND = 3600 ;
@@ -27,5 +27,8 @@ private:
     const int MAX_DURATION_MIN = 15;
 
 
+
+
 };
 
+#endif
