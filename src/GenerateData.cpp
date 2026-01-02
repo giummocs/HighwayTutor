@@ -84,7 +84,27 @@ std::string GenerateData::generatePlate()
     plate += static_cast<char>('A' + std::rand() % NUMERO_LETTERE);
     return plate;
 }
+void GenerateData::generateProfile(Vehicle& v, double totalDistance) {
+    double coveredDistance = 0.0;
 
+    while (coveredDistance < totalDistance) {
+        SpeedInterval interval;
+        
+        // Genera velocità casuale tra MIN_SPEED e MAX_SPEED
+        interval.speed = static_cast<double>(randomInt(MIN_SPEED, MAX_SPEED));
+        
+        // Genera durata casuale in minuti e la converte in secondi
+        double minutes = static_cast<double>(randomInt(MIN_DURATION_MIN, MAX_DURATION_MIN));
+        interval.duration = minutes * 60.0; 
+
+        // Calcola la distanza percorsa in questo intervallo (v * t)
+        // Usiamo (minutes / 60.0) perché la velocità è in km/h
+        coveredDistance += interval.speed * (minutes / 60.0);
+        
+        // Aggiunge l'intervallo al profilo del veicolo
+        v.profile.push_back(interval);
+    }
+}
 void GenerateData::startHighwaySimulation()
 {
     std::srand(static_cast<unsigned int>(std::time(NULL))); // serve per i numeri random
@@ -122,24 +142,7 @@ void GenerateData::startHighwaySimulation()
         vehicle.startTime = currentSimulationTime;
 
         double totalDistanceToCover = kmExit - kmEntry;
-        double coveredDistance = 0.0;
-
-        while (coveredDistance < totalDistanceToCover) 
-        {
-            SpeedInterval interval;
-            
-            interval.speed = static_cast<double>(randomInt(MIN_SPEED, MAX_SPEED));
-            
-            double minutes = static_cast<double>(randomInt(MIN_DURATION_MIN, MAX_DURATION_MIN));
-            interval.duration = minutes * 60.0; 
-            
-            double hours = minutes / 60.0;
-            double intervalDistance = interval.speed * hours;
-
-            coveredDistance += intervalDistance;
-            vehicle.profile.push_back(interval);
-        }
-
+        generateProfile(vehicle, double totalDistanceToCover);
         generateRunsLine(runsOut, vehicle);
         generatePassages(passOut, vehicle, gates, kmEntry, kmExit);
         
