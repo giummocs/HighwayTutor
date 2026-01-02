@@ -105,8 +105,10 @@ void GenerateData::generateProfile(Vehicle& v, double totalDistance) {
         v.profile.push_back(interval);
     }
 }
-void GenerateData::startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut, const std::vector<double>& junctions, const std::vector<double>& gates)
+void GenerateData::startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut)
 {
+    std::vector<double> junctions = getSvincoli();
+    std::vector<double> gates = getVarchi();
      for (int i = 0; i < NUM_VEHICLES; i++) 
     {
         Vehicle vehicle;
