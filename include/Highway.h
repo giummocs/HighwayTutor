@@ -35,7 +35,7 @@ public:
     void printJunctions();
     void printGates();
 
-private:
+protected:
     //Abbiamo scelto di implementare due vettori per differenziare al meglio varchi e svincoli, al posto di una struttura dati univoca per entrambi (struct).
     //Il che facilita molto la logica negli altri file: codice piu facile da leggere e alleggerito nella ricerca di varchi e svincoli.
     std::unordered_map<char, std::vector<HighwayNode>> nodes;
@@ -51,6 +51,7 @@ private:
 
 
 #endif
+
 
 
 
