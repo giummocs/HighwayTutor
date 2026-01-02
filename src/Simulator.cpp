@@ -19,7 +19,14 @@ const int MAX_SPEED = 190;
 const int MIN_DURATION_MIN = 5;
 const int MAX_DURATION_MIN = 15;
 
-
+int findFirstGate(const std::vector<double>& gates, double kmEntry)
+{
+    int firstGateIdx = 0;
+    while (gateIdx < gates.size() && gates[gateIdx] < kmEntry) 
+    {
+        firstGateIdx++;
+    }
+}
 double randomDouble(double min, double max) 
 {
     double f = static_cast<double>(std::rand()) / RAND_MAX;
@@ -32,11 +39,8 @@ int randomInt(int min, int max)
 }
 void generatePassages(std::ofstream& outFile, const Vehicle& vehicle, const std::vector<double>& gates, double kmEntry, double kmExit)
 {
-    int gateIdx = 0;
-    int lastGateIdx = 0;
-    while (gateIdx < gates.size() && gates[gateIdx] < kmEntry) {
-        gateIdx++;
-    }
+    int gateIdx = findFirstGate(gates, kmEntry);
+    
     double currentKm = kmEntry;
     double currentTime = vehicle.startTime;
 
@@ -160,6 +164,7 @@ int main()
 
     return 0;
 }
+
 
 
 
