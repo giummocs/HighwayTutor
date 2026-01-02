@@ -123,7 +123,7 @@ void GenerateData::startHighwaySimulation(std::ofstream& runsOut, std::ofstream&
         vehicle.startTime = currentSimulationTime;
 
         double totalDistanceToCover = kmExit - kmEntry;
-        generateProfile(vehicle, double totalDistanceToCover);
+        generateProfile(vehicle, totalDistanceToCover);
         generateRunsLine(runsOut, vehicle);
         generatePassages(passOut, vehicle, gates, kmEntry, kmExit);
         
