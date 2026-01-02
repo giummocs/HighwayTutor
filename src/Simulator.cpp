@@ -24,10 +24,9 @@ const int MAX_DURATION_MIN = 15;
 int findFirstGate(const std::vector<double>& gates, double kmEntry)
 {
     int firstGateIdx = 0;
-    while (gateIdx < gates.size() && gates[gateIdx] < kmEntry) 
-    {
+    do{
         firstGateIdx++;
-    }
+    }while(gateIdx < gates.size() && gates[gateIdx] < kmEntry);
     
 }
 double randomDouble(double min, double max) 
@@ -167,6 +166,7 @@ int main()
 
     return 0;
 }
+
 
 
 
