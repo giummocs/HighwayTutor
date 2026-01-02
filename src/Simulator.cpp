@@ -11,8 +11,6 @@
 #include "Highway.h"
 #include "GenerateData.h"
 
-const int NUM_VEHICLES = 10000;
-
 int main() 
 {
     std::srand(static_cast<unsigned int>(std::time(NULL))); // serve per i numeri random
@@ -28,7 +26,7 @@ int main()
 
     double currentSimulationTime = 0.0;
 
-    std::cout << "Generating " << NUM_VEHICLES << " vehicles..." << std::endl;
+    std::cout << "Generating 10000 vehicles..." << std::endl;
 
     std::ofstream runsOut("Data/Runs.txt");
     std::ofstream passOut("Data/Passages.txt");
@@ -40,6 +38,7 @@ int main()
 
     return 0;
 }
+
 
 
 
