@@ -52,9 +52,6 @@ void Highway::loadFromFile(const std::string& filename) {
     if (nodes['V'].size() < 2) 
         throw std::runtime_error("Errore! Requisiti non soddisfatti: devono esserci almeno 2 varchi."); // Almeno due gates
     
-    MAX_JUNCTIONS = nodes['S'].size();
-    MAX_GATES = nodes['V'].size();
-    
     // Ordinamento per distanza [cite: 24]
     std::sort(nodes['V'].begin(), nodes['V'].end(), compareDistance);
     std::sort(nodes['S'].begin(), nodes['S'].end(), compareDistance);
@@ -194,6 +191,7 @@ void Highway::printGates() {
     }
     return;
 }
+
 
 
 
