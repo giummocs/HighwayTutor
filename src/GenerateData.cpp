@@ -1,5 +1,12 @@
 
 
+
+
+GenerateData::GenerateData(std::string filenameHighway, std::string filenamePassages) : hw(filenameHighway){
+    currentTime = 0;
+    readFromFile(filenamePassages);
+    gates = hw.getGates();
+}
 int GenerateData::findFirstGate(const std::vector<double>& gates, double kmEntry)
 {
     int firstGateIdx = 0;
