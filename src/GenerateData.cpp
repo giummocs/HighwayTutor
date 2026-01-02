@@ -105,27 +105,8 @@ void GenerateData::generateProfile(Vehicle& v, double totalDistance) {
         v.profile.push_back(interval);
     }
 }
-void GenerateData::startHighwaySimulation()
+void GenerateData::startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut, const std::vector<double>& junctions, const std::vector<double>& gates)
 {
-    std::srand(static_cast<unsigned int>(std::time(NULL))); // serve per i numeri random
-
-    std::cout << "--- Starting Highway Simulator ---" << std::endl;
-
-    std::string highwayFile = "Data/Highway.txt";
-    Highway highway(highwayFile);
-    
-    //creo i vettori
-    std::vector<double> junctions = highway.getSvincoli();
-    std::vector<double> gates = highway.getVarchi();
-
-    std::string runsFile = "Data/Runs.txt";
-
-    double currentSimulationTime = 0.0;
-
-    std::cout << "Generating " << NUM_VEHICLES << " vehicles..." << std::endl;
-
-    std::ofstream runsOut("Data/Runs.txt");
-    std::ofstream passOut("Data/Passages.txt");
      for (int i = 0; i < NUM_VEHICLES; i++) 
     {
         Vehicle vehicle;
