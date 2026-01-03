@@ -125,8 +125,8 @@ void GenerateData::startHighwaySimulation(std::ofstream& runsOut, std::ofstream&
         int entryIdx = randomInt(0, static_cast<int>(junctions.size()) - 2);
         int exitIdx = randomInt(entryIdx + 1, static_cast<int>(junctions.size()) - 1);
 
-        double kmEntry = junctions[entryIdx];
-        double kmExit = junctions[exitIdx];
+        double kmEntry = hw.getDistance('S', entryIdx);
+        double kmExit = hw.getDistance('S', exitIdx);
         
         currentSimulationTime += randomDouble(MIN_TIME_GAP, MAX_TIME_GAP);
         vehicle.startTime = currentSimulationTime;
