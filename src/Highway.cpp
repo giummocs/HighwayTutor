@@ -2,8 +2,8 @@
 
 Highway::Highway() {
     //Inizializzazione a valori di default 
-    nodes['V'];
-    nodes['S'];
+    nodes['V'].clear();
+    nodes['S'].clear();
 }
 
 Highway::Highway(const std::string& filename) { loadFromFile(filename); }
@@ -121,7 +121,7 @@ bool Highway::isDouble(const std::string& s) {
 void Highway::printJunctions() {
     for (int i = 0; i < nodes['S'].size(); i++) {
         double dist = nodes['S'][i];
-        std::cout << "*****************************************************************\n";
+        ;
         std::cout << "Svincolo " << i+1 << " distanza : " << dist << "km\n";
     }
     return;
@@ -130,12 +130,10 @@ void Highway::printJunctions() {
 void Highway::printGates() {
     for (int i = 0; i < nodes['V'].size(); i++) {
         double dist = nodes['V'][i];
-        std::cout << "*****************************************************************\n";
         std::cout << "Varco " << i+1 << " distanza : " << dist << "km\n";
     }
     return;
 }
-
 
 
 
