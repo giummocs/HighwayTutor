@@ -13,6 +13,7 @@ int GenerateData::findFirstGate(const std::vector<double>& gates, double kmEntry
     {
         firstGateIdx++;
     }
+    
 }
 double GenerateData::randomDouble(double min, double max) 
 {
