@@ -1,6 +1,6 @@
 
 #include "DataProcessor.h";
-
+#include <memory>
 
 void splitInput(std::string input, std::string& command, std::string& parameter){
     //Separo il comando da eventuali parametri
@@ -69,3 +69,4 @@ int main() {
     return 0;
 
 }
+
