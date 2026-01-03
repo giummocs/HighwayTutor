@@ -1,5 +1,5 @@
 
-#include "DataProcessor.h";
+#include "DataProcessor.h"
 
 DataProcessor::DataProcessor() : hw(){
     currentTime = 0;
@@ -170,7 +170,7 @@ int DataProcessor::decodeInput(const std::string& s){
 }
 
 
-bool DataProcessor::compareId(const PassageByPlate& p1, const PassageByPlate& p2) {
+static bool compareId(const PassageByPlate& p1, const PassageByPlate& p2) {
     return p1.id < p2.id;
 }
 
@@ -216,4 +216,5 @@ void DataProcessor::loadFromFile(const std::string& filename){
     file.close();
 
 }
+
 
