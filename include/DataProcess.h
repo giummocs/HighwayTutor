@@ -1,12 +1,8 @@
 #ifndef DATAPROCESS_H
 #define DATAPROCESS_H
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <fstream>
 #include <cmath>
+#include <limits>
 
 #include "Highway.h";
 //Una classe che ha il compito di prendere insieme i dati di highway.txt e passages.txt e metterli in apposite strutture dati e elaborarli nella maniera corretta
@@ -15,23 +11,32 @@ class DataProcess{
 public:
     DataProcess();
     DataProcess(std::string filenameHighway, std::string filenamePassages);
-    std::string set_time(int addTime);
+    std::string DataProcess::set_time(const std::string& s);
     std::string stats();
     std::string reset();
 
 private:
-    struct Passage {int id; std::string plate; double time;};
     const int SECONDS_IN_HOURS = 3600;
+    const int SECONDS_IN_MINUTE = 60;
     double currentTime;
+    double totalAverageVelocity;
     Highway hw;
-    //Uso le mappe come indici perche' mi consente di semplificare gli algoritmi di ricerca delle informazioni, riducendone la complessita grazie all'accesso tramite chiave 
-    std::unordered_map<std::string, std::vector<size_t>> indexByPlate;
-    std::unordered_map<int, std::vector<size_t>> indexById;
-    std::vector<Passage> passages;
-    const std::vector<HighwayNode> gates;
 
+    struct PassageByPlate {int id; double time;};
+    struct Violation {int gateStartId; int gateEndId; double averageVelocity; double gateStartTime; double gateEndTime;};
+    struct Statistic {int vehiclesNumber = 0; double minTime = std::numeric_limits<double>::infinity(); double maxTime = 0.0;};
+    
+    //Uso le mappe come indici perche' mi consente di semplificare gli algoritmi di ricerca delle informazioni, riducendone la complessita grazie all'accesso tramite chiave 
+    std::unordered_map<std::string, std::vector<PassageByPlate>> passages;
+    std::unordered_map<std::string, std::vector<Violation>> violations;
+    std::unordered_map<int, Statistic> statistics;
+    std::vector<HighwayNode>& gates;
+    
+    void process();
     int decodeInput(const std::string& s);
-    bool compareTime(const PassageIdKey& a, const PassageIdKey& b);
+    bool compareId(const PassageByPlate& p1, const PassageByPlate& p2);
+    void orderById();
+    void updateStat(int id, double time);
     void readFromFile(const std::string& filename);
 
 };
