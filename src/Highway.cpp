@@ -12,8 +12,6 @@ void Highway::loadFromFile(const std::string& filename) {
     if (!file.is_open()) 
         throw std::runtime_error("Errore! Impossibile aprire file.");
 
-    nodes['V'];
-    nodes['S'];
     
     std::string line;
     while (std::getline(file, line)) {
@@ -60,11 +58,11 @@ void Highway::loadFromFile(const std::string& filename) {
         throw std::runtime_error("Errore! Requisiti non soddisfatti: deve esserci uno svincolo prima del primo varco e uno svincolo dopo l'ultimo varco.");
 }
 
-const std::vector<HighwayNode>& Highway::getJunctions() {
+const std::vector<double>& Highway::getJunctions() {
     return nodes['S'];
 }
 
-const std::vector<HighwayNode>& Highway::getGates() {
+const std::vector<double>& Highway::getGates() {
     return nodes['V'];
 }
 
@@ -73,13 +71,13 @@ double Highway::getDistance(char key, int index) {
         throw std::invalid_argument("Errore! Chiave non valida");
     }
     
-    std::vector<HighwayNode>& v = nodes[key];
+    std::vector<double>& v = nodes[key];
     
     if (index < 0 || index >= v.size()) {
         throw std::out_of_range("Errore! Indice non valido");
     }
 
-    return v[index].distance;
+    return v[index];
 }
 
 double Highway::getDistanceBetween(char key, int i, int j) {
@@ -87,13 +85,13 @@ double Highway::getDistanceBetween(char key, int i, int j) {
         throw std::invalid_argument("Errore! Chiave non valida");
     }
     
-    std::vector<HighwayNode>& v = nodes[key];
+    std::vector<double>& v = nodes[key];
     
     if (i < 0 || j >= v.size() || i >= j ) {
         throw std::out_of_range("Errore! Indice non valido");
     }
 
-    return v[j].distance - v[i].distance;
+    return v[j] - v[i];
 }
 
 bool Highway::isDouble(const std::string& s) {
