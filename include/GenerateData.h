@@ -1,5 +1,5 @@
-#define GENERATEDATA_H
-#ifndef GENERATEDATA_H
+#define DATAGENERATOR_H
+#ifndef DATAGENERATOR_H
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -12,11 +12,11 @@
 #include "Vehicle.h"
 #include "Highway.h"
 
-class GenerateData
+class DataGenerator
 {
     public:
         void startHighwaySimulation();
-        GenerateData(const std::string& highwayFile) : Highway(highwayFile);
+        DataGenerator(const std::string& highwayFile) : Highway(highwayFile);
     private:
         Highway hw();
         std::unordered_map<std::string, bool> plates;
