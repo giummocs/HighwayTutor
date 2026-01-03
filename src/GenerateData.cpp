@@ -3,8 +3,6 @@
 
 DataGenerator::DataGenerator(std::string filenameHighway, std::string filenamePassages) : hw(filenameHighway){
     currentTime = 0;
-    gates = hw.getGates();
-    junctions = hw.getJunctions();
 }
 int DataGenerator::findFirstGate(const std::vector<double>& gates, double kmEntry)
 {
@@ -121,9 +119,9 @@ void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream
         map[plate] = true;
         
         vehicle.plate = plate;
-        
-        int entryIdx = randomInt(0, static_cast<int>(junctions.size()) - 2);
-        int exitIdx = randomInt(entryIdx + 1, static_cast<int>(junctions.size()) - 1);
+        char J = 'S'
+        int entryIdx = randomInt(0, static_cast<int>(hw.getSize(J)) - 2);
+        int exitIdx = randomInt(entryIdx + 1, static_cast<int>(hw.getSize(J)) - 1);
 
         double kmEntry = hw.getDistance('S', entryIdx);
         double kmExit = hw.getDistance('S', exitIdx);
