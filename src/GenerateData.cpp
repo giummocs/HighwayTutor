@@ -113,7 +113,15 @@ void GenerateData::startHighwaySimulation(std::ofstream& runsOut, std::ofstream&
     {
         Vehicle vehicle;
 
-        vehicle.plate = generatePlate();
+        std::string plate = "";
+
+        do{
+            plate = generatePlate();
+        }while(map[plate]);
+
+        map[plate] = true;
+        
+        vehicle.plate = plate;
         
         int entryIdx = randomInt(0, static_cast<int>(junctions.size()) - 2);
         int exitIdx = randomInt(entryIdx + 1, static_cast<int>(junctions.size()) - 1);
