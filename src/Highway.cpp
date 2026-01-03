@@ -76,32 +76,32 @@ int Highway::getSize(char key) {
     throw std::invalid_argument("Errore! Chiave non valida");
 }
 
-double Highway::getDistance(char key, int index) {
+double Highway::getDistance(char key, int id) {
     if (key != 'V' && key != 'S') {
         throw std::invalid_argument("Errore! Chiave non valida");
     }
     
     std::vector<double>& v = nodes[key];
     
-    if (index < 0 || index >= v.size()) {
-        throw std::out_of_range("Errore! Indice non valido");
+    if (index < 1 || index > v.size()) {
+        throw std::out_of_range("Errore! Id non valido");
     }
 
-    return v[index];
+    return v[id-1];
 }
 
-double Highway::getDistanceBetween(char key, int i, int j) {
+double Highway::getDistanceBetween(char key, int id1, int id2) {
     if (key != 'V' && key != 'S') {
         throw std::invalid_argument("Errore! Chiave non valida");
     }
     
     std::vector<double>& v = nodes[key];
     
-    if (i < 0 || j >= v.size() || i >= j ) {
+    if (id1 < 1 || id2 > v.size() || id1 >= id2 ) {
         throw std::out_of_range("Errore! Indice non valido");
     }
 
-    return v[j] - v[i];
+    return v[id2-1] - v[id1-1];
 }
 
 bool Highway::isDouble(const std::string& s) {
@@ -132,6 +132,7 @@ void Highway::printGates() {
     }
     return;
 }
+
 
 
 
