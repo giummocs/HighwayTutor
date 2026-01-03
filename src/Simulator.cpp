@@ -13,8 +13,10 @@ int main()
     std::cout << "--- Starting Highway Simulator ---" << std::endl;
 
     std::string highwayFile = "Highway.txt";
-    Highway hw(highwayFile);
-    GenerateData simulator(highwayFile);
+    DataGenerator simulator(highwayFile);
+    //creo i vettori
+
+    std::string runsFile = "Data/Runs.txt";
 
     double currentSimulationTime = 0.0;
 
@@ -22,7 +24,7 @@ int main()
 
     std::ofstream runsOut("Runs.txt");
     std::ofstream passOut("Passages.txt");
-    simulator.startVehicleSimulation(runsOut, passOut);
+    simulator.startSimulation(runsOut, passOut);
 
     runsOut.close();
     passOut.close();
@@ -30,21 +32,6 @@ int main()
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
