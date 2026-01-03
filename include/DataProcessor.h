@@ -32,7 +32,7 @@ private:
     
     void processData();
     int decodeInput(const std::string& s);
-    bool compareId(const PassageByPlate& p1, const PassageByPlate& p2);
+    static bool compareId(const PassageByPlate& p1, const PassageByPlate& p2);
     void updateStat(int id, double time);
     void loadFromFile(const std::string& filename);
 
@@ -40,3 +40,4 @@ private:
 
 
 #endif
+
