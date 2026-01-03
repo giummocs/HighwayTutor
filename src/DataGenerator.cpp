@@ -165,9 +165,9 @@ void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream
 
         do{
             plate = generatePlate();
-        }while(map[plate]);
+        }while(plates[plate]);
 
-        map[plate] = true;
+        plates[plate] = true;
         
         vehicle.plate = plate;
         char J = 'S';
