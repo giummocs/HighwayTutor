@@ -29,7 +29,7 @@ public:
     void printGates();
 
 private:
-    //Abbiamo scelto di implementare due vettori per differenziare al meglio varchi e svincoli, al posto di una struttura dati univoca per entrambi (struct).
+    //Abbiamo scelto di implementare una mappa contenente due vettori per differenziare al meglio varchi e svincoli le cui chiavi corrispondono all'input del file di testo (S o V).
     //Il che facilita molto la logica negli altri file: codice piu facile da leggere e alleggerito nella ricerca di varchi e svincoli.
     std::unordered_map<char, std::vector<double>> nodes;
 
@@ -40,6 +40,7 @@ private:
 
 
 #endif
+
 
 
 
