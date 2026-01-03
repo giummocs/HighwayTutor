@@ -22,7 +22,7 @@ public:
     double getDistance(char key, int index);
     double getDistanceBetween(char key, int i, int j);
 
-    //Funzioni aggiuntivi non inerenti al nostro progetto ma potrebbero essere utili in un altro contesto
+    //Funzioni aggiuntive non inerenti al nostro progetto ma potrebbero essere utili in un altro contesto
     void printJunctions();
     void printGates();
 
@@ -38,6 +38,7 @@ private:
 
 
 #endif
+
 
 
 
