@@ -2,8 +2,8 @@
 
 Highway::Highway() {
     //Inizializzazione a valori di default 
-    nodes['V'].clear();
-    nodes['S'].clear();
+    nodes['V'];
+    nodes['S'];
 }
 
 Highway::Highway(const std::string& filename) { loadFromFile(filename); }
@@ -135,6 +135,7 @@ void Highway::printGates() {
     }
     return;
 }
+
 
 
 
