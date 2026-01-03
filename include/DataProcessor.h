@@ -10,7 +10,7 @@ class DataProcessor{
 public:
     DataProcessor();
     DataProcessor(std::string filenameHighway, std::string filenamePassages);
-    std::string DataProcessor::set_time(const std::string& s);
+    std::string set_time(const std::string& s);
     std::string stats();
     std::string reset();
 
@@ -37,5 +37,6 @@ private:
     void loadFromFile(const std::string& filename);
 
 };
+
 
 #endif
