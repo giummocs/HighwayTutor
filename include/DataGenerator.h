@@ -1,5 +1,6 @@
-#define DATAGENERATOR_H
 #ifndef DATAGENERATOR_H
+#define DATAGENERATOR_H
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -31,7 +32,7 @@ class DataGenerator
         const int MAX_DURATION_MIN = 15;
         const int NUM_OF_LETTERS= 26;
         const int NUM_OF_DIGITS= 10;
-
+        double currentSimulationTime;
     
         std::string generatePlate();
         int randomInt(int min, int max);
