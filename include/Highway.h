@@ -20,6 +20,8 @@ public:
     const std::vector<double>& getJunctions();
     const std::vector<double>& getGates();
 
+    int getSize(char key);
+
     double getDistance(char key, int index);
     double getDistanceBetween(char key, int i, int j);
 
@@ -39,6 +41,7 @@ private:
 
 
 #endif
+
 
 
 
