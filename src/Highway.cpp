@@ -2,8 +2,8 @@
 
 Highway::Highway() {
     //Inizializzazione a valori di default 
-    nodes['V'];
-    nodes['S'];
+    nodes['V'].clear();
+    nodes['S'].clear();
 }
 
 Highway::Highway(const std::string& filename) { loadFromFile(filename); }
@@ -13,8 +13,8 @@ void Highway::loadFromFile(const std::string& filename) {
     if (!file.is_open()) 
         throw std::runtime_error("Errore! Impossibile aprire file.");
 
-    nodes.clear('V');
-    nodes.clear('S');
+    nodes['S'].clear();
+    nodes['V'].clear();
     
     std::string line;
     while (std::getline(file, line)) {
@@ -86,7 +86,7 @@ double Highway::getDistance(char key, int id) {
     
     std::vector<double>& v = nodes[key];
     
-    if (index < 1 || index > v.size()) {
+    if (id < 1 || id > v.size()) {
         throw std::out_of_range("Errore! Id non valido");
     }
 
