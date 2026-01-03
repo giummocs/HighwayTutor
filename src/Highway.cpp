@@ -1,6 +1,7 @@
 #include "Highway.h"
 
 Highway::Highway() {
+    //Inizializzazione a valori di default 
     nodes['V'];
     nodes['S'];
 }
@@ -12,6 +13,8 @@ void Highway::loadFromFile(const std::string& filename) {
     if (!file.is_open()) 
         throw std::runtime_error("Errore! Impossibile aprire file.");
 
+    nodes.clear('V');
+    nodes.clear('S');
     
     std::string line;
     while (std::getline(file, line)) {
@@ -40,7 +43,7 @@ void Highway::loadFromFile(const std::string& filename) {
         if ((words[1] != "V" && words[1] != "S")) {
             throw std::runtime_error("Errore! Il secondo argomento deve essere 'S' oppure 'V' (case-insensitive).");
         }
-
+        
         distance = std::stod(words[0]);
         nodes[words[1][0]].push_back(distance);
     }
@@ -132,6 +135,7 @@ void Highway::printGates() {
     }
     return;
 }
+
 
 
 
