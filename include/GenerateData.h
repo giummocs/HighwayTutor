@@ -18,6 +18,7 @@ class DataGenerator
         void startHighwaySimulation();
         DataGenerator(const std::string& highwayFile) : Highway(highwayFile);
     private:
+        std::vector<int> firstGateForJunction;
         Highway hw();
         std::unordered_map<std::string, bool> plates;
         const int HOURS_IN_SECOND = 3600 ;
