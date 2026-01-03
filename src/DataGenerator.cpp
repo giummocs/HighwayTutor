@@ -1,7 +1,7 @@
 #include "DataGenerator.h"
 
 
-DataGenerator::DataGenerator(std::string filenameHighway, std::string filenamePassages) : hw(filenameHighway){
+DataGenerator::DataGenerator(const std::string& filenameHighway) : hw(filenameHighway){
     currentTime = 0;
     int junctionsSize = hw.getSize('S');
     int gatesSize = hw.getSize('V');
@@ -155,7 +155,7 @@ void DataGenerator::generateProfile(Vehicle& v, double totalDistance) {
         v.profile.push_back(interval);
     }
 }
-void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut)
+void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOutS)
 {
      for (int i = 0; i < NUM_VEHICLES; i++) 
     {
