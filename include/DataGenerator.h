@@ -22,6 +22,8 @@ class DataGenerator
         std::vector<int> firstGateForJunction;
         Highway hw;
         std::unordered_map<std::string, bool> plates;
+        double currentSimulationTime;
+
         const int HOURS_IN_SECOND = 3600 ;
         const int NUM_VEHICLES = 10000;         
         const double MIN_TIME_GAP = 0.5;        
@@ -31,8 +33,7 @@ class DataGenerator
         const int MIN_DURATION_MIN = 5;
         const int MAX_DURATION_MIN = 15;
         const int NUM_OF_LETTERS= 26;
-        const int NUM_OF_DIGITS= 10;
-        double currentSimulationTime;
+        const int NUM_OF_DIGITS= 10;     
     
         std::string generatePlate();
         int randomInt(int min, int max);
