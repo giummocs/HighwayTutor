@@ -3,15 +3,54 @@
 
 DataGenerator::DataGenerator(std::string filenameHighway, std::string filenamePassages) : hw(filenameHighway){
     currentTime = 0;
-}
-int DataGenerator::findFirstGate(const std::vector<double>& gates, double kmEntry)
-{
-    int firstGateIdx = 0;
-    while (gateIdx < gates.size() && gates[gateIdx] < kmEntry) 
-    {
-        firstGateIdx++;
+    int junctionsSize = hw.getSize('S');
+    int gatesSize = hw.getSize('V');
+    firstGateForJunction.resize(junctionsSize + 1);
+
+    for (int j_id = 1; j_id <= junctionsSize; j_id++) {
+        // Highway riceve l'ID (1-based) e restituisce i km
+        double junctionsKm = hw.getDistance('S', j_id); 
+        int g_id = 1;
+        
+        while (g_id <= gatesSize && hw.getDistance('V', g_id) < junctionsKm) {
+            g_id++;
+        }
+
+        if (g_id <= gatesSize) {
+            firstGateForJunction[j_id] = g_id; // Salviamo l'ID del varco
+        } else {
+            firstGateForJunction[j_id] = -1; 
+        }
     }
+}
+int DataGenerator::findFirstGateForJunctions(int junctionId) 
+{
+    // 1. Otteniamo il chilometro dello svincolo usando il suo ID
+    double junctionKm = hw.getDistance('S', junctionId);
     
+    // 2. Otteniamo il numero totale di varchi nell'autostrada
+    int gatesSize = hw.getSize('V');
+    
+    // 3. Partiamo dal primo varco (ID 1)
+    int g_id = 1; 
+
+    // 4. Ciclo che scorre i varchi finché non ne trova uno 
+    // che si trova dopo il km dello svincolo d'ingresso
+    while (g_id <= gatesSize && hw.getDistance('V', g_id) < junctionKm) 
+    {
+        g_id++;
+    }
+
+    // 5. Se g_id è ancora nei limiti, abbiamo trovato il varco. 
+    // Altrimenti significa che non ci sono varchi dopo questo svincolo.
+    if (g_id <= gatesSize) 
+    {
+        return g_id; // Restituisce l'id del primo varco utile
+    } 
+    else 
+    {
+        return -1;   // Non esiste alcun varco successivo (fine autostrada)
+    }
 }
 double DataGenerator::randomDouble(double min, double max) 
 {
@@ -23,33 +62,45 @@ int DataGenerator::randomInt(int min, int max)
 {
     return min + std::rand() % (max - min + 1);
 }
-void DataGenerator::generatePassages(std::ofstream& outFile, const Vehicle& vehicle, const std::vector<double>& gates, double kmEntry, double kmExit)
+void DataGenerator::generatePassages(std::ofstream& outFile, const Vehicle& vehicle, double kmEntry, double kmExit) 
 {
-    int gateIdx = findFirstGate(gates, kmEntry);
+    // Otteniamo l'ID del primo varco utile usando la funzione di ricerca
+    int g_id = findFirstGateForJunctions(vehicle.startSvincolo);
     
+    // Se non ci sono varchi tra l'ingresso e l'uscita, usciamo subito
+    if (g_id == -1) return;
+
+    int gatesSize = hw.getSize('V');
     double currentKm = kmEntry;
     double currentTime = vehicle.startTime;
 
+    // Scorriamo ogni intervallo di velocità del profilo del veicolo
     for (int i = 0; i < vehicle.profile.size(); i++) {
-        double speedKmS =  vehicle.profile[i].speed / HOURS_IN_SECOND ; 
+        double speedKmS = vehicle.profile[i].speed / 3600.0; 
         double duration = vehicle.profile[i].duration;   
         
+        // Calcoliamo dove si troverà il veicolo alla fine di questo intervallo
         double nextKm = currentKm + (speedKmS * duration);
 
-        while( gateIdx < gates.size() && gates[gateIdx] <= nextKm && gates[gateIdx] < kmExit )
+        // Finché l'ID del varco è valido e il varco si trova entro il tratto percorso
+        while (g_id <= gatesSize && hw.getDistance('V', g_id) <= nextKm) 
         {    
-            double gateKm = gates[gateIdx];
-            int gateInstant = currentTime + ((gateKm - currentKm) / speedKmS);
+            double gateKm = hw.getDistance('V', g_id);
             
-            outFile << gateIdx + 1 << " "
-                    << vehicle.plate << " " 
-                    <<gateInstant;
+            // Se il varco si trova oltre il punto in cui il veicolo esce dall'autostrada, fermati
+            if (gateKm >= kmExit) break;
+
+            // Calcoliamo l'istante esatto del passaggio (tempo = distanza / velocità)
+            int gateInstant = static_cast<int>(currentTime + ((gateKm - currentKm) / speedKmS));
             
-            outFile << std::endl;
+            // Scrittura sul file: ID varco (già 1-based), targa e tempo
+            outFile << g_id << " " << vehicle.plate << " " << gateInstant << std::endl;
             
-            gateIdx++;
+            // Passiamo al varco successivo (ID incrementato)
+            g_id++;
         }
         
+        // Aggiorniamo posizione e tempo per il prossimo intervallo del profilo
         currentKm = nextKm;
         currentTime += duration;
     }
@@ -119,8 +170,8 @@ void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream
         map[plate] = true;
         
         vehicle.plate = plate;
-        char J = 'S'
-        int entryIdx = randomInt(0, static_cast<int>(hw.getSize(J)) - 2);
+        char J = 'S';
+        int entryIdx = randomInt(1, static_cast<int>(hw.getSize(J)) - 2);
         int exitIdx = randomInt(entryIdx + 1, static_cast<int>(hw.getSize(J)) - 1);
 
         double kmEntry = hw.getDistance('S', entryIdx);
@@ -132,7 +183,7 @@ void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream
         double totalDistanceToCover = kmExit - kmEntry;
         generateProfile(vehicle, totalDistanceToCover);
         generateRunsLine(runsOut, vehicle);
-        generatePassages(passOut, vehicle, gates, kmEntry, kmExit);
+        generatePassages(passOut, vehicle, kmEntry, kmExit);
         
     }
 }
