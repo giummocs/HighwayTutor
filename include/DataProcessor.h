@@ -3,7 +3,7 @@
 
 #include <limits>
 
-#include "Highway.h";
+#include "Highway.h"
 //Una classe che ha il compito di prendere insieme i dati di highway.txt e passages.txt e metterli in apposite strutture dati e elaborarli nella maniera corretta
 //al fine di servirli al main, deve essere una sottoclasse di highway cosi da poter leggere e usare anche il file highway.txt
 class DataProcessor{
@@ -40,4 +40,5 @@ private:
 
 
 #endif
+
 
