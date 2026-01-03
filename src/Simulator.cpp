@@ -1,15 +1,10 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <string>
 #include <cstdlib>  
 #include <ctime>    
-#include <cmath>    
 #include <iomanip>  
 
 #include "Vehicle.h"
 #include "Highway.h"
-#include "GenerateData.h"
+#include "DataGenerator.h"
 
 int main() 
 {
@@ -35,6 +30,7 @@ int main()
 
     return 0;
 }
+
 
 
 
