@@ -66,6 +66,16 @@ const std::vector<double>& Highway::getGates() {
     return nodes['V'];
 }
 
+int Highway::getSize(char key) {
+    if (key == 'V') {
+        return node['V'].size();
+    }
+    if (key == 'S') {
+        return node['S'].size();
+    }
+    throw std::invalid_argument("Errore! Chiave non valida");
+}
+
 double Highway::getDistance(char key, int index) {
     if (key != 'V' && key != 'S') {
         throw std::invalid_argument("Errore! Chiave non valida");
@@ -122,6 +132,7 @@ void Highway::printGates() {
     }
     return;
 }
+
 
 
 
