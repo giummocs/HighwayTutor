@@ -19,7 +19,7 @@ class GenerateData
         GenerateData(const std::string& highwayFile) : Highway(highwayFile);
     private:
         Highway hw();
-        std::unordered_map<std::string, bool> map;
+        std::unordered_map<std::string, bool> plates;
         const int HOURS_IN_SECOND = 3600 ;
         const int NUM_VEHICLES = 10000;         
         const double MIN_TIME_GAP = 0.5;        
