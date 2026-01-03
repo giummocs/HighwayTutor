@@ -1,62 +1,105 @@
 
 #include "DataProcess.h";
 
-DataProcess::DataProcess() : hw(){
+DataProcess::DataProcess() : gates(hw.getGates()){
     currentTime = 0;
 }
+
 
 DataProcess::DataProcess(std::string filenameHighway, std::string filenamePassages) : hw(filenameHighway){
     currentTime = 0;
     readFromFile(filenamePassages);
+    orderById();
     gates = hw.getGates();
-    //CHIAMA ANCHE UNA FUNZIONE NUOVA PER PROCESSARE I DATI, PRENDI LALGORITMO DA SET TIME E TOGLILO
+    process();
 }
 
-std::string DataProcess::set_time(int addTime){
-    
-    if(addTime <= 0){
-        throw std::runtime_error("Errore! File non valido: ");
-    }
 
-    double newTime = currentTime + addTime;
-    std::string output = "\nInfrazioni commesse tra gli istanti "+currentTime+" e "+newTime+":";
+void DataProcess::process(){
+    double totalDistance = 0.0;
+    double totalTime = 0.0;
 
     //Complessita' totale O(n), dove n e' il numero delle righe del file passages.txt
     //Scorro la mappa con chiave plate, cosi da scorrere un veicolo per volta
-    for (const auto& mapElement : passagesPlateKey) {
-
+    for (const auto& mapElement : passages) {
         std::size_t totalGates = mapElement.second.size();
 
-        //Scorro tutti i gate attraversati da una macchina precisa, analizzandone due consecutivi alla volta tramite gateIdx e gateIdx+1
-        for(std::size_t gateIdx=0; gateIdx+1 < totalGates; gateIdx++){
+        //Salvo gia il primo varco
+        updateStat(mapElement.second[0].id, mapElement.second[0].time);
 
-            double timeGate1 = mapElement.second[gateIdx].time;
-            double timeGate2 = mapElement.second[gateIdx+1].time;
-            int idGate1 = mapElement.second[gateIdx].id;
-            int idGate2 = mapElement.second[gateIdx+1].id;
+        //Scorro tutti i gate attraversati da una macchina precisa, analizzandone due consecutivi alla volta, tramite i e i+1
+        for(std::size_t i=0; i+1 < totalGates; i++){
+            int idGate1 = mapElement.second[i].id;
+            int idGate2 = mapElement.second[i+1].id;
+            double timeGate1 = mapElement.second[i].time;
+            double timeGate2 = mapElement.second[i+1].time;
 
             //Se non sono consecutivi lancia un'eccezione
-            if(idGate1+1 != idGate2 && idGate1 != idGate2+1){
+            if(idGate1+1 != idGate2){
                 throw std::runtime_error("Errore! File non valido: manca il passaggio di una macchina in un varco intermedio!");
             }
 
+            //Se il tempo non e' crescente lancia un'eccezione
+            if(timeGate1 >= timeGate2){
+                throw std::runtime_error("Errore! File non valido: errato tempo di passaggio di due varchi!");
+            }
+
+            //Salvo i dati per set_time
+            //Non controllo il caso di risultati negativi in quanto e' gia presente qui sopra
+            double distanceDifference = gates[idGate1] - gates[idGate2];
+            double timeDifference = timeGate1 - timeGate2;
+            double averageVelocity = distanceDifference / (timeDifference/SECONDS_IN_HOURS);
+
+            if(averageVelocity > 130){
+                violations[mapElement.first].push_back({idGate1, idGate2, averageVelocity, timeGate1, timeGate2});
+            }
+
+            //Salvo i dati per stats
+            updateStat(idGate2, timeGate2);
+
+            //Aggiungo la distanza e il tempo percorso dalla macchina al totale (utile al comando stats)
+            totalDistance += distanceDifference;
+            totalTime += timeDifference;
+        }
+    }
+    totalAverageVelocity = totalDistance / (totalTime/SECONDS_IN_HOURS);
+}
+
+
+std::string DataProcess::set_time(const std::string& s){
+    
+    int addTime = decodeInput(s);
+
+    if(addTime <= 0){
+        throw std::runtime_error("Errore! Tempo inserito non valido!");
+    }
+
+    double newTime = currentTime + addTime;
+    std::string output = "\nInfrazioni commesse tra gli istanti "+std::to_string(currentTime)+" e "+std::to_string(newTime)+":";
+
+    
+    for (const auto& mapElement : violations) {
+
+        std::size_t totalGates = mapElement.second.size();
+
+        //Scorro tutti i gate attraversati da una macchina precisa, analizzandone due consecutivi alla volta tramite i e i+1
+        for(std::size_t i=0; i+1 < totalGates; i++){
+
+            int gateStartId = mapElement.second[i].gateStartId;
+            int gateEndId = mapElement.second[i].gateEndId;
+            double gateStartTime = mapElement.second[i].gateStartTime;
+            double gateEndTime = mapElement.second[i].gateEndTime;
+            double averageVelocity = mapElement.second[i].averageVelocity;
+
             //Controllo che tutti i due gate di riferimento siano dentro il range di tempo richiesto dal parametro addTime
-            if(timeGate1 > currentTime && timeGate1 < newTime && timeGate2 > currentTime && timeGate2 > newTime){
-
-                double distanceDifference = std::abs(gates[idGate1].distance - gates[idGate2].distance); //usare il metodo o mettere gates protected in highway??
-                double timeDifference = std::abs(timeGate1 - timeGate2);
-                double averageVelocity = distanceDifference / (timeDifference/SECONDS_IN_HOURS);
-
-                if(averageVelocity > 130){
-                    output += "\nInfrazione";
-                    output += "\nTarga: "+mapElement.first+"\nTratta: varco "+idGate1+" - varco "+idGate2+"\nVelocità media: "+averageVelocity+"\nIstante di passaggio varco "+idGate1+": "+timeGate1+"\nIstante di passaggio varco "+idGate2+": "+timeGate2+"\n";
-                }
-
+            if(gateStartTime > currentTime && gateEndTime < newTime){
+                output += "\nInfrazione";
+                output += "\nTarga: "+mapElement.first+"\nTratta: varco "+std::to_string(gateStartId)+" - varco "+std::to_string(gateEndId)+"\nVelocità media: "+std::to_string(averageVelocity)+"\nIstante di passaggio varco "+std::to_string(gateStartId)+": "+std::to_string(gateStartTime)+"\nIstante di passaggio varco "+std::to_string(gateEndId)+": "+std::to_string(gateEndTime)+"\n";
             }
         }
     }
 
-    if(output == "\nInfrazioni commesse tra gli istanti "+currentTime+" e "+newTime+":") output = "Nessuna infrazione.";
+    if(violations.size() == 0) output += "\nNessuna infrazione.";
 
     currentTime = newTime;
 
@@ -64,28 +107,26 @@ std::string DataProcess::set_time(int addTime){
 }
 
 std::string DataProcess::stats(){
-    //Complessita' totale O(2n), dove n numero di righe del file passages.txt
-    //Scorro la mappa con chiave id, cosi da scorrere un varco per volta
-    for (const auto& mapElement : passagesIdKey) {
-        std::size_t totalVehicles = mapElement.second.size();
-        double minTime = std::min_element(mapElement.second.begin(), mapElement.second.end(), compareTime)->time;
-        double maxTime = std::max_element(mapElement.second.begin(), mapElement.second.end(), compareTime)->time;
-        double vehiclePerMinute = (std::abs(minTime - maxTime))
-    }
-    
-    //PER FARE IL SECONDO E TERZO PUNTO DEVI USARE UNA NUOVA STRUTTURA DATI CREATA ALLINIZIO QUANDO CALCOLI LE VELOCITA MEDIE
-    //PROBLEMA: il prof dice di dare i dati di OGNI varco, pero in passagesIdKey non é detto che ci siano tutti i varchi, se
-    //per assurdo un varco non sia attraversato da nessuna macchina, non sará presente in passagesIdKey, quindi devi trovare un algoritmo
-    //che ti permetta di scorrere il vettore gates, di modo da scorrere ogni sincolo varco. A questo punto devi valutare se tenere passagesIdKey oppure
-    //usare passagesPlateKey in combinazione con gates (ti verrebbe un algoritmo piu pesante ma ti libera MOLTA memoria ridondante)
-    //In qualsiasi caso, devi aggiungere due nuove variabili per contenere i risultati da dare in output, devi creare due nuove struct ciascuna contenente
-    //i dati scritti nell'elenco puntato della consegna. A questo punto credo convenga: togliere passagesIdKey, creare nella classe due nuove mappe per contenere i dati di output.
-    
+    std::string output = "\nStatistiche autostrada:";
 
-    //Grosso problema sul calcolo della velocita media: idea era quella di creare una variabile utile sia a stats sia a set_time, che salvi tutte le velocita medie di ogni macchina
-    //in ogni varco, pero per calcolare la vel media complessiva di tutte le macchine in tutta lautostrada NON devi sommare le velocita medie e dividerle per il numero di varchi, ti darebbe
-    //un ris sbagliato, la vel media si calcola facendo SEMPRE E SOLO spazio/tempo. Quindi credo che devi sommare tutto lo spazio percorso da TUTTE le macchine e sommare il tempo impegato 
-    //da OGNI macchina, poi dividerli.
+    for (std::size_t i=0; i < gates.size(); i++) {
+        int vehiclesNumber = statistics[i].vehiclesNumber;
+        double minTime = statistics[i].minTime;
+        double maxTime = statistics[i].maxTime;
+        double vehiclePerMinute = 0.0;
+
+        //Se sono transitati piu di un veicolo calcolo vehiclePerMinute, altrimenti non e' possibile calcolare un valore valido e lascio 0
+        if(vehiclesNumber > 1){
+            vehiclePerMinute = vehiclesNumber / ((maxTime-minTime)/SECONDS_IN_MINUTE);
+        }
+
+        output += "\nVarco "+std::to_string(i)+": "+std::to_string(vehiclesNumber)+" veicoli transitati, "+std::to_string(vehiclePerMinute)+" veicoli al minuto.";
+    }
+
+    output += "\nVelocità media totale: "+std::to_string(totalAverageVelocity)+".";
+    output += "\nNumero di veicoli sanzionati: "+std::to_string(violations.size())+".";
+    
+    return output;
 }
 
 std::string DataProcess::reset(){
@@ -126,9 +167,27 @@ int DataProcess::decodeInput(const std::string& s){
     return result;
 }
 
-bool DataProcess::compareTime(const PassageIdKey& a, const PassageIdKey& b) {
-    return a.time < b.time;
+
+bool DataProcess::compareId(const PassageByPlate& p1, const PassageByPlate& p2) {
+    return p1.id < p2.id;
 }
+
+
+void DataProcess::orderById(){
+    //Ordino i passaggi per id, cosi da riempire le mappe con gli id gia ordinati
+    for(const auto& mapElement : passages){
+        std::sort(mapElement.second.begin(), mapElement.second.end(), compareId);
+    }
+}
+
+
+void DataProcess::updateStat(int id, double time){
+    Statistic& stat = statistics[id];
+    stat.vehiclesNumber++;
+    stat.minTime = std::min(stat.minTime, time); //Salvo istante minimo
+    stat.maxTime = std::max(stat.maxTime, time); //Salvo istante massimo
+}
+
 
 void DataProcess::readFromFile(const std::string& filename){
     std::ifstream file(filename);
@@ -151,10 +210,8 @@ void DataProcess::readFromFile(const std::string& filename){
                 std::string plate = words[1];
                 double time = std::stod(words[3]);
 
-                passages.push_back({id, plate, time});
-                size_t idx = passages.size() - 1;
-                indexByPlate[plate].push_back(idx);
-                indexById[id].push_back(idx);
+                passages[plate].push_back({id, time});
+                
             } catch (...) {
                 throw std::runtime_error("Errore! File non valido: formato numeri dei valori errato!");
             }
@@ -165,5 +222,5 @@ void DataProcess::readFromFile(const std::string& filename){
     }
     file.close();
 
-
 }
+
