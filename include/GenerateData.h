@@ -29,7 +29,9 @@ class DataGenerator
         const int MAX_SPEED = 190;
         const int MIN_DURATION_MIN = 5;
         const int MAX_DURATION_MIN = 15;
-        
+        const int NUM_OF_LETTERS= 26;
+        const int NUM_OF_DIGITS= 10;
+
     
         std::string generatePlate();
         int randomInt(int min, int max);
