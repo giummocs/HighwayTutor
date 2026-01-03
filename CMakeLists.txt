@@ -8,11 +8,15 @@ add_library(libhighway SHARED src/Highway.cpp)
 
 add_library(libvehicle SHARED src/Vehicle.cpp)
 
+add_library(libdatagenerator SHARED src/DataGenerator.cpp)
+
+add_library(libdataprocessor SHARED src/DataProcessor.cpp)
+
 add_executable(Simulator src/Simulator.cpp)
-target_link_libraries(Simulator libhighway libvehicle)
+target_link_libraries(Simulator libhighway libvehicle libdatagenerator)
 
 add_executable(Tutor src/Tutor.cpp)
-target_link_libraries(Tutor libhighway)
+target_link_libraries(Tutor libhighway libdataprocessor)
 
 ##cmake_minimum_required(VERSION 3.10)
 ##project(HighwayTutor)
@@ -31,4 +35,5 @@ target_link_libraries(Tutor libhighway)
 # Target Tutor
 
 ##add_executable(tutor src/tutor.cpp ${COMMON_SRCS})
+
 
