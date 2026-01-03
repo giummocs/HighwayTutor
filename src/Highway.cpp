@@ -71,10 +71,10 @@ const std::vector<double>& Highway::getGates() {
 
 int Highway::getSize(char key) {
     if (key == 'V') {
-        return node['V'].size();
+        return nodes['V'].size();
     }
     if (key == 'S') {
-        return node['S'].size();
+        return nodes['S'].size();
     }
     throw std::invalid_argument("Errore! Chiave non valida");
 }
@@ -135,6 +135,7 @@ void Highway::printGates() {
     }
     return;
 }
+
 
 
 
