@@ -18,11 +18,8 @@ Da fare:
     if(j<nodes['V'].size() && nodes['V'][j]>nodes['S'][i]) v[i] = j;
     else v[i] = -1; //non esiste alcun successivo
  }
-
 ATTENZIONE: bisogna stare attenti quando si usa v perche bisogna verificare anche che il varco successivo a uno svincolo sia compreso tra lo svincolo di entrata e uscita! 
 
-
-Fatto:
--sistemare magic number 10000 nel for
--mettere un comando per uscire dal ciclo while in tutor.cpp
--Le targhe invece iniziano sempre con AA e finiscono sempre con ZZ, non va bene
+-in README scrivere che: nella classe ProcessData abbiamo scelto di adottare una soluzione che permetta di costruire in un unica funzione gli output per qualsiasi comando, questa funzione viene chiamata una 
+ unica volta nel costruttore quando viene creato l'oggetto e valgono fin tanto che il terminale e' aperto, visto che i file non cambiano durante l'esecuzione di tutor.
+ Questa scelta implementativa e' il miglior compromesso tra consumo di memoria e complessita' degli algoritmi, minimizzando il numero di volte che il programma deve processare i dati (una sola volta all'inizio)
