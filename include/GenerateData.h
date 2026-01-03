@@ -28,6 +28,7 @@ class GenerateData
         const int MAX_SPEED = 190;
         const int MIN_DURATION_MIN = 5;
         const int MAX_DURATION_MIN = 15;
+        
     
         std::string generatePlate();
         int randomInt(int min, int max);
