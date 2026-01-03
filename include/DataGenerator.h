@@ -16,7 +16,7 @@ class DataGenerator
 {
     public:
         void startHighwaySimulation();
-        DataGenerator(const std::string& highwayFile) : Highway(highwayFile);
+        DataGenerator(const std::string& highwayFile, std::string filenamePassages) : Highway(highwayFile);
     private:
         std::vector<int> firstGateForJunction;
         Highway hw();
