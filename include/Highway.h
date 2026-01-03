@@ -16,6 +16,7 @@ public:
     //Costruttori
     Highway();
     Highway(const std::string& filename);
+    void loadFromFile(const std::string& filename);
     //Funzioni getter 
     const std::vector<double>& getJunctions();
     const std::vector<double>& getGates();
@@ -34,12 +35,12 @@ private:
     std::unordered_map<char, std::vector<double>> nodes;
 
     //Helper functions
-    void loadFromFile(const std::string& filename);
     bool isDouble(const std::string& s);
 };
 
 
 #endif
+
 
 
 
