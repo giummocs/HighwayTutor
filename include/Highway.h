@@ -13,9 +13,10 @@
 
 class Highway {
 public:
+    //Costruttori
     Highway();
     Highway(const std::string& filename);
-    
+    //Funzioni getter 
     const std::vector<double>& getJunctions();
     const std::vector<double>& getGates();
 
@@ -38,6 +39,7 @@ private:
 
 
 #endif
+
 
 
 
