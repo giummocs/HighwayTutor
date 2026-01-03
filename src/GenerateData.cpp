@@ -1,12 +1,12 @@
-#include "GenerateData.h"
+#include "DataGenerator.h"
 
 
-GenerateData::GenerateData(std::string filenameHighway, std::string filenamePassages) : hw(filenameHighway){
+DataGenerator::DataGenerator(std::string filenameHighway, std::string filenamePassages) : hw(filenameHighway){
     currentTime = 0;
     gates = hw.getGates();
     junctions = hw.getJunctions();
 }
-int GenerateData::findFirstGate(const std::vector<double>& gates, double kmEntry)
+int DataGenerator::findFirstGate(const std::vector<double>& gates, double kmEntry)
 {
     int firstGateIdx = 0;
     while (gateIdx < gates.size() && gates[gateIdx] < kmEntry) 
@@ -15,17 +15,17 @@ int GenerateData::findFirstGate(const std::vector<double>& gates, double kmEntry
     }
     
 }
-double GenerateData::randomDouble(double min, double max) 
+double DataGenerator::randomDouble(double min, double max) 
 {
     double f = static_cast<double>(std::rand()) / RAND_MAX;
     return min + f * (max - min);
 }
 
-int GenerateData::randomInt(int min, int max) 
+int DataGenerator::randomInt(int min, int max) 
 {
     return min + std::rand() % (max - min + 1);
 }
-void GenerateData::generatePassages(std::ofstream& outFile, const Vehicle& vehicle, const std::vector<double>& gates, double kmEntry, double kmExit)
+void DataGenerator::generatePassages(std::ofstream& outFile, const Vehicle& vehicle, const std::vector<double>& gates, double kmEntry, double kmExit)
 {
     int gateIdx = findFirstGate(gates, kmEntry);
     
@@ -56,7 +56,7 @@ void GenerateData::generatePassages(std::ofstream& outFile, const Vehicle& vehic
         currentTime += duration;
     }
 }
-void GenerateData::generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle)
+void DataGenerator::generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle)
 {
     // Scriviamo i dati base
     outFile << vehicle.plate << " "
@@ -71,7 +71,7 @@ void GenerateData::generateRunsLine(std::ofstream& outFile, const Vehicle& vehic
     }
     outFile << std::endl;
 }
-std::string GenerateData::generatePlate() 
+std::string DataGenerator::generatePlate() 
 {
     std::string plate = "";
     plate += static_cast<char>('A' + std::rand() % NUMERO_LETTERE);
@@ -85,7 +85,7 @@ std::string GenerateData::generatePlate()
     plate += static_cast<char>('A' + std::rand() % NUMERO_LETTERE);
     return plate;
 }
-void GenerateData::generateProfile(Vehicle& v, double totalDistance) {
+void DataGenerator::generateProfile(Vehicle& v, double totalDistance) {
     double coveredDistance = 0.0;
 
     while (coveredDistance < totalDistance) {
@@ -106,7 +106,7 @@ void GenerateData::generateProfile(Vehicle& v, double totalDistance) {
         v.profile.push_back(interval);
     }
 }
-void GenerateData::startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut)
+void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut)
 {
      for (int i = 0; i < NUM_VEHICLES; i++) 
     {
