@@ -123,15 +123,15 @@ void DataGenerator::generateRunsLine(std::ofstream& outFile, const Vehicle& vehi
 std::string DataGenerator::generatePlate() 
 {
     std::string plate = "";
-    plate += static_cast<char>('A' + std::rand() % NUMERO_LETTERE);
-    plate += static_cast<char>('A' + std::rand() % NUMERO_LETTERE);
+    plate += static_cast<char>('A' + std::rand() % NUM_OF_LETTERS);
+    plate += static_cast<char>('A' + std::rand() % NUM_OF_LETTERS);
     plate += " ";
-    plate += std::to_string(std::rand() %  NUMERO_CIFRE);
-    plate += std::to_string(std::rand() %  NUMERO_CIFRE);
-    plate += std::to_string(std::rand() %  NUMERO_CIFRE);
+    plate += std::to_string(std::rand() %  NUM_OF_DIGITS);
+    plate += std::to_string(std::rand() %  NUM_OF_DIGITS);
+    plate += std::to_string(std::rand() %  NUM_OF_DIGITS);
     plate += " ";
-    plate += static_cast<char>('A' + std::rand() %  NUMERO_LETTERE);
-    plate += static_cast<char>('A' + std::rand() % NUMERO_LETTERE);
+    plate += static_cast<char>('A' + std::rand() %  NUM_OF_LETTERS);
+    plate += static_cast<char>('A' + std::rand() % NUM_OF_LETTERS);
     return plate;
 }
 void DataGenerator::generateProfile(Vehicle& v, double totalDistance) {
