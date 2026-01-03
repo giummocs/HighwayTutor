@@ -15,11 +15,11 @@
 class DataGenerator
 {
     public:
-        void startHighwaySimulation();
-        DataGenerator(const std::string& highwayFile, std::string filenamePassages) : Highway(highwayFile);
+        void startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut);
+        DataGenerator(const std::string& highwayFile);
     private:
         std::vector<int> firstGateForJunction;
-        Highway hw();
+        Highway hw;
         std::unordered_map<std::string, bool> plates;
         const int HOURS_IN_SECOND = 3600 ;
         const int NUM_VEHICLES = 10000;         
@@ -37,9 +37,8 @@ class DataGenerator
         int randomInt(int min, int max);
         double randomDouble(double min, double max);    
         void generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle);
-        void generatePassages(std::ofstream& outFile, const Vehicle& vehicle, 
-                             const std::vector<double>& gates, double kmEntry, double kmExit);
-        int findFirstGate(const std::vector<double>& gates, double kmEntry);
+        void generatePassages(std::ofstream& outFile, const Vehicle& vehicle,double kmEntry, double kmExit);
+        int findFirstGateForJunctions(int junctionsId);
         void generateProfile(Vehicle& v, double totalDistance);
 };
 
