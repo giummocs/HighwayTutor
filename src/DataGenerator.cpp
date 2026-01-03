@@ -2,7 +2,7 @@
 
 
 DataGenerator::DataGenerator(const std::string& filenameHighway) : hw(filenameHighway){
-    currentTime = 0;
+    currentTimeSimulation = 0;
     int junctionsSize = hw.getSize('S');
     int gatesSize = hw.getSize('V');
     firstGateForJunction.resize(junctionsSize + 1);
