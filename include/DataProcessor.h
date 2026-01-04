@@ -14,14 +14,19 @@ public:
 
     //Funzioni pubbliche
     std::string set_time(const std::string& s);
-    //Restituisce in un unica stringa tutti i dati richiesti, tra gli istanti currentTime e currentTime+parametro
-    //Lancia un'eccezione se il tempo inserito e' minore o uguale a 0.
+    //Restituisce in un unica stringa tutti i dati richiesti (tutte le violazioni), tra gli istanti currentTime e currentTime+parametro
+    //Lancia un eccezione se il tempo inserito è minore o uguale a 0
+
     std::string stats();
+    //Restituisce in un unica stringa tutti i dati richiesti (statistiche di ogni varco, velocità media totale e totale violazioni)
+
     std::string reset();
+    //Resetta il conteggio del tempo (currentTime) e restituisce l'esito
 
 private:
     const int SECONDS_IN_HOURS = 3600;
     const int SECONDS_IN_MINUTES = 60;
+
     double currentTime;
     double totalAverageVelocity;
     Highway hw;
@@ -45,6 +50,7 @@ private:
 
 
 #endif
+
 
 
 
