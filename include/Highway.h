@@ -37,12 +37,9 @@ public:
 
 private:
     //Variabili private
-
     std::unordered_map<char, std::vector<double>> nodes;
 
-
     //Helper functions
-
     bool isDouble(const std::string& s);
     //Restituisce true se una stringa e' convertibile in double, false altrimenti
 
@@ -54,6 +51,7 @@ private:
 };
 
 #endif
+
 
 
 
