@@ -116,7 +116,7 @@ void DataGenerator::generateRunsLine(std::ofstream& outFile, const Vehicle& vehi
     // Scriviamo tutto il profilo di velocità (v1, t1, v2, t2...)
     for (std::size_t k = 0; k < vehicle.profile.size(); k++) {
         outFile << " v" << k + 1 << " " << vehicle.profile[k].speed 
-                << " t" << k + 1 << vehicle.profile[k].duration;
+                << " t" << k + 1 << " " <<vehicle.profile[k].duration;
     }
     outFile << std::endl;
 }
@@ -155,7 +155,7 @@ void DataGenerator::generateProfile(Vehicle& v, double totalDistance) {
         v.profile.push_back(interval);
     }
 }
-void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOutS)
+void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut)
 {
      for (int i = 0; i < NUM_VEHICLES; i++) 
     {
@@ -177,8 +177,8 @@ void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream
         double kmEntry = hw.getDistance('S', entryIdx);
         double kmExit = hw.getDistance('S', exitIdx);
         
-        currentSimulationTime += randomDouble(MIN_TIME_GAP, MAX_TIME_GAP);
-        vehicle.startTime = currentSimulationTime;
+        currentTimeSimulation += randomDouble(MIN_TIME_GAP, MAX_TIME_GAP);
+        vehicle.startTime = currentTimeSimulation;
 
         double totalDistanceToCover = kmExit - kmEntry;
         generateProfile(vehicle, totalDistanceToCover);
