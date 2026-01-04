@@ -36,6 +36,7 @@ public:
     //Restituisce il numero di passaggi di un dato tipo (key)
     //Lancia un eccezione se key diverso da 'S' o 'V'
 
+    //Convenzione: id parte da 1 e quindi corrisponde a indice+1
     double getDistance(char key, int id);
     //Restituisce la distanza del passaggio numero id del dato tipo (key)
     //Lancia un eccezione se key diverso da 'S' o 'V'
@@ -65,9 +66,16 @@ private:
 
     bool isDouble(const std::string& s);
     //Restituisce true se una stringa e' convertibile in double, false altrimenti
+
+    bool isValidKey(char key);
+    //Restituisce true se la chiave è valida ('S' o 'V'), false altrimenti
+
+    bool isValidId(int id, std::vector<double> v);
+    //Restituisce true se id esiste, false altrimenti
 };
 
 #endif
+
 
 
 
