@@ -1,3 +1,4 @@
+//FILE REALIZZATO DA STEFANI GIANMARIA
 
 #include "DataProcessor.h"
 
@@ -190,9 +191,11 @@ void DataProcessor::updateStat(int id, double time){
 
 
 void DataProcessor::loadFromFile(const std::string& filename){
+    //Apertura file
     std::ifstream file(filename);
     if (!file.is_open()) throw std::runtime_error("Errore! Impossibile aprire il file!");
 
+    //Legge riga per riga
     std::string line;
     while (std::getline(file, line)) {
         
@@ -200,10 +203,12 @@ void DataProcessor::loadFromFile(const std::string& filename){
         std::string singleWord;
         std::vector<std::string> words;
 
+        //Legge ogni parola della riga e la salva nel vettore
         while (ss >> singleWord) {
             words.push_back(singleWord);
         }
 
+        //Se ci sono esattamente 3 parole prova a convertire nei tipi corrispondenti, in caso di errore lancia un'eccezione
         if (words.size() == 3) {
             try {
                 int id = std::stoi(words[0]);
@@ -219,9 +224,10 @@ void DataProcessor::loadFromFile(const std::string& filename){
             throw std::runtime_error("Errore! File non valido: numero di valori errato!");
         }
     }
+    //Chiusura file
     file.close();
-
 }
+
 
 
 
