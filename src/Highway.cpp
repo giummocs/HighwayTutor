@@ -1,9 +1,9 @@
 #include "Highway.h"
 
 Highway::Highway() {
-    //Creazione dei due vettori vuoti
-    nodes['V'];
-    nodes['S'];
+    //Creazione dei due vettori vuoti (li svuota se esistono)
+    nodes['V'].clear();
+    nodes['S'].clear();
 }
 
 Highway::Highway(const std::string& filename) { loadFromFile(filename); }
@@ -14,7 +14,7 @@ void Highway::loadFromFile(const std::string& filename) {
     if (!file.is_open()) 
         throw std::runtime_error("Errore! Impossibile aprire file.");
 
-    //Eliminazione di tutti gli elementi dei due vettori (permette l'overwrite dei dati)
+    //Creazione dei due vettori vuoti (li svuota se esistono) (permette l'overwrite dei dati)
     nodes['S'].clear();
     nodes['V'].clear();
 
@@ -34,6 +34,7 @@ void Highway::loadFromFile(const std::string& filename) {
             }
             words.push_back(temp);
         }
+        
         //Verifica della formattazione del contenuto
         if (words.size() != 2) {
             throw std::runtime_error("Errore! Ogni riga deve contenere 2 argomenti.");
@@ -53,6 +54,7 @@ void Highway::loadFromFile(const std::string& filename) {
     }
 
     file.close();
+    
     //Verifica dei requisiti
     if (nodes['V'].size() < 2) 
         throw std::runtime_error("Errore! Requisiti non soddisfatti: devono esserci almeno 2 varchi."); // Almeno due gates
@@ -67,31 +69,30 @@ void Highway::loadFromFile(const std::string& filename) {
 }
 
 const std::vector<double>& Highway::getJunctions() {
+    //[] invece che at() perche' elemento con chiave 'S' viene sicuramente creato con qualunque costruttore
     return nodes['S'];
 }
 
 const std::vector<double>& Highway::getGates() {
+    //[] invece che at() perche' elemento con chiave 'S' viene sicuramente creato con qualunque costruttore
     return nodes['V'];
 }
 
 int Highway::getSize(char key) {
-    if (key == 'V') {
-        return nodes['V'].size();
+    if (!isValidKey(key)) {
+        throw std::invalid_argument("Errore! Chiave non valida");
     }
-    if (key == 'S') {
-        return nodes['S'].size();
-    }
-    throw std::invalid_argument("Errore! Chiave non valida");
+    return nodes[key].size();
 }
 
 double Highway::getDistance(char key, int id) {
-    if (key != 'V' && key != 'S') {
+    if (!isValidKey(key)) {
         throw std::invalid_argument("Errore! Chiave non valida");
     }
     
     std::vector<double>& v = nodes[key];
     
-    if (id < 1 || id > v.size()) {
+    if (!isValidId(id, v)) {
         throw std::out_of_range("Errore! Id non valido");
     }
 
@@ -99,17 +100,17 @@ double Highway::getDistance(char key, int id) {
 }
 
 double Highway::getDistanceBetween(char key, int id1, int id2) {
-    if (key != 'V' && key != 'S') {
+    if (!isValidKey(key)) {
         throw std::invalid_argument("Errore! Chiave non valida");
     }
     
     std::vector<double>& v = nodes[key];
     
-    if (id1 < 1 || id2 > v.size() || id1 >= id2 ) {
-        throw std::out_of_range("Errore! Indice non valido");
+    if (isValidId(id1, v) && isValidId(id2, v)) {
+        return std::abs(v[id2-1] - v[id1-1]);
     }
 
-    return v[id2-1] - v[id1-1];
+    throw std::out_of_range("Errore! Indice non valido");
 }
 
 bool Highway::isDouble(const std::string& s) {
@@ -121,6 +122,14 @@ bool Highway::isDouble(const std::string& s) {
         return false;
     }
     return true;
+}
+
+bool Highway::isValidKey(char key) {
+    return (key == 'S' || key == 'V');
+}
+
+bool Highway::isValidId(int id, std::vector<double> v) {
+    return (id >= 1 && id <= v.size());
 }
 
 void Highway::printJunctions() {
@@ -138,6 +147,7 @@ void Highway::printGates() {
     }
     return;
 }
+
 
 
 
