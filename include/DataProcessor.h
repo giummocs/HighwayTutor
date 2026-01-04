@@ -24,21 +24,23 @@ public:
     //Resetta il conteggio del tempo (currentTime) e restituisce l'esito
 
 private:
+    //Costanti
     const int SECONDS_IN_HOURS = 3600;
     const int SECONDS_IN_MINUTES = 60;
 
-    double currentTime;
-    double totalAverageVelocity;
-    Highway hw;
+    //Variabili private
+    double currentTime; //Conteggio del tempo
+    double totalAverageVelocity; //Velocità media di tutti i veicoli, utile a stats
+    Highway hw; //Oggetto autostrada, si occupa della lettura di Highway.txt
 
     struct PassageByPlate {int id; double time;};
     struct Violation {int gateStartId; int gateEndId; double averageVelocity; double gateStartTime; double gateEndTime;};
     struct Statistic {int vehiclesNumber = 0; double minTime = std::numeric_limits<double>::infinity(); double maxTime = 0.0;};
     
     //Uso le mappe come indici perche' mi consente di semplificare gli algoritmi di ricerca delle informazioni, riducendone la complessita grazie all'accesso tramite chiave 
-    std::unordered_map<std::string, std::vector<PassageByPlate>> passages;
-    std::unordered_map<std::string, std::vector<Violation>> violations;
-    std::unordered_map<int, Statistic> statistics;
+    std::unordered_map<std::string, std::vector<PassageByPlate>> passages; //Contiene tutti i dati letti da passages.txt, organizzati per targa tramite la chiave
+    std::unordered_map<std::string, std::vector<Violation>> violations; //Contiene tutte le violazioni, organizzate per targa
+    std::unordered_map<int, Statistic> statistics; //Contiene le statistiche di ciascun varco, organizzate per varco
     
     void processData();
     int decodeInput(const std::string& s);
@@ -50,6 +52,7 @@ private:
 
 
 #endif
+
 
 
 
