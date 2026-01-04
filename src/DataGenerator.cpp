@@ -172,11 +172,13 @@ void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream
         vehicle.plate = plate;
         char J = 'S';
         int junctionsSize = static_cast<int>(hw.getSize(J));
-        int entryIdx = randomInt(1, junctionsSize- 1);
-        int exitIdx = randomInt(entryIdx + 1, junctionsSize);
+        int entryId = randomInt(1, junctionsSize- 1);
+        int exitId = randomInt(entryIdx + 1, junctionsSize);
+        vehicle.startSvincolo = entryId;
+        vehicle.endSvincolo = entryId;
 
-        double kmEntry = hw.getDistance('S', entryIdx);
-        double kmExit = hw.getDistance('S', exitIdx);
+        double kmEntry = hw.getDistance('S', entryId);
+        double kmExit = hw.getDistance('S', exitId);
         
         currentTimeSimulation += randomDouble(MIN_TIME_GAP, MAX_TIME_GAP);
         vehicle.startTime = currentTimeSimulation;
