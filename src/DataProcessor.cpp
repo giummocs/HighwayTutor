@@ -119,7 +119,7 @@ std::string DataProcessor::stats(){
 
         //Se sono transitati piu di un veicolo calcolo vehiclePerMinute, altrimenti non e' possibile calcolare un valore valido e lascio 0
         if(vehiclesNumber > 1){
-            vehiclePerMinute = vehiclesNumber / ((maxTime-minTime)/SECONDS_IN_MINUTE);
+            vehiclePerMinute = vehiclesNumber / ((maxTime-minTime)/SECONDS_IN_MINUTES);
         }
 
         output += "\nVarco "+std::to_string(i)+": "+std::to_string(vehiclesNumber)+" veicoli transitati, "+std::to_string(vehiclePerMinute)+" veicoli al minuto.";
@@ -216,5 +216,6 @@ void DataProcessor::loadFromFile(const std::string& filename){
     file.close();
 
 }
+
 
 
