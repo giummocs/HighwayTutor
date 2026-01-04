@@ -65,7 +65,7 @@ int DataGenerator::randomInt(int min, int max)
 void DataGenerator::generatePassages(std::ofstream& outFile, const Vehicle& vehicle, double kmEntry, double kmExit) 
 {
     // Otteniamo l'ID del primo varco utile usando la funzione di ricerca
-    int g_id = findFirstGateForJunctions(vehicle.startSvincolo);
+    int g_id = findFirstGateForJunctions(vehicle.startJunction);
     
     // Se non ci sono varchi tra l'ingresso e l'uscita, usciamo subito
     if (g_id == -1) return;
@@ -109,8 +109,8 @@ void DataGenerator::generateRunsLine(std::ofstream& outFile, const Vehicle& vehi
 {
     // Scriviamo i dati base
     outFile << vehicle.plate << " "
-            << vehicle.startSvincolo << " "
-            << vehicle.endSvincolo << " "
+            << vehicle.startJunction << " "
+            << vehicle.endJunction << " "
             << std::fixed << std::setprecision(2) << vehicle.startTime;
 
     // Scriviamo tutto il profilo di velocità (v1, t1, v2, t2...)
@@ -174,8 +174,8 @@ void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream
         int junctionsSize = static_cast<int>(hw.getSize(J));
         int entryId = randomInt(1, junctionsSize- 1);
         int exitId = randomInt(entryId + 1, junctionsSize);
-        vehicle.startSvincolo = entryId;
-        vehicle.endSvincolo = exitId;
+        vehicle.startJunction = entryId;
+        vehicle.endJunction = exitId;
 
         double kmEntry = hw.getDistance('S', entryId);
         double kmExit = hw.getDistance('S', exitId);
