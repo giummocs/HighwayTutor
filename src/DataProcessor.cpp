@@ -71,7 +71,7 @@ void DataProcessor::processData(){
 
 
 std::string DataProcessor::set_time(const std::string& input){
-    
+    //Chiamo decodeInput per decodificare l'input
     int addTime = decodeInput(input);
 
     if(addTime <= 0){
@@ -219,6 +219,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     file.close();
 
 }
+
 
 
 
