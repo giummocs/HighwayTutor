@@ -23,13 +23,7 @@ public:
     void loadFromFile(const std::string& filename);
 
 
-    //Funzioni getter 
-
-    const std::vector<double>& getJunctions();
-    //Restituisce il vettore con chiave 'S' (svincoli)
-    
-    const std::vector<double>& getGates();
-    //Restituisce il vettore con chiave 'V' (varchi)
+    //Funzioni getter
 
     int getSize(char key);
     //Restituisce il numero di passaggi di un dato tipo (key)
@@ -45,15 +39,6 @@ public:
     //Restituisce la distanza tra il passaggio numero id1 e numero id2 del dato tipo (key)
     //Lancia un eccezione se key diverso da 'S' o 'V'
     //Lancia un eccezione se id1 e id2 non sono presenti
-
-
-    //Funzioni aggiuntive non inerenti al nostro progetto ma potrebbero essere utili in un altro contesto
-
-    void printJunctions();
-    //Stampa a schermo la lista degli svincoli con la propria distanza
-
-    void printGates();
-    //Stampa a schermo la lista dei varchi con la propria distanza
 
 private:
     //Variabili private
@@ -74,6 +59,7 @@ private:
 };
 
 #endif
+
 
 
 
