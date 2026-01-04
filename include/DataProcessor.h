@@ -12,23 +12,22 @@ public:
     DataProcessor();
     DataProcessor(std::string filenameHighway, std::string filenamePassages);
 
-    //Funzioni pubbliche
-    std::string set_time(const std::string& input);
     //Restituisce in un unica stringa tutti i dati richiesti (tutte le violazioni), tra gli istanti currentTime e currentTime+parametro
     //Lancia un eccezione se il tempo inserito è minore o uguale a 0
+    std::string set_time(const std::string& input);
 
-    std::string stats();
     //Restituisce in un unica stringa tutti i dati richiesti (statistiche di ogni varco, velocità media totale e totale violazioni)
-
-    std::string reset();
+    std::string stats();
+    
     //Resetta il conteggio del tempo (currentTime) e restituisce l'esito
+    std::string reset();
+    
 
 private:
     //Costanti
     const int SECONDS_IN_HOURS = 3600;
     const int SECONDS_IN_MINUTES = 60;
 
-    //Variabili private
     double currentTime; //Conteggio del tempo
     double totalAverageVelocity; //Velocità media di tutti i veicoli, utile a stats
     Highway hw; //Oggetto autostrada, si occupa della lettura di Highway.txt
@@ -41,14 +40,13 @@ private:
     std::unordered_map<std::string, std::vector<Violation>> violations; //Contiene tutte le violazioni, organizzate per targa
     std::unordered_map<int, Statistic> statistics; //Contiene le statistiche di ciascun varco, organizzate per varco
 
-    //Helper functions
     //Processa tutti i dati contenuti in passages, riempiendo violations e statistics
-    void processData();
     //Lancia un eccezione se i file sono scritti nella maniera errata
+    void processData();
 
     //Funzione chiamata in set_time() per tradurre l'input ricevuto dall'utente
-    int decodeInput(const std::string& input);
     //Restituisce il tempo in secondi
+    int decodeInput(const std::string& input);
 
     //Funzione usata per il sort di passages, usata in processData()
     static bool compareId(const PassageByPlate& p1, const PassageByPlate& p2);
@@ -63,6 +61,7 @@ private:
 
 
 #endif
+
 
 
 
