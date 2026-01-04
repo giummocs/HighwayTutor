@@ -1,1 +1,1 @@
-
+Dettagli implementativi:
