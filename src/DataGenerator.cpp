@@ -2,7 +2,7 @@
 
 
 DataGenerator::DataGenerator(const std::string& filenameHighway) : hw(filenameHighway){
-    currentTimeSimulation = 0;
+    currentSimulationTime = 0;
     int junctionsSize = hw.getSize('S');
     int gatesSize = hw.getSize('V');
     firstGateForJunction.resize(junctionsSize + 1);
@@ -186,8 +186,8 @@ void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream
         double kmEntry = hw.getDistance('S', entryId);
         double kmExit = hw.getDistance('S', exitId);
         
-        currentTimeSimulation += randomDouble(MIN_TIME_GAP, MAX_TIME_GAP);
-        vehicle.startTime = currentTimeSimulation;
+        currentSimulationTime += randomDouble(MIN_TIME_GAP, MAX_TIME_GAP);
+        vehicle.startTime = currentSimulationTime;
 
         double totalDistanceToCover = kmExit - kmEntry;
         generateProfile(vehicle, totalDistanceToCover);
