@@ -139,6 +139,7 @@ void DataGenerator::generateProfile(Vehicle& v, double totalDistance) {
 
     while (coveredDistance < totalDistance) {
         SpeedInterval interval;
+        double lastDistance = totalDistance - coveredDistance;
         
         // Genera velocità casuale tra MIN_SPEED e MAX_SPEED
         interval.speed = static_cast<double>(randomInt(MIN_SPEED, MAX_SPEED));
@@ -150,6 +151,11 @@ void DataGenerator::generateProfile(Vehicle& v, double totalDistance) {
         // Calcola la distanza percorsa in questo intervallo (v * t)
         // Usiamo (minutes / 60.0) perché la velocità è in km/h
         coveredDistance += interval.speed * (minutes / 60.0);
+        
+        if(coveredDistance > totalDistance)
+        {
+             interval.duration = ( lastDistance / interval.speed ) * HOURS_IN_SECONDS ;
+        }
         
         // Aggiunge l'intervallo al profilo del veicolo
         v.profile.push_back(interval);
