@@ -11,10 +11,11 @@ struct SpeedInterval {
 
 struct Vehicle {
     std::string plate;
-    int startSvincolo;
-    int endSvincolo;
+    int startJunction;
+    int endJunction;
     double startTime;
     std::vector<SpeedInterval> profile;
 };
+
 
 #endif
