@@ -136,6 +136,7 @@ std::string DataProcessor::stats(){
 }
 
 std::string DataProcessor::reset(){
+    //Resetta il tempo a 0
     currentTime = 0;
     return "\nSistema azzerrato con successo!";
 }
@@ -173,6 +174,7 @@ int DataProcessor::decodeInput(const std::string& input){
 
 
 static bool compareId(const PassageByPlate& p1, const PassageByPlate& p2) {
+    //Confronto di id
     return p1.id < p2.id;
 }
 
@@ -227,6 +229,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
