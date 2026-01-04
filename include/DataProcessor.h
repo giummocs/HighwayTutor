@@ -13,7 +13,7 @@ public:
     DataProcessor(std::string filenameHighway, std::string filenamePassages);
 
     //Funzioni pubbliche
-    std::string set_time(const std::string& s);
+    std::string set_time(const std::string& input);
     //Restituisce in un unica stringa tutti i dati richiesti (tutte le violazioni), tra gli istanti currentTime e currentTime+parametro
     //Lancia un eccezione se il tempo inserito è minore o uguale a 0
 
@@ -37,7 +37,6 @@ private:
     struct Violation {int gateStartId; int gateEndId; double averageVelocity; double gateStartTime; double gateEndTime;};
     struct Statistic {int vehiclesNumber = 0; double minTime = std::numeric_limits<double>::infinity(); double maxTime = 0.0;};
     
-    //Uso le mappe come indici perche' mi consente di semplificare gli algoritmi di ricerca delle informazioni, riducendone la complessita grazie all'accesso tramite chiave 
     std::unordered_map<std::string, std::vector<PassageByPlate>> passages; //Contiene tutti i dati letti da passages.txt, organizzati per targa tramite la chiave
     std::unordered_map<std::string, std::vector<Violation>> violations; //Contiene tutte le violazioni, organizzate per targa
     std::unordered_map<int, Statistic> statistics; //Contiene le statistiche di ciascun varco, organizzate per varco
@@ -47,15 +46,24 @@ private:
     void processData();
     //Lancia un eccezione se i file sono scritti nella maniera errata
 
-    int decodeInput(const std::string& s);
+    //Funzione chiamata in set_time() per tradurre l'input ricevuto dall'utente
+    int decodeInput(const std::string& input);
+    //Restituisce il tempo in secondi
+
+    //Funzione usata per il sort di passages, usata in processData()
     static bool compareId(const PassageByPlate& p1, const PassageByPlate& p2);
+
+    //Aggiunge una nuova statistica se l'id non è presente, altrimenti aggiorna i dati già esistenti
     void updateStat(int id, double time);
+
+    //Legge i dati del file e li inserisce in passsages
     void loadFromFile(const std::string& filename);
 
 };
 
 
 #endif
+
 
 
 
