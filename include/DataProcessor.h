@@ -41,8 +41,12 @@ private:
     std::unordered_map<std::string, std::vector<PassageByPlate>> passages; //Contiene tutti i dati letti da passages.txt, organizzati per targa tramite la chiave
     std::unordered_map<std::string, std::vector<Violation>> violations; //Contiene tutte le violazioni, organizzate per targa
     std::unordered_map<int, Statistic> statistics; //Contiene le statistiche di ciascun varco, organizzate per varco
-    
+
+    //Helper functions
+    //Processa tutti i dati contenuti in passages, riempiendo violations e statistics
     void processData();
+    //Lancia un eccezione se i file sono scritti nella maniera errata
+
     int decodeInput(const std::string& s);
     static bool compareId(const PassageByPlate& p1, const PassageByPlate& p2);
     void updateStat(int id, double time);
@@ -52,6 +56,7 @@ private:
 
 
 #endif
+
 
 
 
