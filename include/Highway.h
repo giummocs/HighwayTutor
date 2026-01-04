@@ -14,13 +14,18 @@
 class Highway {
 public:
     //Costruttori
+
     Highway();
     Highway(const std::string& filename);
 
+
     //Funzione per importare dati da file (helper function per il costruttore)
+
     void loadFromFile(const std::string& filename);
 
+
     //Funzioni getter 
+
     const std::vector<double>& getJunctions();
     //Restituisce il vettore con chiave 'S' (svincoli)
     
@@ -41,7 +46,9 @@ public:
     //Lancia un eccezione se key diverso da 'S' o 'V'
     //Lancia un eccezione se id1 e id2 non sono presenti
 
+
     //Funzioni aggiuntive non inerenti al nostro progetto ma potrebbero essere utili in un altro contesto
+
     void printJunctions();
     //Stampa a schermo la lista degli svincoli con la propria distanza
 
@@ -49,15 +56,19 @@ public:
     //Stampa a schermo la lista dei varchi con la propria distanza
 
 private:
-    //Variabile privato
+    //Variabili private
+
     std::unordered_map<char, std::vector<double>> nodes;
 
+
     //Helper functions
+
     bool isDouble(const std::string& s);
     //Restituisce true se una stringa e' convertibile in double, false altrimenti
 };
 
 #endif
+
 
 
 
