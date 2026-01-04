@@ -4,12 +4,14 @@
 #include <limits>
 
 #include "Highway.h"
-//Una classe che ha il compito di prendere insieme i dati di highway.txt e passages.txt e metterli in apposite strutture dati e elaborarli nella maniera corretta
-//al fine di servirli al main, deve essere una sottoclasse di highway cosi da poter leggere e usare anche il file highway.txt
+
+//La classe DataProcessor ha il compito di leggere i dati di highway.txt e passages.txt, metterli in apposite strutture dati e elaborarli nella maniera corretta
 class DataProcessor{
 public:
+    //Costruttori
     DataProcessor();
     DataProcessor(std::string filenameHighway, std::string filenamePassages);
+
     std::string set_time(const std::string& s);
     std::string stats();
     std::string reset();
@@ -40,4 +42,5 @@ private:
 
 
 #endif
+
 
