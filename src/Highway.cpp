@@ -1,7 +1,7 @@
 #include "Highway.h"
 
 Highway::Highway() {
-    //Inizializzazione a valori di default 
+    //Creazione dei due vettori vuoti
     nodes['V'];
     nodes['S'];
 }
@@ -9,13 +9,16 @@ Highway::Highway() {
 Highway::Highway(const std::string& filename) { loadFromFile(filename); }
 
 void Highway::loadFromFile(const std::string& filename) {
+    //Apertura file
     std::ifstream file(filename);
     if (!file.is_open()) 
         throw std::runtime_error("Errore! Impossibile aprire file.");
 
+    //Eliminazione di tutti gli elementi dei due vettori (permette l'overwrite dei dati)
     nodes['S'].clear();
     nodes['V'].clear();
-    
+
+    //Lettura da file
     std::string line;
     while (std::getline(file, line)) {
         
@@ -26,11 +29,12 @@ void Highway::loadFromFile(const std::string& filename) {
 
         while (ss >> temp) {
             for (int i = 0; i < temp.length(); i++) {
+                //Trasformazione in UpperCase delle stringhe in modo da rendere case-insensitive il programma
                 temp[i] = (char)std::toupper(static_cast<unsigned char>(temp[i]));
             }
             words.push_back(temp);
         }
-
+        //Verifica della formattazione del contenuto
         if (words.size() != 2) {
             throw std::runtime_error("Errore! Ogni riga deve contenere 2 argomenti.");
         }
@@ -49,14 +53,15 @@ void Highway::loadFromFile(const std::string& filename) {
     }
 
     file.close();
-    // Validazione vincoli [cite: 25, 26, 27]
+    //Verifica dei requisiti
     if (nodes['V'].size() < 2) 
         throw std::runtime_error("Errore! Requisiti non soddisfatti: devono esserci almeno 2 varchi."); // Almeno due gates
     
-    // Ordinamento per distanza [cite: 24]
+    //Ordinamento per distanza
     std::sort(nodes['V'].begin(), nodes['V'].end());
     std::sort(nodes['S'].begin(), nodes['S'].end());
 
+    //Verifica dei requisiti
     if (nodes['S'][0] > nodes['V'][0] || nodes['S'][nodes['S'].size()-1] < nodes['V'][nodes['V'].size()-1]) 
         throw std::runtime_error("Errore! Requisiti non soddisfatti: deve esserci uno svincolo prima del primo varco e uno svincolo dopo l'ultimo varco.");
 }
@@ -121,7 +126,6 @@ bool Highway::isDouble(const std::string& s) {
 void Highway::printJunctions() {
     for (int i = 0; i < nodes['S'].size(); i++) {
         double dist = nodes['S'][i];
-        ;
         std::cout << "Svincolo " << i+1 << " distanza : " << dist << "km\n";
     }
     return;
@@ -134,6 +138,7 @@ void Highway::printGates() {
     }
     return;
 }
+
 
 
 
