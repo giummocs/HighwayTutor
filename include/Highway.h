@@ -20,7 +20,6 @@ public:
     void loadFromFile(const std::string& filename);
 
     //Funzioni getter
-
     int getSize(char key);
     //Restituisce il numero di passaggi di un dato tipo (key)
     //Lancia un eccezione se key diverso da 'S' o 'V'
@@ -55,6 +54,7 @@ private:
 };
 
 #endif
+
 
 
 
