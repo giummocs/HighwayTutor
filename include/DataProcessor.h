@@ -1,42 +1,42 @@
-#ifndef DATAGENERATOR_H
-#define DATAGENERATOR_H
+#ifndef DATAPROCESS_H
+#define DATAPROCESS_H
 
-#include <cstdlib>  
-#include <ctime>       
-#include <iomanip>  
+#include <limits>
 
-#include "Vehicle.h"
 #include "Highway.h"
+//Una classe che ha il compito di prendere insieme i dati di highway.txt e passages.txt e metterli in apposite strutture dati e elaborarli nella maniera corretta
+//al fine di servirli al main, deve essere una sottoclasse di highway cosi da poter leggere e usare anche il file highway.txt
+class DataProcessor{
+public:
+    DataProcessor();
+    DataProcessor(std::string filenameHighway, std::string filenamePassages);
+    std::string set_time(const std::string& s);
+    std::string stats();
+    std::string reset();
 
-class DataGenerator
-{
-    public:
-        void startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut);
-        DataGenerator(const std::string& highwayFile);
-    private:
-        std::vector<int> firstGateForJunction;
-        Highway hw;
-        std::unordered_map<std::string, bool> plates;
-        double currentSimulationTime;
+private:
+    const int SECONDS_IN_HOURS = 3600;
+    const int SECONDS_IN_MINUTE = 60;
+    double currentTime;
+    double totalAverageVelocity;
+    Highway hw;
 
-        const int HOURS_IN_SECONDS = 3600 ;
-        const int NUM_VEHICLES = 10000;         
-        const double MIN_TIME_GAP = 0.5;        
-        const double MAX_TIME_GAP = 10.0;       
-        const int MIN_SPEED = 80;
-        const int MAX_SPEED = 190;
-        const int MIN_DURATION_MIN = 5;
-        const int MAX_DURATION_MIN = 15;
-        const int NUM_OF_LETTERS= 26;
-        const int NUM_OF_DIGITS= 10;     
+    struct PassageByPlate {int id; double time;};
+    struct Violation {int gateStartId; int gateEndId; double averageVelocity; double gateStartTime; double gateEndTime;};
+    struct Statistic {int vehiclesNumber = 0; double minTime = std::numeric_limits<double>::infinity(); double maxTime = 0.0;};
     
-        std::string generatePlate();
-        int randomInt(int min, int max);
-        double randomDouble(double min, double max);    
-        void generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle);
-        void generatePassages(std::ofstream& outFile, const Vehicle& vehicle,double kmEntry, double kmExit);
-        int findFirstGateForJunctions(int junctionsId);
-        void generateProfile(Vehicle& v, double totalDistance);
+    //Uso le mappe come indici perche' mi consente di semplificare gli algoritmi di ricerca delle informazioni, riducendone la complessita grazie all'accesso tramite chiave 
+    std::unordered_map<std::string, std::vector<PassageByPlate>> passages;
+    std::unordered_map<std::string, std::vector<Violation>> violations;
+    std::unordered_map<int, Statistic> statistics;
+    
+    void processData();
+    int decodeInput(const std::string& s);
+    static bool compareId(const PassageByPlate& p1, const PassageByPlate& p2);
+    void updateStat(int id, double time);
+    void loadFromFile(const std::string& filename);
+
 };
+
 
 #endif
