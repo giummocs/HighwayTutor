@@ -12,7 +12,10 @@ public:
     DataProcessor();
     DataProcessor(std::string filenameHighway, std::string filenamePassages);
 
+    //Funzioni pubbliche
     std::string set_time(const std::string& s);
+    //Restituisce in un unica stringa tutti i dati richiesti, tra gli istanti currentTime e currentTime+parametro
+    //Lancia un'eccezione se il tempo inserito e' minore o uguale a 0.
     std::string stats();
     std::string reset();
 
@@ -42,5 +45,6 @@ private:
 
 
 #endif
+
 
 
