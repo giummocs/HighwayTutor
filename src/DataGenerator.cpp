@@ -173,9 +173,9 @@ void DataGenerator::startHighwaySimulation(std::ofstream& runsOut, std::ofstream
         char J = 'S';
         int junctionsSize = static_cast<int>(hw.getSize(J));
         int entryId = randomInt(1, junctionsSize- 1);
-        int exitId = randomInt(entryIdx + 1, junctionsSize);
+        int exitId = randomInt(entryId + 1, junctionsSize);
         vehicle.startSvincolo = entryId;
-        vehicle.endSvincolo = entryId;
+        vehicle.endSvincolo = exitId;
 
         double kmEntry = hw.getDistance('S', entryId);
         double kmExit = hw.getDistance('S', exitId);
