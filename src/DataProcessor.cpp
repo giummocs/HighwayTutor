@@ -19,16 +19,19 @@ void DataProcessor::processData(){
 
     //Complessita' totale O(n), dove n e' il numero delle righe del file passages.txt
     //Scorro la mappa con chiave plate, cosi da scorrere un veicolo per volta
+    //Ogni elemento della mappa, cioè ogni veicolo, corrisponde a un vettore che contiene tutti i varchi che il veicolo ha attraversato
     for (const auto& mapElement : passages) {
+        
         //Ordino i passaggi per id, cosi da riempire le mappe con gli id gia ordinati
         std::sort(mapElement.second.begin(), mapElement.second.end(), compareId);
 
+        //Numero di varchi che il veicolo ha attraversato
         std::size_t gatesNumber = mapElement.second.size();
 
         //Salvo gia il primo varco
         updateStat(mapElement.second[0].id, mapElement.second[0].time);
 
-        //Scorro tutti i gate attraversati da una macchina precisa, analizzandone due consecutivi alla volta, tramite i e i+1
+        //Scorro tutti i varchi attraversati da una macchina precisa, analizzandone due consecutivi alla volta, tramite i e i+1
         for(std::size_t i=0; i+1 < gatesNumber; i++){
             int idGate1 = mapElement.second[i].id;
             int idGate2 = mapElement.second[i+1].id;
@@ -45,20 +48,20 @@ void DataProcessor::processData(){
                 throw std::runtime_error("Errore! File non valido: errato tempo di passaggio di due varchi!");
             }
 
-            //Salvo i dati per set_time
-            //Non controllo il caso di risultati negativi in quanto e' gia presente qui sopra
-            double distanceDifference = hw.getDistanceBetween('V', idGate1, idGate2);
-            double timeDifference = timeGate1 - timeGate2;
+            //Salvo i dati in violations, utile a set_time
+            double distanceDifference = hw.getDistanceBetween('V', idGate1, idGate2); //Distanza tra due varchi
+            double timeDifference = timeGate1 - timeGate2; //Differenza di tempo tra i due varchi
             double averageVelocity = distanceDifference / (timeDifference/SECONDS_IN_HOURS);
 
+            //Se la velocità media supera i 130 aggiungo una violazione
             if(averageVelocity > 130){
                 violations[mapElement.first].push_back({idGate1, idGate2, averageVelocity, timeGate1, timeGate2});
             }
 
-            //Salvo i dati per stats
+            //Salvo i dati in statistics, utile a stats
             updateStat(idGate2, timeGate2);
 
-            //Aggiungo la distanza e il tempo percorso dalla macchina al totale (utile al comando stats)
+            //Aggiungo la distanza e il tempo percorso al totale (utile al comando stats)
             totalDistance += distanceDifference;
             totalTime += timeDifference;
         }
@@ -67,9 +70,9 @@ void DataProcessor::processData(){
 }
 
 
-std::string DataProcessor::set_time(const std::string& s){
+std::string DataProcessor::set_time(const std::string& input){
     
-    int addTime = decodeInput(s);
+    int addTime = decodeInput(input);
 
     if(addTime <= 0){
         throw std::runtime_error("Errore! Tempo inserito non valido!");
@@ -137,17 +140,17 @@ std::string DataProcessor::reset(){
 }
 
 //Traduce il tempo ricevuto come parametro da stringa a intero
-int DataProcessor::decodeInput(const std::string& s){
+int DataProcessor::decodeInput(const std::string& input){
     bool hasM = false;
     std::string numberPart;
     int result;
 
     //Controllo ultimo carattere e tolgo m
-    if (s.back() == 'm') {
+    if (input.back() == 'm') {
         hasM = true;
-        numberPart = s.substr(0, s.size() - 1);
+        numberPart = input.substr(0, input.size() - 1);
     } else {
-        numberPart = s;
+        numberPart = input;
     }
 
     //La parte numerica deve esistere
@@ -216,6 +219,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     file.close();
 
 }
+
 
 
 
