@@ -132,21 +132,7 @@ bool Highway::isValidId(int id, std::vector<double> v) {
     return (id >= 1 && id <= v.size());
 }
 
-void Highway::printJunctions() {
-    for (int i = 0; i < nodes['S'].size(); i++) {
-        double dist = nodes['S'][i];
-        std::cout << "Svincolo " << i+1 << " distanza : " << dist << "km\n";
-    }
-    return;
-}
 
-void Highway::printGates() {
-    for (int i = 0; i < nodes['V'].size(); i++) {
-        double dist = nodes['V'][i];
-        std::cout << "Varco " << i+1 << " distanza : " << dist << "km\n";
-    }
-    return;
-}
 
 
 
