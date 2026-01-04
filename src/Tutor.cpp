@@ -1,11 +1,15 @@
+//FILE REALIZZATO DA STEFANI GIANMARIA
 
 #include "DataProcessor.h"
 #include <iostream>
 #include <memory>
 
+//Separa il comando da eventuali parametri
 void splitInput(std::string input, std::string& command, std::string& parameter){
-    //Separo il comando da eventuali parametri
+    //Find ritorna un l'indice se trova ' ', altrimenti ritorna un valore molto alto
     size_t splitPoint = input.find(' ');
+
+    //Se l'indice è inferiore alla lunghezza della stringa allora find ha trovato ' ' e quindi esistono dei parametri
     if (splitPoint < input.size()) {
         command = input.substr(0, splitPoint);
         parameter  = input.substr(splitPoint + 1);
@@ -22,9 +26,10 @@ int main() {
     std::string command = "";
     std::string parameter = "";
 
+    //Puntatore
     std::unique_ptr<DataProcessor> dp = nullptr;
 
-    //Lettura dei file Highway.txt e Passsages.txt e riempimento dei dati
+    //Crea un oggetto DataProcessor, che tramite costruttore effettua lettura dei file Highway.txt e Passsages.txt e riempimento dei dati
     try {
         dp = std::make_unique<DataProcessor>("Data/Highway.txt","Data/Passages.txt");
     }
@@ -36,10 +41,13 @@ int main() {
     std::cout << "------BENVENUTO IN TUTOR AUTOSTRADALE------";
     std::cout << "Inserisci un comando>>";
 
+    //Attende un input
     while (std::cin >> input) {
-        
+
+        //Separa il comando dai parametri
         splitInput(input, command, parameter);
 
+        //Chiama la funzione corrispondente
         if (command == "set_time" && parameter != "") {
             try{
                 std::cout << dp->set_time(parameter);
@@ -70,6 +78,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
