@@ -17,7 +17,7 @@ public:
     Highway();
     Highway(const std::string& filename);
 
-    //Funzione per caricare dati da file (helper function per il costruttore)
+    //Funzione per importare dati da file (helper function per il costruttore)
     void loadFromFile(const std::string& filename);
 
     //Funzioni getter 
@@ -58,6 +58,7 @@ private:
 };
 
 #endif
+
 
 
 
