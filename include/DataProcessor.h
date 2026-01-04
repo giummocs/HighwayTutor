@@ -16,7 +16,7 @@ public:
 
 private:
     const int SECONDS_IN_HOURS = 3600;
-    const int SECONDS_IN_MINUTE = 60;
+    const int SECONDS_IN_MINUTES = 60;
     double currentTime;
     double totalAverageVelocity;
     Highway hw;
@@ -40,3 +40,4 @@ private:
 
 
 #endif
+
