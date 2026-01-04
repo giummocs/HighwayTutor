@@ -11,17 +11,24 @@
 #include <cmath>
 #include <stdexcept>
 
-
 class Highway {
 public:
     //Costruttori
     Highway();
     Highway(const std::string& filename);
+
+    //Funzione per caricare dati da file (helper function per il costruttore)
     void loadFromFile(const std::string& filename);
+
     //Funzioni getter 
+
+    //Restituisce il vettore con chiave 'S' (svincoli)
     const std::vector<double>& getJunctions();
+    //Restituisce il vettore con chiave 'V' (varchi)
     const std::vector<double>& getGates();
 
+    //Funzioni getter che accedono alla data chiave della mappa
+    //Lanciano eccezioni se key diverso da 'S' o 'V'
     int getSize(char key);
     double getDistance(char key, int id);
     double getDistanceBetween(char key, int id1, int id2);
@@ -31,16 +38,15 @@ public:
     void printGates();
 
 private:
-    //Abbiamo scelto di implementare una mappa contenente due vettori per differenziare al meglio varchi e svincoli le cui chiavi corrispondono all'input del file di testo (S o V).
-    //Il che facilita molto la logica negli altri file: codice piu facile da leggere e alleggerito nella ricerca di varchi e svincoli.
+    //Variabile privato
     std::unordered_map<char, std::vector<double>> nodes;
 
-    //Helper functions
+    //Helper function per il controllo se una stringa e' convertibile in double
     bool isDouble(const std::string& s);
 };
 
-
 #endif
+
 
 
 
