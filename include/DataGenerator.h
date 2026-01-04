@@ -1,13 +1,8 @@
 #ifndef DATAGENERATOR_H
 #define DATAGENERATOR_H
 
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <string>
 #include <cstdlib>  
-#include <ctime>    
-#include <cmath>    
+#include <ctime>       
 #include <iomanip>  
 
 #include "Vehicle.h"
