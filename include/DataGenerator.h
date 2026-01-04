@@ -19,7 +19,7 @@ class DataGenerator
         std::unordered_map<std::string, bool> plates;
         double currentSimulationTime;
 
-        const int HOURS_IN_SECOND = 3600 ;
+        const int HOURS_IN_SECONDS = 3600 ;
         const int NUM_VEHICLES = 10000;         
         const double MIN_TIME_GAP = 0.5;        
         const double MAX_TIME_GAP = 10.0;       
