@@ -31,30 +31,31 @@ int main()
     std::cout << "Generating 10000 vehicles..." << std::endl;
 
     // Nomi dei file di output
-    std::string outRuns = "Runs.txt";
-    std::string outPassages = "Passages.txt";
+    std::string pathRuns = "Data/Runs.txt";
+    std::string pathPassages = "Data/Passages.txt";
 
-    std::ofstream runsOut(outRuns);
-    std::ofstream passOut(outPassages);
+    std::ofstream runsOutput(pathRuns);
+    std::ofstream passOutput(pathPassages);
 
     // Controllo se i file si sono aperti correttamente
-    if (!runsOut || !passOut) {
+    if (!runsOutput || !passOutput) {
         std::cerr << "ERRORE: Impossibile aprire i file di output!" << std::endl;
         return 1;
     }
 
     // CHIAMATA ALLA FUNZIONE
-    simulator->startHighwaySimulation(runsOut, passOut);
+    simulator->startHighwaySimulation(runsOutput, passOutput);
 
     // Chiusura dei file
-    runsOut.close();
-    passOut.close();
+    runsOutput.close();
+    passOutput.close();
 
     std::cout << "Simulation completed." << std::endl;
-    std::cout << "Data saved in: " << outRuns << " and " << outPassages << std::endl;
+    std::cout << "Data saved in: " << pathRuns << " and " << pathPassages << std::endl;
 
     return 0;
 }
+
 
 
 
