@@ -15,7 +15,7 @@ int main()
     std::cout << "--- Starting Highway Simulator ---" << std::endl;
 
     // Nome del file di input dell'autostrada
-    std::string highwayFile = "Data/Highway.txt";
+    std::string highwayFile = "../Data/Highway.txt";
 
     // Inizializzazione del simulatore
     std::unique_ptr<DataGenerator> simulator = nullptr;
@@ -31,8 +31,8 @@ int main()
     std::cout << "Generating 10000 vehicles..." << std::endl;
 
     // Nomi dei file di output
-    std::string pathRuns = "Data/Runs.txt";
-    std::string pathPassages = "Data/Passages.txt";
+    std::string pathRuns = "../Data/Runs.txt";
+    std::string pathPassages = "../Data/Passages.txt";
 
     std::ofstream runsOutput(pathRuns);
     std::ofstream passOutput(pathPassages);
@@ -55,6 +55,7 @@ int main()
 
     return 0;
 }
+
 
 
 
