@@ -56,20 +56,14 @@ int main() {
 
         //Chiama la funzione corrispondente
         if (command == "set_time") {
-            string parameter;
-            
-            if (ss >> parameter) {
-                try{
-                    std::cout << tutor->set_time(parameter);
-                }
-                catch(const std::runtime_error& e){
-                    std::cerr << e.what() << std::endl;
-                }
+        
+            try{
+                 std::cout << tutor->set_time(parameter);
             }
-            else {
-                std::cout << "Errore: set_time richiede un numero intero." << std::endl;
+            catch(const std::runtime_error& e){
+                 std::cerr << e.what() << std::endl;
             }
-        } 
+        }
         else if (command == "stats") {
             std::cout << tutor->stats();
         }
@@ -81,13 +75,14 @@ int main() {
             done = true;
         }    
         else {
-            std::cerr << "\nErrore! Commando non valido!";
+            std::cerr << "Errore! Comando non valido!";
         }
 
     }
     return 0;
 
 }
+
 
 
 
