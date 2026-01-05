@@ -22,8 +22,8 @@ void splitInput(std::string input, std::string& command, std::string& parameter)
 
 int main() {
 
-    std::string line;
-    std::string command;
+    std::string line = "";
+    std::string command = "";
     bool done = false;
 
     //Puntatore
@@ -83,6 +83,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
