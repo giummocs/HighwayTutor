@@ -21,7 +21,7 @@ void DataProcessor::processData(){
     //Complessita' totale O(n), dove n e' il numero delle righe del file passages.txt
     //Scorre la mappa con chiave plate, cosi da scorrere un veicolo per volta
     //Ogni elemento della mappa, cioè ogni veicolo, corrisponde a un vettore che contiene tutti i varchi che il veicolo ha attraversato
-    for (const auto& mapElement : passages) {
+    for (auto& mapElement : passages) {
         
         //Ordina i passaggi per id, cosi da riempire le mappe con gli id gia ordinati
         std::sort(mapElement.second.begin(), mapElement.second.end(), compareId);
@@ -173,7 +173,7 @@ int DataProcessor::decodeInput(const std::string& input){
 }
 
 
-static bool compareId(const PassageByPlate& p1, const PassageByPlate& p2) {
+bool DataProcessor::compareId(const PassageByPlate& p1, const PassageByPlate& p2) {
     //Confronto di id
     return p1.id < p2.id;
 }
@@ -229,6 +229,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
