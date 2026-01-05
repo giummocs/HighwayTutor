@@ -44,13 +44,16 @@ int main() {
         return 1; //Interrompe il main
     }
 
-    std::cout << "------BENVENUTO IN TUTOR AUTOSTRADALE------\n";
+    std::cout << "------BENVENUTO IN TUTOR AUTOSTRADALE------" << std::endl;;
 
     //Attende un input
     while (!done) {
         std::cout << "\nInserisci un comando>>";
 
-        if (!std::getline(std::cin, line)) break;
+        if (!std::getline(std::cin, line)) {
+            std::cerr << "Errore nella lettura riga" << std::endl;
+            continue;
+        }
 
         splitInput(line, command, parameter);
 
@@ -65,10 +68,10 @@ int main() {
             }
         }
         else if (command == "stats") {
-            std::cout << tutor->stats();
+            std::cout << tutor->stats()<< std::endl;
         }
         else if (command == "reset") {
-            std::cout << tutor->reset();
+            std::cout << tutor->reset() << std::endl;
         }
         else if (command == "q" || command == "Q") {
             std::cout << "Uscita in corso..." << std::endl;
@@ -82,6 +85,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
