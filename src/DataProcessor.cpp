@@ -51,7 +51,7 @@ void DataProcessor::processData(){
 
             //Salva i dati in violations, utile a set_time
             double distanceDifference = hw.getDistanceBetween('V', idGate1, idGate2); //Distanza tra due varchi
-            double timeDifference = timeGate1 - timeGate2; //Differenza di tempo tra i due varchi
+            double timeDifference = timeGate2 - timeGate1; //Differenza di tempo tra i due varchi
             double averageVelocity = distanceDifference / (timeDifference/SECONDS_IN_HOURS);
 
             //Se la velocità media supera i 130 aggiungo una violazione
@@ -229,6 +229,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
