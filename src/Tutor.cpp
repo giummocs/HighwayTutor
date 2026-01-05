@@ -70,7 +70,7 @@ int main() {
             return 0;
         }
         else {
-            std::cerr << "\nErrore! Commando invalido!";
+            std::cerr << "\nErrore! Commando non valido!";
             std::cout << "\nInserisci un comando>>";
         }
 
@@ -78,6 +78,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
