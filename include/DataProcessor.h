@@ -1,7 +1,7 @@
 //FILE REALIZZATO DA STEFANI GIANMARIA
 
-#ifndef DATAPROCESS_H
-#define DATAPROCESS_H
+#ifndef DATAPROCESSOR_H
+#define DATAPROCESSOR_H
 
 #include <limits>
 
@@ -63,6 +63,7 @@ private:
 
 
 #endif
+
 
 
 
