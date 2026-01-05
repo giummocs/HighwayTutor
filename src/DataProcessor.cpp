@@ -115,7 +115,7 @@ std::string DataProcessor::stats(){
     int totalGates = hw.getSize('V');
 
     //Scorre tutti i varchi dell'autostrada
-    for (std::size_t i=0; i < totalGates; i++) {
+    for (std::size_t i=1; i <= totalGates; i++) {
         int vehiclesNumber = statistics[i].vehiclesNumber;
         double minTime = statistics[i].minTime;
         double maxTime = statistics[i].maxTime;
@@ -229,6 +229,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
