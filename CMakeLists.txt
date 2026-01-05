@@ -13,10 +13,11 @@ add_library(libdataprocessor SHARED src/DataProcessor.cpp)
 target_link_libraries(libdataprocessor libhighway)
 
 add_executable(Simulator src/Simulator.cpp)
-target_link_libraries(Simulator libhighway libdatagenerator)
+target_link_libraries(Simulator libdatagenerator)
 
 add_executable(Tutor src/Tutor.cpp)
-target_link_libraries(Tutor libhighway libdataprocessor)
+target_link_libraries(Tutor libdataprocessor)
+
 
 
 
