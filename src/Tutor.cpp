@@ -22,9 +22,9 @@ void splitInput(std::string input, std::string& command, std::string& parameter)
 
 int main() {
 
-    std::string input = "";
-    std::string command = "";
-    std::string parameter = "";
+    std::string line;
+    std::string command;
+    bool done = false;
 
     //Puntatore
     std::unique_ptr<DataProcessor> tutor = nullptr;
@@ -42,32 +42,43 @@ int main() {
     std::cout << "\nInserisci un comando>>";
 
     //Attende un input
-    while (std::cin >> input) {
+    while (!done) {
 
-        //Separa il comando dai parametri
-        splitInput(input, command, parameter);
+        if (!std::getline(std::cin, line)) break;
+
+        std::stringstream ss(line);
+        ss >> command;
+
+        if (command == "q" || command == "Q") {
+            std::cout << "Uscita in corso..." << std::endl;
+            done = true;
+        }
 
         //Chiama la funzione corrispondente
-        if (command == "set_time" && parameter != "") {
-            try{
-                std::cout << tutor->set_time(parameter);
+        if (command == "set_time") {
+            int parameter;
+            
+            if (ss >> parameter) {
+                try{
+                    std::cout << tutor->set_time(parameter);
+                }
+                catch(const std::runtime_error& e){
+                    std::cerr << e.what() << std::endl;
+                }
             }
-            catch(const std::runtime_error& e){
-                std::cerr << e.what() << std::endl;
+            else {
+                std::cout << "Errore: set_time richiede un numero intero." << std::endl;
             }
             
             std::cout << "\nInserisci un comando>>";
         } 
-        else if (command == "stats" && parameter == "") {
+        else if (command == "stats") {
             std::cout << tutor->stats();
             std::cout << "\nInserisci un comando>>";
-        } 
-        else if (command == "reset" && parameter == "") {
+        }
+        else if (command == "reset") {
             std::cout << tutor->reset();
             std::cout << "\nInserisci un comando>>";
-        }
-        else if (command == "Q" || command == "q"){
-            return 0;
         }
         else {
             std::cerr << "\nErrore! Commando non valido!";
@@ -78,6 +89,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
