@@ -23,7 +23,7 @@ int main()
         simulator = std::make_unique<DataGenerator>(highwayFile);
     }
     catch(const std::runtime_error& e){
-        cerr << e.what() << endl;
+        std::cerr << e.what() << std::endl;
         return 1;
     }
     
@@ -55,4 +55,5 @@ int main()
 
     return 0;
 }
+
 
