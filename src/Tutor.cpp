@@ -56,28 +56,29 @@ int main() {
                 std::cerr << e.what() << std::endl;
             }
             
-            std::cout << "Inserisci un comando>>";
+            std::cout << "\nInserisci un comando>>";
         } 
         else if (command == "stats" && parameter == "") {
             std::cout << tutor->stats();
-            std::cout << "Inserisci un comando>>";
+            std::cout << "\nInserisci un comando>>";
         } 
         else if (command == "reset" && parameter == "") {
             std::cout << tutor->reset();
-            std::cout << "Inserisci un comando>>";
+            std::cout << "\nInserisci un comando>>";
         }
         else if (command == "Q" || command == "q"){
             return 0;
         }
         else {
-            std::cerr << "Errore! Commando invalido!";
-            std::cout << "Inserisci un comando>>";
+            std::cerr << "\nErrore! Commando invalido!";
+            std::cout << "\nInserisci un comando>>";
         }
 
     }
     return 0;
 
 }
+
 
 
 
