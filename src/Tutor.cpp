@@ -44,11 +44,11 @@ int main() {
         return 1; //Interrompe il main
     }
 
-    std::cout << "------BENVENUTO IN TUTOR AUTOSTRADALE------";
+    std::cout << "------BENVENUTO IN TUTOR AUTOSTRADALE------\n";
 
     //Attende un input
     while (!done) {
-        std::cout << "\n\nInserisci un comando>>";
+        std::cout << "\nInserisci un comando>>";
 
         if (!std::getline(std::cin, line)) break;
 
@@ -75,13 +75,14 @@ int main() {
             done = true;
         }    
         else {
-            std::cerr << "Errore! Comando non valido!";
+            std::cerr << "Errore! Comando non valido!" << std::endl;
         }
 
     }
     return 0;
 
 }
+
 
 
 
