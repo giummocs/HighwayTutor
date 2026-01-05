@@ -215,7 +215,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
             try {
                 int id = std::stoi(words[0]);
                 std::string plate = words[1];
-                double time = std::stod(words[3]);
+                double time = std::stod(words[2]);
 
                 passages[plate].push_back({id, time});
             } catch (...) {
@@ -229,6 +229,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
