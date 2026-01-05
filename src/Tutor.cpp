@@ -39,20 +39,15 @@ int main() {
     }
 
     std::cout << "------BENVENUTO IN TUTOR AUTOSTRADALE------";
-    std::cout << "\nInserisci un comando>>";
 
     //Attende un input
     while (!done) {
+        std::cout << "\nInserisci un comando>>";
 
         if (!std::getline(std::cin, line)) break;
 
         std::stringstream ss(line);
         ss >> command;
-
-        if (command == "q" || command == "Q") {
-            std::cout << "Uscita in corso..." << std::endl;
-            done = true;
-        }
 
         //Chiama la funzione corrispondente
         if (command == "set_time") {
@@ -69,26 +64,26 @@ int main() {
             else {
                 std::cout << "Errore: set_time richiede un numero intero." << std::endl;
             }
-            
-            std::cout << "\nInserisci un comando>>";
         } 
         else if (command == "stats") {
             std::cout << tutor->stats();
-            std::cout << "\nInserisci un comando>>";
         }
         else if (command == "reset") {
             std::cout << tutor->reset();
-            std::cout << "\nInserisci un comando>>";
         }
+        else if (command == "q" || command == "Q") {
+            std::cout << "Uscita in corso..." << std::endl;
+            done = true;
+        }    
         else {
             std::cerr << "\nErrore! Commando non valido!";
-            std::cout << "\nInserisci un comando>>";
         }
 
     }
     return 0;
 
 }
+
 
 
 
