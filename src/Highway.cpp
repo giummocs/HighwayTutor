@@ -70,16 +70,6 @@ void Highway::loadFromFile(const std::string& filename) {
         throw std::runtime_error("Errore! Requisiti non soddisfatti: deve esserci uno svincolo prima del primo varco e uno svincolo dopo l'ultimo varco.");
 }
 
-const std::vector<double>& Highway::getJunctions() {
-    //[] invece che at() perche' elemento con chiave 'S' viene sicuramente creato con qualunque costruttore
-    return nodes['S'];
-}
-
-const std::vector<double>& Highway::getGates() {
-    //[] invece che at() perche' elemento con chiave 'S' viene sicuramente creato con qualunque costruttore
-    return nodes['V'];
-}
-
 int Highway::getSize(char key) {
     if (!isValidKey(key)) {
         throw std::invalid_argument("Errore! Chiave non valida");
@@ -133,6 +123,7 @@ bool Highway::isValidKey(char key) {
 bool Highway::isValidId(int id, std::vector<double> v) {
     return (id >= 1 && id <= v.size());
 }
+
 
 
 
