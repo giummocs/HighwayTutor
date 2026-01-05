@@ -72,14 +72,15 @@ void DataProcessor::processData(){
 
 
 std::string DataProcessor::set_time(const std::string& input){
+    bool noViolations = true;
+    
     //Chiama decodeInput per decodificare l'input
     int addTime = decodeInput(input);
-
     if(addTime <= 0){
         throw std::runtime_error("Errore! Tempo inserito non valido!");
     }
-
     double newTime = currentTime + addTime;
+    
     std::string output = "\nInfrazioni commesse tra gli istanti "+std::to_string(currentTime)+" e "+std::to_string(newTime)+":";
 
     //Scorre tutte le violazioni
@@ -87,7 +88,6 @@ std::string DataProcessor::set_time(const std::string& input){
         std::size_t gatesNumber = mapElement.second.size();
 
         for(std::size_t i=0; i+1 < gatesNumber; i++){
-
             int gateStartId = mapElement.second[i].gateStartId;
             int gateEndId = mapElement.second[i].gateEndId;
             double gateStartTime = mapElement.second[i].gateStartTime;
@@ -98,11 +98,13 @@ std::string DataProcessor::set_time(const std::string& input){
             if(gateStartTime > currentTime && gateEndTime < newTime){
                 output += "\nInfrazione";
                 output += "\nTarga: "+mapElement.first+"\nTratta: varco "+std::to_string(gateStartId)+" - varco "+std::to_string(gateEndId)+"\nVelocità media: "+std::to_string(averageVelocity)+"\nIstante di passaggio varco "+std::to_string(gateStartId)+": "+std::to_string(gateStartTime)+"\nIstante di passaggio varco "+std::to_string(gateEndId)+": "+std::to_string(gateEndTime)+"\n";
+                noViolations = false; //E' presente almeno una violazione
             }
         }
     }
 
-    if(violations.size() == 0) output += "\nNessuna infrazione.";
+    //Se non e' presente alcuna violazione aggiorna l'output
+    if(noViolations) output += "\nNessuna infrazione.";
 
     //Imposta il nuovo tempo
     currentTime = newTime;
@@ -229,6 +231,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
