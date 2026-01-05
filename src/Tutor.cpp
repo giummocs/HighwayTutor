@@ -27,11 +27,11 @@ int main() {
     std::string parameter = "";
 
     //Puntatore
-    std::unique_ptr<DataProcessor> dp = nullptr;
+    std::unique_ptr<DataProcessor> tutor = nullptr;
 
     //Crea un oggetto DataProcessor, che tramite costruttore effettua lettura dei file Highway.txt e Passsages.txt e riempimento dei dati
     try {
-        dp = std::make_unique<DataProcessor>("Data/Highway.txt","Data/Passages.txt");
+        tutor = std::make_unique<DataProcessor>("Data/Highway.txt","Data/Passages.txt");
     }
     catch (const std::runtime_error& e) {
         std::cerr << e.what() << std::endl;
@@ -50,7 +50,7 @@ int main() {
         //Chiama la funzione corrispondente
         if (command == "set_time" && parameter != "") {
             try{
-                std::cout << dp->set_time(parameter);
+                std::cout << tutor->set_time(parameter);
             }
             catch(const std::runtime_error& e){
                 std::cerr << e.what() << std::endl;
@@ -59,11 +59,11 @@ int main() {
             std::cout << "Inserisci un comando>>";
         } 
         else if (command == "stats" && parameter == "") {
-            std::cout << dp->stats();
+            std::cout << tutor->stats();
             std::cout << "Inserisci un comando>>";
         } 
         else if (command == "reset" && parameter == "") {
-            std::cout << dp->reset();
+            std::cout << tutor->reset();
             std::cout << "Inserisci un comando>>";
         }
         else if (command == "Q" || command == "q"){
@@ -78,6 +78,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
