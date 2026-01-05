@@ -155,13 +155,13 @@ int DataProcessor::decodeInput(const std::string& input){
     }
 
     //La parte numerica deve esistere
-    if (numberPart.empty()) throw std::runtime_error("Errore! File non valido: ");
+    if (numberPart.empty()) throw std::runtime_error("Errore! Comando inserito non valido!");
 
     //Conversione, se la parte numerica non è valida lancia l'eccezione
     try {
         result = std::stoi(numberPart);
     } catch (...) {
-        throw std::runtime_error("Errore! File non valido: ");
+        throw std::runtime_error("Errore! Comando inserito non valido!");
     }
 
     //Se è presente m, moltiplico per 60 per convertire in secondi
@@ -229,6 +229,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
