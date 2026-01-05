@@ -44,7 +44,7 @@ int main()
     }
 
     // CHIAMATA ALLA FUNZIONE
-    simulator.startHighwaySimulation(runsOut, passOut);
+    simulator->startHighwaySimulation(runsOut, passOut);
 
     // Chiusura dei file
     runsOut.close();
@@ -55,5 +55,6 @@ int main()
 
     return 0;
 }
+
 
 
