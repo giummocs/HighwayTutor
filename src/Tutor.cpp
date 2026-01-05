@@ -5,17 +5,22 @@
 #include <memory>
 
 //Separa il comando da eventuali parametri
-void splitInput(std::string input, std::string& command, std::string& parameter){
-    //Find ritorna un l'indice se trova ' ', altrimenti ritorna un valore molto alto
-    size_t splitPoint = input.find(' ');
-
-    //Se l'indice è inferiore alla lunghezza della stringa allora find ha trovato ' ' e quindi esistono dei parametri
-    if (splitPoint < input.size()) {
-        command = input.substr(0, splitPoint);
-        parameter  = input.substr(splitPoint + 1);
-    } else {
-        command = input;
-        parameter  = "";
+void splitInput(std::string line, std::string& command, std::string& parameter){
+    std::stringstream ss(line);
+    std::string temp;
+    std::vector<std::string> words;
+    while (ss >> temp) {
+        words.push_back(temp);
+    }
+    if (words.size() == 1 ) {
+        command = words[0];
+    }
+    else if (words.size() == 2) {
+        command = words[0];
+        parameter = words[1];
+    }
+    else {
+        command = "";
     }
 }
 
@@ -24,6 +29,7 @@ int main() {
 
     std::string line = "";
     std::string command = "";
+    std::string parameter = "";
     bool done = false;
 
     //Puntatore
@@ -46,8 +52,7 @@ int main() {
 
         if (!std::getline(std::cin, line)) break;
 
-        std::stringstream ss(line);
-        ss >> command;
+        splitInput(line, command, parameter);
 
         //Chiama la funzione corrispondente
         if (command == "set_time") {
@@ -83,6 +88,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
