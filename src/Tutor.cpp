@@ -39,7 +39,7 @@ int main() {
     }
 
     std::cout << "------BENVENUTO IN TUTOR AUTOSTRADALE------";
-    std::cout << "Inserisci un comando>>";
+    std::cout << "\nInserisci un comando>>";
 
     //Attende un input
     while (std::cin >> input) {
@@ -78,6 +78,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
