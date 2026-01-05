@@ -37,7 +37,7 @@ int main() {
 
     //Crea un oggetto DataProcessor, che tramite costruttore effettua lettura dei file Highway.txt e Passsages.txt e riempimento dei dati
     try {
-        tutor = std::make_unique<DataProcessor>("Data/Highway.txt","Data/Passages.txt");
+        tutor = std::make_unique<DataProcessor>("../Data/Highway.txt","../Data/Passages.txt");
     }
     catch (const std::runtime_error& e) {
         std::cerr << e.what() << std::endl;
@@ -85,6 +85,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
