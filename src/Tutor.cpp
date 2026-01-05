@@ -48,7 +48,7 @@ int main() {
 
     //Attende un input
     while (!done) {
-        std::cout << "\nInserisci un comando>>";
+        std::cout << "\n\nInserisci un comando>>";
 
         if (!std::getline(std::cin, line)) break;
 
@@ -82,6 +82,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
