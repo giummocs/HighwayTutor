@@ -51,7 +51,7 @@ int main() {
 
         //Chiama la funzione corrispondente
         if (command == "set_time") {
-            int parameter;
+            string parameter;
             
             if (ss >> parameter) {
                 try{
@@ -83,6 +83,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
