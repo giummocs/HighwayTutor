@@ -1,3 +1,5 @@
+//FILE REALIZZATO DA ANGELO YOU
+
 #include "Highway.h"
 
 Highway::Highway() {
@@ -131,6 +133,7 @@ bool Highway::isValidKey(char key) {
 bool Highway::isValidId(int id, std::vector<double> v) {
     return (id >= 1 && id <= v.size());
 }
+
 
 
 
