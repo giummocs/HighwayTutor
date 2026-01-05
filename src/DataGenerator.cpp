@@ -126,11 +126,9 @@ std::string DataGenerator::generatePlate()
     std::string plate = "";
     plate += static_cast<char>('A' + std::rand() % NUM_OF_LETTERS);
     plate += static_cast<char>('A' + std::rand() % NUM_OF_LETTERS);
-    plate += " ";
     plate += std::to_string(std::rand() %  NUM_OF_DIGITS);
     plate += std::to_string(std::rand() %  NUM_OF_DIGITS);
     plate += std::to_string(std::rand() %  NUM_OF_DIGITS);
-    plate += " ";
     plate += static_cast<char>('A' + std::rand() %  NUM_OF_LETTERS);
     plate += static_cast<char>('A' + std::rand() % NUM_OF_LETTERS);
     return plate;
