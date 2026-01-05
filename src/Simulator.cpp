@@ -3,6 +3,7 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
+#include <memory>
 
 #include "DataGenerator.h"
 
@@ -14,10 +15,18 @@ int main()
     std::cout << "--- Starting Highway Simulator ---" << std::endl;
 
     // Nome del file di input dell'autostrada
-    std::string highwayFile = "Highway.txt";
-    
+    std::string highwayFile = "Data/Highway.txt";
+
     // Inizializzazione del simulatore
-    DataGenerator simulator(highwayFile);
+    std::unique_ptr<DataGenerator> simulator = nullptr;
+    try{
+        simulator = std::make_unique<DataGenerator>(highwayFile);
+    }
+    catch(const std::runtime_error& e){
+        cerr << e.what() << endl;
+        return 1;
+    }
+    
 
     std::cout << "Generating 10000 vehicles..." << std::endl;
 
@@ -46,3 +55,4 @@ int main()
 
     return 0;
 }
+
