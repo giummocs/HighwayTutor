@@ -36,31 +36,26 @@ int main() {
     bool done = false;
     std::unique_ptr<DataProcessor> tutor = nullptr; //Puntatore
 
-    //Lettura da standard input del nome del file highway.txt
-    while(!done){
-        std::string filename = "";
-
-        std::cout << "\nInserire il nome del file highway desiderato>>";
-        std::cin >> filename;
-        filename = "../Data/"+filename;
-        
-        //Crea un oggetto DataProcessor, che tramite costruttore effettua lettura dei file Highway.txt e Passsages.txt e riempimento dei dati
-        //In caso di errore nella lettura dei file lancia un eccezione
-        try {
-            tutor = std::make_unique<DataProcessor>(filename,"../Data/Passages.txt");
-            done = true;
-        }
-        catch (const std::runtime_error& e) {
-            std::cerr << e.what() << std::endl;
-        }
+    //Lettura del nome del file highway.txt
+    if (argsNumber != 2) {
+        std::cerr << "Usare il comando: ./Tutor <nome_file>" << std::endl;
+        return 1;
     }
+    std::string filename = "../Data/"+argv[1];
 
+    //Crea un oggetto DataProcessor, che tramite costruttore effettua lettura dei file Highway.txt e Passsages.txt e riempimento dei dati
+    //In caso di errore nella lettura dei file lancia un eccezione
+    try {
+        tutor = std::make_unique<DataProcessor>(filename,"../Data/Passages.txt");
+    }
+    catch (const std::runtime_error& e) {
+        std::cerr << e.what() << std::endl;
+    }
     
 
     std::cout << "------BENVENUTO IN TUTOR AUTOSTRADALE------" << std::endl;;
 
     //Lettura da standard input di un comando
-    done = false;
     while (!done) {
         std::cout << "\nInserisci un comando>>";
 
@@ -105,6 +100,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
