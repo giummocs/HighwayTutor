@@ -87,7 +87,7 @@ std::string DataProcessor::set_time(const std::string& input){
     for (const auto& mapElement : violations) {
         std::size_t gatesNumber = mapElement.second.size();
 
-        for(std::size_t i=0; i+1 < gatesNumber; i++){
+        for(std::size_t i=0; i < gatesNumber; i++){
             int gateStartId = mapElement.second[i].gateStartId;
             int gateEndId = mapElement.second[i].gateEndId;
             double gateStartTime = mapElement.second[i].gateStartTime;
@@ -96,7 +96,7 @@ std::string DataProcessor::set_time(const std::string& input){
 
             //Considera solo le violazioni che rientrano nel range di tempo richiesto da input
             if(gateStartTime > currentTime && gateEndTime < newTime){
-                output += "\nInfrazione";
+                output += "\nInfrazione n."+std::to_string(i+1);
                 output += "\nTarga: "+mapElement.first+"\nTratta: varco "+std::to_string(gateStartId)+" - varco "+std::to_string(gateEndId)+"\nVelocità media: "+std::to_string(averageVelocity)+"\nIstante di passaggio varco "+std::to_string(gateStartId)+": "+std::to_string(gateStartTime)+"\nIstante di passaggio varco "+std::to_string(gateEndId)+": "+std::to_string(gateEndTime)+"\n";
                 noViolations = false; //E' presente almeno una violazione
             }
@@ -231,6 +231,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
