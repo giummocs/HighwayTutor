@@ -19,7 +19,7 @@ int main(int argsNumber, char* args[])
         std::cerr << "Usare il comando: ./Tutor <nome_file>" << std::endl;
         return 1;
     }
-    std::string filename = "../Data/"+argv[1];
+    std::string filename = "../Data/"+args[1];
     
     //Inizializzazione del simulatore
     //In caso di errore nella lettura dei file lancia un eccezione
@@ -59,6 +59,7 @@ int main(int argsNumber, char* args[])
 
     return 0;
 }
+
 
 
 
