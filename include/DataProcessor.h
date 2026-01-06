@@ -31,11 +31,11 @@ private:
     const int SECONDS_IN_MINUTES = 60;
 
     double currentTime; //Conteggio del tempo
-    double totalAverageVelocity; //Velocità media di tutti i veicoli, utile a stats
+    double totalAverageSpeed; //Velocità media di tutti i veicoli, utile a stats
     Highway hw; //Oggetto autostrada, si occupa della lettura di Highway.txt
 
     struct PassageByPlate {int id; double time;};
-    struct Violation {int gateStartId; int gateEndId; double averageVelocity; double gateStartTime; double gateEndTime;};
+    struct Violation {int gateStartId; int gateEndId; double averageSpeed; double gateStartTime; double gateEndTime;};
     struct Statistic {int vehiclesNumber = 0; double minTime = std::numeric_limits<double>::infinity(); double maxTime = 0.0;};
     
     std::unordered_map<std::string, std::vector<PassageByPlate>> passages; //Contiene tutti i dati letti da passages.txt, organizzati per targa tramite la chiave
@@ -63,6 +63,7 @@ private:
 
 
 #endif
+
 
 
 
