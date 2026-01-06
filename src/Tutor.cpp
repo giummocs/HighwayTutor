@@ -41,7 +41,7 @@ int main() {
         std::string filename = "";
 
         std::cout << "\nInserire il nome del file highway desiderato>>";
-        std::cin << filename;
+        std::cin >> filename;
         filename = "../Data/"+filename;
         
         //Crea un oggetto DataProcessor, che tramite costruttore effettua lettura dei file Highway.txt e Passsages.txt e riempimento dei dati
@@ -105,6 +105,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
