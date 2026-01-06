@@ -53,16 +53,17 @@ int main() {
     while (!done) {
         std::cout << "\nInserisci un comando>>";
 
+        //Se c'è stato un errore nella lettura della riga stampa un errore e procedi a una nuova lettura (salta a un nuovo ciclo del while)
         if (!std::getline(std::cin, line)) {
             std::cerr << "Errore nella lettura riga" << std::endl;
             continue;
         }
 
+        //Separa il comando dai parametri
         splitInput(line, command, parameter);
 
         //Chiama la funzione corrispondente
-        if (command == "set_time") {
-        
+        if (command == "set_time" && parameter != "") {
             try{
                  std::cout << tutor->set_time(parameter);
             }
@@ -84,10 +85,16 @@ int main() {
             std::cerr << "Errore! Comando non valido!" << std::endl;
         }
 
+        //Reset dei comandi
+        line = "";
+        command = "";
+        parameter = "";
+
     }
     return 0;
 
 }
+
 
 
 
