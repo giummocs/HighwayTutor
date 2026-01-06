@@ -20,7 +20,7 @@ int main()
         std::string filename = "";
 
         std::cout << "\nInserire il nome del file highway desiderato>>";
-        std::cin << filename;
+        std::cin >> filename;
         filename = "../Data/"+filename;
         
         //Inizializzazione del simulatore
@@ -63,6 +63,7 @@ int main()
 
     return 0;
 }
+
 
 
 
