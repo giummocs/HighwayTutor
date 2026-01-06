@@ -1,6 +1,6 @@
 //FILE REALIZZATO DA RIGONI SIMONE
-#include "DataGenerator.h"
 
+#include "DataGenerator.h"
 
 DataGenerator::DataGenerator(const std::string& filenameHighway) : hw(filenameHighway){
     currentSimulationTime = 0;
