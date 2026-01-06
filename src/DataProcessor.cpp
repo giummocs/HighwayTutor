@@ -126,8 +126,14 @@ std::string DataProcessor::set_time(const std::string& input){
 }
 
 std::string DataProcessor::stats(){
-    std::string output = "\nStatistiche autostrada:";
     int totalGates = hw.getSize('V');
+
+    //Costruzione dell'output
+    std::ostringstream output;
+    output << "\nStatistiche autostrada:";
+
+    //Se non c'è nessuna statistica
+    if(statistics.size() == 0) output << "\nNessun veicolo transitato in nessun varco.";
 
     //Scorre tutti i varchi dell'autostrada
     for (std::size_t i=1; i <= totalGates; i++) {
@@ -136,18 +142,19 @@ std::string DataProcessor::stats(){
         double maxTime = statistics[i].maxTime;
         double vehiclePerMinute = 0.0;
 
-        //Se sono transitati piu di un veicolo calcola vehiclePerMinute, altrimenti non e' possibile calcolare un valore valido e lascia 0
+        //Se sono transitati piu di un veicolo allora calcola vehiclePerMinute, altrimenti non e' possibile calcolare un valore valido e lascia 0
         if(vehiclesNumber > 1){
             vehiclePerMinute = vehiclesNumber / ((maxTime-minTime)/SECONDS_IN_MINUTES);
         }
 
-        output += "\nVarco "+std::to_string(i)+": "+std::to_string(vehiclesNumber)+" veicoli transitati, "+std::to_string(vehiclePerMinute)+" veicoli al minuto.";
+        output << "\nVarco " << i << ": " << vehiclesNumber << " veicoli transitati, " 
+            << std::fixed << std::setprecision(2) << vehiclePerMinute << " veicoli al minuto.";
     }
 
-    output += "\nVelocità media totale: "+std::to_string(totalAverageSpeed)+".";
-    output += "\nNumero di veicoli sanzionati: "+std::to_string(violations.size())+".";
+    output << "\nVelocità media totale: " << std::fixed << std::setprecision(2) << totalAverageSpeed << ".";
+    output << "\nNumero di veicoli sanzionati: " << violations.size() << ".";
     
-    return output;
+    return output.str();
 }
 
 std::string DataProcessor::reset(){
@@ -244,6 +251,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
