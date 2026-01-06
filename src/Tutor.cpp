@@ -38,7 +38,7 @@ int main(int argsNumber, char* args[]) {
 
     //Lettura del nome del file highway.txt
     if (argsNumber != 2) {
-        std::cerr << "Usare il comando: ./Tutor <nome_file>" << std::endl;
+        std::cerr << "Usare il comando: " << args[0] << " <nome_file>" << std::endl;
         return 1;
     }
     std::string filename = "../Data/"+std::string(args[1]);
@@ -100,6 +100,7 @@ int main(int argsNumber, char* args[]) {
     return 0;
 
 }
+
 
 
 
