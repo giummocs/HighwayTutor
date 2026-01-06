@@ -164,8 +164,8 @@ std::string DataProcessor::reset(){
 
 int DataProcessor::decodeInput(const std::string& input){
     bool hasM = false;
-    std::string numberPart;
-    int result;
+    std::string numberPart = "";
+    int result = 0;
 
     //Controlla l'ultimo carattere per verificare la presenza di 'm'
     if (input.back() == 'm') {
@@ -176,14 +176,10 @@ int DataProcessor::decodeInput(const std::string& input){
     }
 
     //La parte numerica deve esistere
-    if (numberPart.empty()) throw std::runtime_error("Errore! Comando non valido!");
+    if (numberPart.empty()) throw std::runtime_error("Errore! Parametro non valido!");
 
     //Conversione, se la parte numerica non è valida lancia l'eccezione
-    try {
-        result = std::stoi(numberPart);
-    } catch (...) {
-        throw std::runtime_error("Errore! Comando non valido!");
-    }
+    if(stringToInt(numberPart, result)) throw std::runtime_error("Errore! Parametro non valido!");
 
     //Se è presente m, moltiplico per 60 per convertire in secondi
     if (hasM) {
@@ -253,15 +249,14 @@ void DataProcessor::loadFromFile(const std::string& filename){
 
         //Se ci sono esattamente 3 parole prova a convertire nei tipi corrispondenti, in caso di errore lancia un'eccezione
         if (words.size() == 3) {
-            try {
-                int id = std::stoi(words[0]);
-                std::string plate = words[1];
-                double time = std::stod(words[2]);
+            int id;
+            double time;
+            std::string plate = words[1];
 
-                passages[plate].push_back({id, time});
-            } catch (...) {
-                throw std::runtime_error("Errore! File non valido: formato numeri dei valori errato!");
-            }
+            //Conversione, se anche solo una conversione fallisce lancia un eccezione
+            if(!stringToInt(words[0], id) || !stringToDouble(words[2], time)) throw std::runtime_error("Errore! File non valido: impossibile convertire i numeri!");
+            
+            passages[plate].push_back({id, time});
         }
         else{
             throw std::runtime_error("Errore! File non valido: numero di valori errato!");
@@ -270,6 +265,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
