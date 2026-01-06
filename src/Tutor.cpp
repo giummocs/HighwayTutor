@@ -9,9 +9,12 @@ void splitInput(std::string line, std::string& command, std::string& parameter){
     std::stringstream ss(line);
     std::string temp;
     std::vector<std::string> words;
+    
     while (ss >> temp) {
         words.push_back(temp);
     }
+
+    //Conta quante parole sono presenti
     if (words.size() == 1 ) {
         command = words[0];
     }
@@ -85,6 +88,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
