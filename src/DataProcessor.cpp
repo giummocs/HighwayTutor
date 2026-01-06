@@ -74,7 +74,6 @@ void DataProcessor::processData(){
 
 std::string DataProcessor::set_time(const std::string& input){
     bool noViolations = true;
-    int violationsCounter = 1;
     
     //Chiama decodeInput per decodificare l'input
     int addTime = decodeInput(input);
@@ -100,7 +99,7 @@ std::string DataProcessor::set_time(const std::string& input){
 
             //Considera solo le violazioni che rientrano nel range di tempo richiesto da input
             if(gateStartTime > currentTime && gateEndTime < newTime){
-                output << "\n\nInfrazione n." << violationsCounter
+                output << "\n\n-Infrazione-"
                     << "\nTarga: " << mapElement.first
                     << "\nTratta: varco " << gateStartId
                     << " - varco " << gateEndId
@@ -111,7 +110,6 @@ std::string DataProcessor::set_time(const std::string& input){
                     << "\nIstante di passaggio varco " << gateEndId << ": "
                     << std::fixed << std::setprecision(2) << gateEndTime;
 
-                violationsCounter++;
                 noViolations = false; //E' presente almeno una violazione
             }
         }
@@ -252,6 +250,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
