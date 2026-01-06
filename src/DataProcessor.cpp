@@ -80,7 +80,8 @@ std::string DataProcessor::set_time(const std::string& input){
         throw std::runtime_error("Errore! Tempo inserito non valido!");
     }
     double newTime = currentTime + addTime;
-    
+
+    //Costruzione dell'output
     std::ostringstream output;
     output << "\nInfrazioni commesse tra gli istanti " << currentTime << " e " << newTime << ":";
 
@@ -242,6 +243,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
