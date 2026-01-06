@@ -11,25 +11,30 @@
 
 int main() 
 {
-    // Inizializzazione del seme per i numeri casuali
-    std::srand(static_cast<unsigned int>(std::time(NULL))); 
+    std::unique_ptr<DataGenerator> simulator = nullptr; //Puntatore
+    bool done = false;
+    std::srand(static_cast<unsigned int>(std::time(NULL))); // Inizializzazione del seme per i numeri casuali
 
-    std::cout << "------INIZIALIZZAZIONE DEL SIMULATORE------" << std::endl;
+    //Lettura da standard input del nome del file highway.txt
+    while(!done){
+        std::string filename = "";
 
-    // Nome del file di input dell'autostrada
-    std::string highwayFile = "../Data/Highway.txt";
-
-    // Inizializzazione del simulatore
-    std::unique_ptr<DataGenerator> simulator = nullptr;
-    try{
-        simulator = std::make_unique<DataGenerator>(highwayFile);
-    }
-    catch(const std::runtime_error& e){
-        std::cerr << e.what() << std::endl;
-        return 1;
+        std::cout << "\nInserire il nome del file highway desiderato>>";
+        std::cin << filename;
+        filename = "../Data/"+filename;
+        
+        // Inizializzazione del simulatore
+        try{
+            simulator = std::make_unique<DataGenerator>(filename);
+            done = true;
+        }
+        catch(const std::runtime_error& e){
+            std::cerr << e.what() << std::endl;
+        }
     }
     
 
+    std::cout << "\n------INIZIALIZZAZIONE DEL SIMULATORE------" << std::endl;
     std::cout << "Generazione di 10000 veicoli in corso..." << std::endl;
 
     // Nomi dei file di output
@@ -57,6 +62,7 @@ int main()
 
     return 0;
 }
+
 
 
 
