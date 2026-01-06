@@ -41,7 +41,7 @@ int main(int argsNumber, char* args[]) {
         std::cerr << "Usare il comando: ./Tutor <nome_file>" << std::endl;
         return 1;
     }
-    std::string filename = "../Data/"+argv[1];
+    std::string filename = "../Data/"+args[1];
 
     //Crea un oggetto DataProcessor, che tramite costruttore effettua lettura dei file Highway.txt e Passsages.txt e riempimento dei dati
     //In caso di errore nella lettura dei file lancia un eccezione
@@ -100,6 +100,7 @@ int main(int argsNumber, char* args[]) {
     return 0;
 
 }
+
 
 
 
