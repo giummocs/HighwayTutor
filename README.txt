@@ -20,3 +20,7 @@ perchè una volta uscito non sarebbe stato più visibile, è stato scelto di dic
 Un'alternativa sarebbe stata dichiarare l'oggetto all'esterno, creare poi un nuovo oggetto temporaneo dentro il try-catch e usare l'operatore di assegnamento per copiare 
 tutti i dati dell'oggetto temporaneo nell'oggetto esterno, ma questo richiederebbe ulteriore tempo per la copia di centinaia di migliaia di dati, poco efficiente.
 Nello specifico, come puntatore è stato usato proprio un tipo "unique_ptr" in quanto esso si occupa anche della deallocazione della memoria.
+
+Generazione di Runs.txt:
+Nella consegna inizialmente viene scritto di inserire nel file Runs.txt anche "data e ora di entrata". Tuttavia poi quando viene illustrato il pattern
+che deve avere il file c'è scritto "<istante di partenza>", quindi abbiamo adottato la convenzione di inserire l'istante di partenza in secondi, non data e ora.
