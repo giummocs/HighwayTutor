@@ -2,11 +2,12 @@
 
 #include "DataProcessor.h"
 
+//Costruttore di default
 DataProcessor::DataProcessor() : hw(){
     currentTime = 0;
 }
 
-
+//Costruttore usato per costruire e processare tutti i dati necessari
 DataProcessor::DataProcessor(std::string filenameHighway, std::string filenamePassages) : hw(filenameHighway){
     currentTime = 0;
     loadFromFile(filenamePassages);
@@ -243,6 +244,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
