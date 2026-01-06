@@ -52,11 +52,11 @@ void DataProcessor::processData(){
             //Salva i dati in violations, utile a set_time
             double distanceDifference = hw.getDistanceBetween('V', idGate1, idGate2); //Distanza tra due varchi
             double timeDifference = timeGate2 - timeGate1; //Differenza di tempo tra i due varchi
-            double averageVelocity = distanceDifference / (timeDifference/SECONDS_IN_HOURS);
+            double averageSpeed = distanceDifference / (timeDifference/SECONDS_IN_HOURS);
 
             //Se la velocità media supera i 130 aggiungo una violazione
-            if(averageVelocity > 130){
-                violations[mapElement.first].push_back({idGate1, idGate2, averageVelocity, timeGate1, timeGate2});
+            if(averageSpeed > 130){
+                violations[mapElement.first].push_back({idGate1, idGate2, averageSpeed, timeGate1, timeGate2});
             }
 
             //Salva i dati in statistics, utile a stats
@@ -67,7 +67,7 @@ void DataProcessor::processData(){
             totalTime += timeDifference;
         }
     }
-    totalAverageVelocity = totalDistance / (totalTime/SECONDS_IN_HOURS);
+    totalAverageSpeed = totalDistance / (totalTime/SECONDS_IN_HOURS);
 }
 
 
@@ -92,12 +92,12 @@ std::string DataProcessor::set_time(const std::string& input){
             int gateEndId = mapElement.second[i].gateEndId;
             double gateStartTime = mapElement.second[i].gateStartTime;
             double gateEndTime = mapElement.second[i].gateEndTime;
-            double averageVelocity = mapElement.second[i].averageVelocity;
+            double averageSpeed = mapElement.second[i].averageSpeed;
 
             //Considera solo le violazioni che rientrano nel range di tempo richiesto da input
             if(gateStartTime > currentTime && gateEndTime < newTime){
                 output += "\nInfrazione n."+std::to_string(i+1);
-                output += "\nTarga: "+mapElement.first+"\nTratta: varco "+std::to_string(gateStartId)+" - varco "+std::to_string(gateEndId)+"\nVelocità media: "+std::to_string(averageVelocity)+"\nIstante di passaggio varco "+std::to_string(gateStartId)+": "+std::to_string(gateStartTime)+"\nIstante di passaggio varco "+std::to_string(gateEndId)+": "+std::to_string(gateEndTime)+"\n";
+                output += "\nTarga: "+mapElement.first+"\nTratta: varco "+std::to_string(gateStartId)+" - varco "+std::to_string(gateEndId)+"\nVelocità media: "+std::to_string(averageSpeed)+"\nIstante di passaggio varco "+std::to_string(gateStartId)+": "+std::to_string(gateStartTime)+"\nIstante di passaggio varco "+std::to_string(gateEndId)+": "+std::to_string(gateEndTime)+"\n";
                 noViolations = false; //E' presente almeno una violazione
             }
         }
@@ -131,7 +131,7 @@ std::string DataProcessor::stats(){
         output += "\nVarco "+std::to_string(i)+": "+std::to_string(vehiclesNumber)+" veicoli transitati, "+std::to_string(vehiclePerMinute)+" veicoli al minuto.";
     }
 
-    output += "\nVelocità media totale: "+std::to_string(totalAverageVelocity)+".";
+    output += "\nVelocità media totale: "+std::to_string(totalAverageSpeed)+".";
     output += "\nNumero di veicoli sanzionati: "+std::to_string(violations.size())+".";
     
     return output;
@@ -231,6 +231,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
