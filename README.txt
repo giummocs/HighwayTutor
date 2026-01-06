@@ -24,3 +24,8 @@ Nello specifico, come puntatore è stato usato proprio un tipo "unique_ptr" in q
 Generazione di Runs.txt:
 Nella consegna inizialmente viene scritto di inserire nel file Runs.txt anche "data e ora di entrata". Tuttavia poi quando viene illustrato il pattern
 che deve avere il file c'è scritto "<istante di partenza>", quindi abbiamo adottato la convenzione di inserire l'istante di partenza in secondi, non data e ora.
+
+Comando stats:
+Non ci è molto chiaro se nel comando stats bisogni stampare le statistiche dall'istante 0 a quello corrente, o di tutta l'autostrada.
+Quindi è stata adottata la convenzione di stampare tutte le statistiche indipendentemente dall'istante corrente, non essendoci una voce nella consegna che
+specifichi questo punto.
