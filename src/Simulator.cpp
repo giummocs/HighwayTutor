@@ -12,7 +12,6 @@
 int main() 
 {
     std::unique_ptr<DataGenerator> simulator = nullptr; //Puntatore
-    bool done = false;
     std::srand(static_cast<unsigned int>(std::time(NULL))); // Inizializzazione del seme per i numeri casuali
 
     //Lettura da standard input del nome del file highway.txt
@@ -23,15 +22,16 @@ int main()
         std::cin >> filename;
         filename = "../Data/"+filename;
         
-        //Inizializzazione del simulatore
-        //In caso di errore nella lettura dei file lancia un eccezione
-        try{
-            simulator = std::make_unique<DataGenerator>(filename);
-            done = true;
-        }
-        catch(const std::runtime_error& e){
-            std::cerr << e.what() << std::endl;
-        }
+        
+    }
+    //Inizializzazione del simulatore
+    //In caso di errore nella lettura dei file lancia un eccezione
+    try{
+        simulator = std::make_unique<DataGenerator>(filename);
+        done = true;
+    }
+    catch(const std::runtime_error& e){
+        std::cerr << e.what() << std::endl;
     }
     
 
@@ -63,6 +63,7 @@ int main()
 
     return 0;
 }
+
 
 
 
