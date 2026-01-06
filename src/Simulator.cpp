@@ -30,7 +30,7 @@ int main()
     }
     
 
-    std::cout << "Generazione di 10000 veicoli..." << std::endl;
+    std::cout << "Generazione di 10000 veicoli in corso..." << std::endl;
 
     // Nomi dei file di output
     std::string pathRuns = "../Data/Runs.txt";
@@ -52,11 +52,12 @@ int main()
     runsOutput.close();
     passOutput.close();
 
-    std::cout << "Simulation completed." << std::endl;
-    std::cout << "Data saved in: " << pathRuns << " and " << pathPassages << std::endl;
+    std::cout << "Generazione completata!" << std::endl;
+    std::cout << "Dati salvati in: " << pathRuns << " e " << pathPassages << std::endl;
 
     return 0;
 }
+
 
 
 
