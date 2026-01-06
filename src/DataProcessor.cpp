@@ -212,6 +212,26 @@ void DataProcessor::updateStat(int id, double time){
     stat.maxTime = std::max(stat.maxTime, time); 
 }
 
+bool DataProcessor::stringToInt(const std::string& numberPart, int& result) {
+    try {
+        int pos;
+        result = std::stoi(s, &pos);
+        return pos == s.size();
+    } catch (...) {
+        return false;
+    }
+}
+
+bool DataProcessor::stringToDouble(const std::string& s, double& result) {
+    try {
+        int pos;
+        result = std::stod(s, &pos);
+        return pos == s.size();
+    } catch (...) {
+        return false;
+    }
+}
+
 
 void DataProcessor::loadFromFile(const std::string& filename){
     //Apertura file
@@ -250,6 +270,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
