@@ -10,11 +10,16 @@
 //La classe DataProcessor ha il compito di leggere i dati di highway.txt e passages.txt, metterli in apposite strutture dati e elaborarli nella maniera corretta
 class DataProcessor{
 public:
-    //Costruttori
+    //Costruttore default
     DataProcessor();
+
+    //Costruttore utile a processare tutti i dati
+    //Primo parametro: percorso file del file Highway.txt
+    //Secondo parametro: percorso file del file Passages.txt
     DataProcessor(std::string filenameHighway, std::string filenamePassages);
 
     //Restituisce in un unica stringa tutti i dati richiesti (tutte le violazioni), tra gli istanti currentTime e currentTime+parametro
+    //Parametro: input inserito dall'utente
     //Lancia un eccezione se il tempo inserito è minore o uguale a 0
     std::string set_time(const std::string& input);
 
@@ -47,6 +52,7 @@ private:
     void processData();
 
     //Funzione chiamata in set_time() per tradurre l'input ricevuto dall'utente
+    //Parametro: input inserito dall'utente
     //Restituisce il tempo in secondi
     int decodeInput(const std::string& input);
 
@@ -54,15 +60,19 @@ private:
     static bool compareId(const PassageByPlate& p1, const PassageByPlate& p2);
 
     //Aggiunge una nuova statistica se l'id non è presente, altrimenti aggiorna i dati già esistenti
+    //Primo parametro: id del varco da aggiungere
+    //Secondo parametro: tempo in cui il varco è stato attraversato da un veicolo qualsiasi
     void updateStat(int id, double time);
 
     //Legge i dati del file e li inserisce in passsages
+    //Parametro: percorso del file
     void loadFromFile(const std::string& filename);
 
 };
 
 
 #endif
+
 
 
 
