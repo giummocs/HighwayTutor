@@ -29,7 +29,7 @@ void splitInput(std::string line, std::string& command, std::string& parameter){
 }
 
 
-int main() {
+int main(int argsNumber, char* args[]) {
     std::string line = "";
     std::string command = "";
     std::string parameter = "";
@@ -100,6 +100,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
