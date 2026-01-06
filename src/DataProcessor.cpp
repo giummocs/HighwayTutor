@@ -210,7 +210,7 @@ void DataProcessor::updateStat(int id, double time){
 
 bool DataProcessor::stringToInt(const std::string& numberPart, int& result) {
     try {
-        int pos;
+        size_t pos;
         result = std::stoi(numberPart, &pos);
         return pos == numberPart.size();
     } catch (...) {
@@ -220,7 +220,7 @@ bool DataProcessor::stringToInt(const std::string& numberPart, int& result) {
 
 bool DataProcessor::stringToDouble(const std::string& numberPart, double& result) {
     try {
-        int pos;
+        size_t pos;
         result = std::stod(numberPart, &pos);
         return pos == numberPart.size();
     } catch (...) {
@@ -265,6 +265,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
