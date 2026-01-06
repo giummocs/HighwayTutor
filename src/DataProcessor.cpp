@@ -28,13 +28,13 @@ void DataProcessor::processData(){
         std::sort(mapElement.second.begin(), mapElement.second.end(), compareId);
 
         //Numero di varchi che il veicolo ha attraversato
-        std::size_t gatesNumber = mapElement.second.size();
+        int gatesNumber = mapElement.second.size();
 
         //Salva il primo varco
         updateStat(mapElement.second[0].id, mapElement.second[0].time);
 
         //Scorre tutti i varchi attraversati da un veicolo preciso, analizzandone due consecutivi alla volta, tramite i e i+1
-        for(std::size_t i=0; i+1 < gatesNumber; i++){
+        for(int i=0; i+1 < gatesNumber; i++){
             int idGate1 = mapElement.second[i].id;
             int idGate2 = mapElement.second[i+1].id;
             double timeGate1 = mapElement.second[i].time;
@@ -88,9 +88,9 @@ std::string DataProcessor::set_time(const std::string& input){
 
     //Scorre tutte le violazioni
     for (const auto& mapElement : violations) {
-        std::size_t gatesNumber = mapElement.second.size();
+        int gatesNumber = mapElement.second.size();
 
-        for(std::size_t i=0; i < gatesNumber; i++){
+        for(int i=0; i < gatesNumber; i++){
             int gateStartId = mapElement.second[i].gateStartId;
             int gateEndId = mapElement.second[i].gateEndId;
             double gateStartTime = mapElement.second[i].gateStartTime;
@@ -135,7 +135,7 @@ std::string DataProcessor::stats(){
     if(statistics.size() == 0) output << "\nNessun veicolo transitato in nessun varco.";
 
     //Scorre tutti i varchi dell'autostrada
-    for (std::size_t i=1; i <= totalGates; i++) {
+    for (int i=1; i <= totalGates; i++) {
         int vehiclesNumber = statistics[i].vehiclesNumber;
         double minTime = statistics[i].minTime;
         double maxTime = statistics[i].maxTime;
@@ -250,6 +250,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
