@@ -81,7 +81,8 @@ std::string DataProcessor::set_time(const std::string& input){
     }
     double newTime = currentTime + addTime;
     
-    std::string output = "\nInfrazioni commesse tra gli istanti "+std::to_string(currentTime)+" e "+std::to_string(newTime)+":";
+    std::ostringstream output;
+    output << "\nInfrazioni commesse tra gli istanti " << currentTime << " e " << newTime << ":";
 
     //Scorre tutte le violazioni
     for (const auto& mapElement : violations) {
@@ -96,20 +97,30 @@ std::string DataProcessor::set_time(const std::string& input){
 
             //Considera solo le violazioni che rientrano nel range di tempo richiesto da input
             if(gateStartTime > currentTime && gateEndTime < newTime){
-                output += "\nInfrazione n."+std::to_string(i+1);
-                output += "\nTarga: "+mapElement.first+"\nTratta: varco "+std::to_string(gateStartId)+" - varco "+std::to_string(gateEndId)+"\nVelocità media: "+std::to_string(averageSpeed)+"\nIstante di passaggio varco "+std::to_string(gateStartId)+": "+std::to_string(gateStartTime)+"\nIstante di passaggio varco "+std::to_string(gateEndId)+": "+std::to_string(gateEndTime)+"\n";
+                output << "\nInfrazione n." << (i + 1)
+                    << "\nTarga: " << mapElement.first
+                    << "\nTratta: varco " << gateStartId
+                    << " - varco " << gateEndId
+                    << "\nVelocità media: "
+                    << std::fixed << std::setprecision(2) << averageSpeed
+                    << "\nIstante di passaggio varco " << gateStartId << ": "
+                    << std::fixed << std::setprecision(2) << gateStartTime
+                    << "\nIstante di passaggio varco " << gateEndId << ": "
+                    << std::fixed << std::setprecision(2) << gateEndTime
+                    << "\n";
+                
                 noViolations = false; //E' presente almeno una violazione
             }
         }
     }
 
     //Se non e' presente alcuna violazione aggiorna l'output
-    if(noViolations) output += "\nNessuna infrazione.";
+    if(noViolations) return "\nNessuna infrazione nell'intervallo di tempo inserito.";
 
     //Imposta il nuovo tempo
     currentTime = newTime;
 
-    return output;
+    return output.str();
 }
 
 std::string DataProcessor::stats(){
@@ -231,6 +242,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
