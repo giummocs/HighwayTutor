@@ -9,7 +9,8 @@ void splitInput(std::string line, std::string& command, std::string& parameter){
     std::stringstream ss(line);
     std::string temp;
     std::vector<std::string> words;
-    
+
+    //Legge parola per parola
     while (ss >> temp) {
         words.push_back(temp);
     }
@@ -53,7 +54,7 @@ int main() {
     while (!done) {
         std::cout << "\nInserisci un comando>>";
 
-        //Se c'è stato un errore nella lettura della riga stampa un errore e procedi a una nuova lettura (salta a un nuovo ciclo del while)
+        //Legge la riga, in caso di errore stampa un messaggio e procedi a una nuova lettura (salta a un nuovo ciclo del while)
         if (!std::getline(std::cin, line)) {
             std::cerr << "Errore nella lettura riga" << std::endl;
             continue;
@@ -94,6 +95,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
