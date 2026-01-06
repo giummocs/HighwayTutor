@@ -65,6 +65,10 @@ private:
     //Secondo parametro: tempo in cui il varco è stato attraversato da un veicolo qualsiasi
     void updateStat(int id, double time);
 
+    bool DataProcessor::stringToInt(const std::string& s, int& result);
+
+    bool DataProcessor::stringToDouble(const std::string& s, double& result);
+
     //Legge i dati del file e li inserisce in passsages
     //Parametro: percorso del file
     void loadFromFile(const std::string& filename);
@@ -73,6 +77,7 @@ private:
 
 
 #endif
+
 
 
 
