@@ -115,7 +115,7 @@ void DataGenerator::generateRunsLine(std::ofstream& outFile, const Vehicle& vehi
             << std::fixed << std::setprecision(2) << vehicle.startTime;
 
     // Scriviamo tutto il profilo di velocità (v1, t1, v2, t2...)
-    for (std::size_t k = 0; k < vehicle.profile.size(); k++) {
+    for (int k = 0; k < vehicle.profile.size(); k++) {
         outFile << " v" << k + 1 << " " << vehicle.profile[k].speed 
                 << " t" << k + 1 << " " <<vehicle.profile[k].duration;
     }
