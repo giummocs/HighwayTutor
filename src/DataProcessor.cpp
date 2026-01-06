@@ -108,8 +108,7 @@ std::string DataProcessor::set_time(const std::string& input){
                     << "\nIstante di passaggio varco " << gateStartId << ": "
                     << std::fixed << std::setprecision(2) << gateStartTime
                     << "\nIstante di passaggio varco " << gateEndId << ": "
-                    << std::fixed << std::setprecision(2) << gateEndTime
-                    << "\n";
+                    << std::fixed << std::setprecision(2) << gateEndTime;
                 
                 noViolations = false; //E' presente almeno una violazione
             }
@@ -251,6 +250,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
