@@ -66,14 +66,14 @@ int main() {
         //Chiama la funzione corrispondente
         if (command == "set_time" && parameter != "") {
             try{
-                 std::cout << tutor->set_time(parameter);
+                 std::cout << tutor->set_time(parameter) << std::endl;
             }
             catch(const std::runtime_error& e){
                  std::cerr << e.what() << std::endl;
             }
         }
         else if (command == "stats") {
-            std::cout << tutor->stats()<< std::endl;
+            std::cout << tutor->stats() << std::endl;
         }
         else if (command == "reset") {
             std::cout << tutor->reset() << std::endl;
@@ -95,6 +95,7 @@ int main() {
     return 0;
 
 }
+
 
 
 
