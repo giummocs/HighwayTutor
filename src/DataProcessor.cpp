@@ -30,7 +30,7 @@ void DataProcessor::processData(){
         //Numero di varchi che il veicolo ha attraversato
         std::size_t gatesNumber = mapElement.second.size();
 
-        //Salvo gia il primo varco
+        //Salva il primo varco
         updateStat(mapElement.second[0].id, mapElement.second[0].time);
 
         //Scorre tutti i varchi attraversati da un veicolo preciso, analizzandone due consecutivi alla volta, tramite i e i+1
@@ -63,7 +63,7 @@ void DataProcessor::processData(){
             //Salva i dati in statistics, utile a stats
             updateStat(idGate2, timeGate2);
 
-            //Aggiungo la distanza e il tempo percorso al totale (utile al comando stats)
+            //Aggiunge la distanza e il tempo percorso al totale (utile al comando stats)
             totalDistance += distanceDifference;
             totalTime += timeDifference;
         }
@@ -244,6 +244,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
