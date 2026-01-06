@@ -23,7 +23,8 @@ int main()
         std::cin << filename;
         filename = "../Data/"+filename;
         
-        // Inizializzazione del simulatore
+        //Inizializzazione del simulatore
+        //In caso di errore nella lettura dei file lancia un eccezione
         try{
             simulator = std::make_unique<DataGenerator>(filename);
             done = true;
@@ -62,6 +63,7 @@ int main()
 
     return 0;
 }
+
 
 
 
