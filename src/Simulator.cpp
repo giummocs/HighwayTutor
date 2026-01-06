@@ -9,26 +9,22 @@
 
 #include "DataGenerator.h"
 
-int main() 
+int main(int argsNumber, char* args[]) 
 {
     std::unique_ptr<DataGenerator> simulator = nullptr; //Puntatore
     std::srand(static_cast<unsigned int>(std::time(NULL))); // Inizializzazione del seme per i numeri casuali
 
-    //Lettura da standard input del nome del file highway.txt
-    while(!done){
-        std::string filename = "";
-
-        std::cout << "\nInserire il nome del file highway desiderato>>";
-        std::cin >> filename;
-        filename = "../Data/"+filename;
-        
-        
+    //Lettura del nome del file highway.txt
+    if (argsNumber != 2) {
+        std::cerr << "Usare il comando: ./Tutor <nome_file>" << std::endl;
+        return 1;
     }
+    std::string filename = "../Data/"+argv[1];
+    
     //Inizializzazione del simulatore
     //In caso di errore nella lettura dei file lancia un eccezione
     try{
         simulator = std::make_unique<DataGenerator>(filename);
-        done = true;
     }
     catch(const std::runtime_error& e){
         std::cerr << e.what() << std::endl;
@@ -63,6 +59,7 @@ int main()
 
     return 0;
 }
+
 
 
 
