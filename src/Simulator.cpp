@@ -14,7 +14,7 @@ int main()
     // Inizializzazione del seme per i numeri casuali
     std::srand(static_cast<unsigned int>(std::time(NULL))); 
 
-    std::cout << "--- Starting Highway Simulator ---" << std::endl;
+    std::cout << "------INIZIALIZZAZIONE DEL SIMULATORE------" << std::endl;
 
     // Nome del file di input dell'autostrada
     std::string highwayFile = "../Data/Highway.txt";
@@ -30,7 +30,7 @@ int main()
     }
     
 
-    std::cout << "Generating 10000 vehicles..." << std::endl;
+    std::cout << "Generazione di 10000 veicoli..." << std::endl;
 
     // Nomi dei file di output
     std::string pathRuns = "../Data/Runs.txt";
@@ -57,6 +57,7 @@ int main()
 
     return 0;
 }
+
 
 
 
