@@ -5,8 +5,8 @@
 #include <vector>
 
 struct SpeedInterval {
-    double speed; // km/h
-    double duration; // secondi
+    double speed; 
+    double duration; 
 };
 
 struct Vehicle {
@@ -19,3 +19,4 @@ struct Vehicle {
 
 
 #endif
+
