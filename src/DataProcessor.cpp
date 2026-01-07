@@ -179,7 +179,7 @@ int DataProcessor::decodeInput(const std::string& input){
     if (numberPart.empty()) throw std::runtime_error("Errore! Parametro non valido!");
 
     //Conversione, se la parte numerica non è valida lancia l'eccezione
-    if(stringToInt(numberPart, result)) throw std::runtime_error("Errore! Parametro non valido!");
+    if(!stringToInt(numberPart, result)) throw std::runtime_error("Errore! Parametro non valido!");
 
     //Se è presente m, moltiplico per 60 per convertire in secondi
     if (hasM) {
@@ -265,6 +265,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
