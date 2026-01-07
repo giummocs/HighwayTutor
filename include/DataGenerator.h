@@ -13,15 +13,15 @@ class DataGenerator
 {
     public:
         void startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut);
-        DataGenerator(const std::string& highwayFile);
+        DataGenerator(const std::string& highwayFile, int num_vehicles);
     private:
         std::vector<int> firstGateForJunction;
         Highway hw;
         std::unordered_map<std::string, bool> plates;
         double currentSimulationTime;
 
-        const int HOURS_IN_SECONDS = 3600 ;
-        const int NUM_VEHICLES = 10000;         
+        const int NUM_VEHICLES;
+        const int HOURS_IN_SECONDS = 3600 ;         
         const double MIN_TIME_GAP = 0.5;        
         const double MAX_TIME_GAP = 10.0;       
         const int MIN_SPEED = 80;
