@@ -42,8 +42,8 @@ private:
     std::unordered_map<char, std::vector<double>> nodes;
 
     //Helper functions
-    bool isDouble(const std::string& s);
-    //Restituisce true se una stringa e' convertibile in double, false altrimenti
+    bool stringToDouble(const std::string& numberPart, double& result)
+    //Restituisce true se la conversione da stringa a double avviene correttamente, false altrimenti
 
     bool isValidKey(char key);
     //Restituisce true se la chiave è valida ('S' o 'V'), false altrimenti
@@ -53,6 +53,7 @@ private:
 };
 
 #endif
+
 
 
 
