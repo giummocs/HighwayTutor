@@ -209,7 +209,10 @@ void DataProcessor::updateStat(int id, double time){
 }
 
 bool DataProcessor::stringToInt(const std::string& numberPart, int& result) {
+    //Se std::stoi() lancia un'eccezione, viene catturata e ritorna false
+    //Se pos non corrisponde alla lunghezza totale della stringa allora la conversione è fallita
     try {
+        //Pos rappresenta la posizione in cui la conversione si ferma se trova un valore non valido
         size_t pos;
         result = std::stoi(numberPart, &pos);
         return pos == numberPart.size();
@@ -219,7 +222,10 @@ bool DataProcessor::stringToInt(const std::string& numberPart, int& result) {
 }
 
 bool DataProcessor::stringToDouble(const std::string& numberPart, double& result) {
+    //Se std::stod() lancia un'eccezione, viene catturata e ritorna false
+    //Se pos non corrisponde alla lunghezza totale della stringa allora la conversione è fallita
     try {
+        //Pos rappresenta la posizione in cui la conversione si ferma se trova un valore non valido
         size_t pos;
         result = std::stod(numberPart, &pos);
         return pos == numberPart.size();
@@ -265,6 +271,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
