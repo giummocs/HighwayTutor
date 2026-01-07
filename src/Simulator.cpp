@@ -10,7 +10,9 @@
 #include "DataGenerator.h"
 
 int main(int argsNumber, char* args[]) 
-{
+{    
+    const int NUM_VEHICLES = 10000;
+    
     std::unique_ptr<DataGenerator> simulator = nullptr; //Puntatore
     std::srand(static_cast<unsigned int>(std::time(NULL))); // Inizializzazione del seme per i numeri casuali
 
@@ -24,7 +26,7 @@ int main(int argsNumber, char* args[])
     //Inizializzazione del simulatore
     //In caso di errore nella lettura dei file lancia un eccezione
     try{
-        simulator = std::make_unique<DataGenerator>(filename);
+        simulator = std::make_unique<DataGenerator>(filename, NUM_VEHICLES);
     }
     catch(const std::runtime_error& e){
         std::cerr << e.what() << std::endl;
@@ -59,6 +61,7 @@ int main(int argsNumber, char* args[])
 
     return 0;
 }
+
 
 
 
