@@ -92,7 +92,7 @@ void DataGenerator::generatePassages(std::ofstream& outFile, const Vehicle& vehi
             if (gateKm >= kmExit) break;
 
             // Calcoliamo l'istante esatto del passaggio (tempo = distanza / velocità)
-            int gateInstant = static_cast<int>(currentTime + ((gateKm - currentKm) / speedKmS));
+            double gateInstant = currentTime + ((gateKm - currentKm) / speedKmS);
             
             // Scrittura sul file: ID varco (già 1-based), targa e tempo
             outFile << g_id << " " << vehicle.plate << " " << gateInstant << std::endl;
