@@ -32,7 +32,7 @@ class DataGenerator
         const int NUM_OF_DIGITS= 10;     
 
         struct SpeedInterval {double speed; double duration;};
-        struct Vehicle {std::string plate; int startJunction; int endJunction; double startTime; std::vector<SpeedInterval> profile; };
+        struct Vehicle {std::string plate; int startJunction; int endJunction; double startTime; std::vector<SpeedInterval> profile;};
     
         std::string generatePlate();
         int randomInt(int min, int max);
