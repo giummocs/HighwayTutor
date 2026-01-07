@@ -65,8 +65,16 @@ private:
     //Secondo parametro: tempo in cui il varco è stato attraversato da un veicolo qualsiasi
     void updateStat(int id, double time);
 
+    //Converte da stringa a intero
+    //Primo parametro: numero da convertire
+    //Secondo parametro: risultato della conversione passato per riferimento
+    //Restituisce true se la conversione è andata a buon fine, false altrimenti
     bool stringToInt(const std::string& numberPart, int& result);
 
+    //Converte da stringa a double
+    //Primo parametro: numero da convertire
+    //Secondo parametro: risultato della conversione passato per riferimento
+    //Restituisce true se la conversione è andata a buon fine, false altrimenti
     bool stringToDouble(const std::string& numberPart, double& result);
 
     //Legge i dati del file e li inserisce in passsages
@@ -77,6 +85,7 @@ private:
 
 
 #endif
+
 
 
 
