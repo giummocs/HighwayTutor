@@ -150,7 +150,7 @@ std::string DataProcessor::stats(){
             << std::fixed << std::setprecision(2) << vehiclePerMinute << " veicoli al minuto.";
     }
 
-    output << "\nVelocità media totale: " << std::fixed << std::setprecision(2) << totalAverageSpeed << ".";
+    output << "\nVelocità media totale: " << std::fixed << std::setprecision(2) << totalAverageSpeed << "km/h.";
     output << "\nNumero di veicoli sanzionati: " << violations.size() << ".";
     
     return output.str();
@@ -271,6 +271,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
