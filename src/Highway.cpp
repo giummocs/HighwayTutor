@@ -41,17 +41,16 @@ void Highway::loadFromFile(const std::string& filename) {
         if (words.size() != 2) {
             throw std::runtime_error("Errore! Ogni riga deve contenere 2 argomenti.");
         }
-        if (!isDouble(words[0])) {
+        if (!stringToDouble(words[0], distance)) {
             throw std::runtime_error("Errore! Il primo argomento deve essere un valore Double.");
         }
-        if (std::stod(words[0]) < 0) {
+        if (distance < 0) {
             throw std::runtime_error("Errore! Il primo argomento non deve essere un valore negativo.");
         }
         if ((words[1] != "V" && words[1] != "S")) {
             throw std::runtime_error("Errore! Il secondo argomento deve essere 'S' oppure 'V' (case-insensitive).");
         }
         
-        distance = std::stod(words[0]);
         nodes[words[1][0]].push_back(distance);
     }
 
@@ -71,6 +70,7 @@ void Highway::loadFromFile(const std::string& filename) {
 }
 
 int Highway::getSize(char key) {
+    //Controllo della chiave
     if (!isValidKey(key)) {
         throw std::invalid_argument("Errore! Chiave non valida");
     }
@@ -78,12 +78,14 @@ int Highway::getSize(char key) {
 }
 
 double Highway::getDistance(char key, int id) {
+    //Controllo della chiave
     if (!isValidKey(key)) {
         throw std::invalid_argument("Errore! Chiave non valida");
     }
     
     std::vector<double>& v = nodes[key];
-    
+
+    //Controllo dell'id
     if (!isValidId(id, v)) {
         throw std::out_of_range("Errore! Id non valido");
     }
@@ -92,12 +94,14 @@ double Highway::getDistance(char key, int id) {
 }
 
 double Highway::getDistanceBetween(char key, int id1, int id2) {
+    //Controllo della chiave
     if (!isValidKey(key)) {
         throw std::invalid_argument("Errore! Chiave non valida");
     }
     
     std::vector<double>& v = nodes[key];
-    
+
+    //Controllo delle id
     if (isValidId(id1, v) && isValidId(id2, v)) {
         return std::abs(v[id2-1] - v[id1-1]);
     }
@@ -105,15 +109,17 @@ double Highway::getDistanceBetween(char key, int id1, int id2) {
     throw std::out_of_range("Errore! Indice non valido");
 }
 
-bool Highway::isDouble(const std::string& s) {
+bool Highway::stringToDouble(const std::string& numberPart, double& result) {
+    //Se std::stod() lancia un'eccezione, viene catturata e ritorna false
+    //Se pos non corrisponde alla lunghezza totale della stringa allora la conversione è fallita
     try {
-        std::stod(s);
-        
-    } 
-    catch (...) {
+        //Pos rappresenta la posizione in cui la conversione si ferma se trova un valore non valido
+        size_t pos;
+        result = std::stod(numberPart, &pos);
+        return pos == numberPart.size();
+    } catch (...) {
         return false;
     }
-    return true;
 }
 
 bool Highway::isValidKey(char key) {
@@ -123,6 +129,7 @@ bool Highway::isValidKey(char key) {
 bool Highway::isValidId(int id, std::vector<double> v) {
     return (id >= 1 && id <= v.size());
 }
+
 
 
 
