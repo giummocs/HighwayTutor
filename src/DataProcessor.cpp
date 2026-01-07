@@ -114,12 +114,11 @@ std::string DataProcessor::set_time(const std::string& input){
             }
         }
     }
+    //Imposta il nuovo tempo
+    currentTime = newTime;
 
     //Se non e' presente alcuna violazione aggiorna l'output
     if(noViolations) return output.str()+"\nNessuna infrazione nell'intervallo di tempo inserito.";
-
-    //Imposta il nuovo tempo
-    currentTime = newTime;
 
     return output.str();
 }
@@ -271,6 +270,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
