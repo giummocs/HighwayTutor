@@ -58,7 +58,7 @@ int main(int argsNumber, char* args[]) {
 
     //Lettura da standard input di un comando
     while (!done) {
-        std::cout << "\nInserisci un comando>>";
+        std::cout << "\nInserisci un comando>> ";
 
         //Legge la riga, in caso di errore stampa un messaggio e procedi a una nuova lettura (salta a un nuovo ciclo del while)
         if (!std::getline(std::cin, line)) {
@@ -101,6 +101,7 @@ int main(int argsNumber, char* args[]) {
     return 0;
 
 }
+
 
 
 
