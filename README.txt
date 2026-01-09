@@ -29,3 +29,7 @@ Comando stats:
 Non ci è molto chiaro se nel comando stats bisogni stampare le statistiche dall'istante 0 a quello corrente, o di tutta l'autostrada.
 Quindi è stata adottata la convenzione di stampare tutte le statistiche indipendentemente dall'istante corrente, non essendoci una voce nella consegna che
 specifichi questo punto.
+
+Inserimento file Highway da riga di comando:
+Principalmente per facilitare i test, è stato scelto di dare la possibilità di scegliere il nome del file Highway da selezionare, tramite i parametri della funzione main.
+In caso non venga inserito alcun parametro, di default viene selezionato il file con nome "Highway.txt". 
