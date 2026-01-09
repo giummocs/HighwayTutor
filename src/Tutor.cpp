@@ -34,14 +34,21 @@ int main(int argsNumber, char* args[]) {
     std::string command = "";
     std::string parameter = "";
     bool done = false;
+    std::string filename = "";
     std::unique_ptr<DataProcessor> tutor = nullptr; //Puntatore
 
     //Lettura del nome del file highway.txt
-    if (argsNumber != 2) {
-        std::cerr << "Usare il comando: " << args[0] << " <nome_file>" << std::endl;
+    if(argsNumber == 1){
+        filename = "../Data/Highway.txt";
+    }
+    else if (argsNumber != 2) {
+        std::cerr << "Parametri non validi! Usare il comando: " << args[0] << " <nome_file>" << std::endl;
         return 1; //Esce dal main
     }
-    std::string filename = "../Data/"+std::string(args[1]);
+    else{
+        filename = "../Data/"+std::string(args[1]);
+    }
+    
 
     //Crea un oggetto DataProcessor, che tramite costruttore effettua lettura dei file Highway.txt e Passsages.txt e riempimento dei dati
     //In caso di errore nella lettura dei file lancia un eccezione
@@ -101,6 +108,7 @@ int main(int argsNumber, char* args[]) {
     return 0;
 
 }
+
 
 
 
