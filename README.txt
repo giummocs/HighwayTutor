@@ -4,10 +4,9 @@ Funzione processData in DataProcessor:
 Nella classe DataProcessor, è stato scelto di processare i dati richiesti da set_time e stats ancora prima che le corrispettive funzioni vengano chiamate, 
 processando tutto una sola volta all'inizio e salvando il risultato. Questo viene fatto attraverso la funzione processData(), che viene infatti chiamata
 direttamente alla creazione dell'oggetto (tramite il costruttore). 
-Questa scelta è stata fatta per semplificare sia l'algoritmo di riempimento dei dati in processData() (un unico ciclo per riempire
-sia i dati di stats sia i dati di set_time), sia le funzioni set_time() e stats() per il ritorno dei dati (essendo i dati già pronti). 
-Inoltre, avendo salvato i dati fin dall'inizio, digitare un gran numero di comandi non ha grande impatto nelle prestazioni, 
-in quanto alla digitazione di un comando i dati vengono solo letti.
+Grazie a questa scelta, in un unico ciclo (O(n) dove n numero di righe di Passages.txt) vengono riempiti sia i sia i dati di stats sia i dati di set_time.
+Le corrispettive funzioni poi dovranno solo leggere i dati e selezionare solo quelli che rientrano nel tempo inserito in set_time.
+Quindi digitare un gran numero di comandi non ha grande impatto nelle prestazioni, in quanto alla digitazione di un comando vengono letti solo i dati interessati.
 
 Uso di unordered_map:
 Nel codice viene spesso fatto uso delle map come struttura dati. Questa scelta è stata fatta per ottimizzare al massimo tutti gli algoritmi, 
