@@ -37,6 +37,8 @@ int main(int argsNumber, char* args[]) {
     std::string filename = "";
     std::unique_ptr<DataProcessor> tutor = nullptr; //Puntatore
 
+    std::cout << "\nLettura dei dati in corso..." << std::endl;
+
     //Lettura del nome del file highway.txt
     if(argsNumber == 1){
         filename = "../Data/Highway.txt";
@@ -60,8 +62,8 @@ int main(int argsNumber, char* args[]) {
         return 1; //Esce dal main
     }
     
-
-    std::cout << "------BENVENUTO IN TUTOR AUTOSTRADALE------" << std::endl;;
+    std::cout << "Dati caricati con successo!" << std::endl;
+    std::cout << "\n------BENVENUTO IN TUTOR AUTOSTRADALE------" << std::endl;
 
     //Lettura da standard input di un comando
     while (!done) {
@@ -79,10 +81,10 @@ int main(int argsNumber, char* args[]) {
         //Chiama la funzione corrispondente
         if (command == "set_time" && parameter != "") {
             try{
-                 std::cout << tutor->set_time(parameter) << std::endl;
+                std::cout << tutor->set_time(parameter) << std::endl;
             }
             catch(const std::runtime_error& e){
-                 std::cerr << e.what() << std::endl;
+                std::cerr << e.what() << std::endl;
             }
         }
         else if (command == "stats") {

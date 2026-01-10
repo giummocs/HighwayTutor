@@ -5,19 +5,24 @@
 //Costruttore di default
 DataProcessor::DataProcessor() : hw(){
     currentTime = 0;
+    totalViolations = 0;
 }
 
 //Costruttore usato per costruire e processare tutti i dati necessari
 DataProcessor::DataProcessor(std::string filenameHighway, std::string filenamePassages) : hw(filenameHighway){
     currentTime = 0;
-    loadFromFile(filenamePassages);
-    processData();
+    totalViolations = 0;
+    processData(filenamePassages);
 }
 
 
-void DataProcessor::processData(){
-    double totalDistance = 0.0;
-    double totalTime = 0.0;
+void DataProcessor::processData(std::string filenamePassages){
+    //Variabile temporanea usata solo per facilitare il popolamento di violations e statistics
+    //Contiene tutti i dati letti da passages.txt, organizzati per targa tramite la chiave
+    std::unordered_map<std::string, std::vector<PassageByPlate>> passages; 
+
+    //Legge i dati del file
+    loadFromFile(filenamePassages, passages);
 
     //Complessita' totale O(n), dove n e' il numero delle righe del file passages.txt
     //Scorre la mappa con chiave plate, cosi da scorrere un veicolo per volta
@@ -25,13 +30,13 @@ void DataProcessor::processData(){
     for (auto& mapElement : passages) {
         
         //Ordina i passaggi per id, cosi da riempire le mappe con gli id gia ordinati
-        std::sort(mapElement.second.begin(), mapElement.second.end(), compareId);
+        std::sort(mapElement.second.begin(), mapElement.second.end(), comparePassage);
 
         //Numero di varchi che il veicolo ha attraversato
         int gatesNumber = mapElement.second.size();
 
         //Salva il primo varco
-        updateStat(mapElement.second[0].id, mapElement.second[0].time);
+        statistics[mapElement.second[0].id].push_back(mapElement.second[0].time);
 
         //Scorre tutti i varchi attraversati da un veicolo preciso, analizzandone due consecutivi alla volta, tramite i e i+1
         for(int i=0; i+1 < gatesNumber; i++){
@@ -61,14 +66,20 @@ void DataProcessor::processData(){
             }
 
             //Salva i dati in statistics, utile a stats
-            updateStat(idGate2, timeGate2);
+            statistics[idGate2].push_back(timeGate2);
 
-            //Aggiunge la distanza e il tempo percorso al totale (utile al comando stats)
-            totalDistance += distanceDifference;
-            totalTime += timeDifference;
+            segments.push_back({timeGate2, distanceDifference, timeDifference});
+            
         }
     }
-    totalAverageSpeed = totalDistance / (totalTime/SECONDS_IN_HOURS);
+
+    // Alla fine di processData, ordina i tempi per ogni varco per permettere ricerche veloci
+    for (auto& mapElement : statistics) {
+        std::sort(mapElement.second.begin(), mapElement.second.end());
+    }
+
+    // IMPORTANTE: Ordiniamo i segmenti per endTime per poter usare la ricerca binaria
+    std::sort(segments.begin(), segments.end(), compareSegment);
 }
 
 
@@ -111,6 +122,7 @@ std::string DataProcessor::set_time(const std::string& input){
                     << std::fixed << std::setprecision(2) << gateEndTime;
 
                 noViolations = false; //E' presente almeno una violazione
+                totalViolations++; //Totale delle violazioni nel tempo corrente, utile a stats
             }
         }
     }
@@ -128,29 +140,55 @@ std::string DataProcessor::stats(){
 
     //Costruzione dell'output
     std::ostringstream output;
-    output << "\nStatistiche autostrada:";
+    output << "\nStatistiche autostrada dall'istante 0 fino a " << currentTime <<":";
 
     //Se non c'è nessuna statistica
     if(statistics.size() == 0) return output.str()+"\nNessuna statistica disponibile, nessun veicolo transitato in nessun varco.";
 
     //Scorre tutti i varchi dell'autostrada
     for (int i=1; i <= totalGates; i++) {
-        int vehiclesNumber = statistics[i].vehiclesNumber;
-        double minTime = statistics[i].minTime;
-        double maxTime = statistics[i].maxTime;
+        // Accediamo al vettore dei tempi per il varco corrente
+        const std::vector<double>& times = statistics[i];
+
+        // Troviamo quanti veicoli sono passati entro currentTime
+        // upper_bound ci serve ancora per l'efficienza (ricerca binaria),
+        // ma convertiamo subito il risultato in un numero (count)
+        int vehiclesCount = std::distance(times.begin(), std::upper_bound(times.begin(), times.end(), currentTime));
+
         double vehiclePerMinute = 0.0;
 
-        //Se sono transitati piu di un veicolo allora calcola vehiclePerMinute, altrimenti non e' possibile calcolare un valore valido e lascia 0
-        if(vehiclesNumber > 1){
-            vehiclePerMinute = vehiclesNumber / ((maxTime-minTime)/SECONDS_IN_MINUTES);
+        // Se abbiamo almeno 2 veicoli, possiamo calcolare la frequenza
+        if (vehiclesCount > 1) {
+            double timeDifference = times[vehiclesCount - 1] - times[0];
+            
+            if (timeDifference > 0) {
+                vehiclePerMinute = vehiclesCount / (timeDifference / SECONDS_IN_MINUTES);
+            }
         }
 
-        output << "\nVarco " << i << ": " << vehiclesNumber << " veicoli transitati, " 
+        output << "\nVarco " << i << ": " << vehiclesCount << " veicoli transitati, " 
             << std::fixed << std::setprecision(2) << vehiclePerMinute << " veicoli al minuto.";
     }
 
+    double totalDistance = 0.0;
+    double totalTime = 0.0;
+    double totalAverageSpeed = 0.0;
+
+    // Troviamo fino a quale indice i segmenti sono validi (endTime <= currentTime)
+
+    // Sommiamo distanza e tempo dei segmenti validi senza usare iteratori nel ciclo
+    int segmentCount = std::distance(segments.begin(), std::upper_bound(segments.begin(), segments.end(), currentTime, compareTime));
+    for (int i = 0; i < segmentCount; ++i) {
+        totalDistance += segments[i].distance;
+        totalTime += segments[i].duration;
+    }
+
+    if (totalTime > 0) {
+        totalAverageSpeed = totalDistance / (totalTime / SECONDS_IN_HOURS);
+    }
+
     output << "\nVelocità media totale: " << std::fixed << std::setprecision(2) << totalAverageSpeed << "km/h.";
-    output << "\nNumero di veicoli sanzionati: " << violations.size() << ".";
+    output << "\nNumero di veicoli sanzionati: " << totalViolations << ".";
     
     return output.str();
 }
@@ -158,6 +196,7 @@ std::string DataProcessor::stats(){
 std::string DataProcessor::reset(){
     //Resetta il tempo a 0
     currentTime = 0;
+    totalViolations = 0;
     return "\nSistema azzerrato con successo!";
 }
 
@@ -189,22 +228,19 @@ int DataProcessor::decodeInput(const std::string& input){
 }
 
 
-bool DataProcessor::compareId(const PassageByPlate& p1, const PassageByPlate& p2) {
+bool DataProcessor::comparePassage(const PassageByPlate& p1, const PassageByPlate& p2) {
     //Confronto di id
     return p1.id < p2.id;
 }
 
+bool DataProcessor::compareSegment(const TripSegment& t1, const TripSegment& t2) {
+    //Confronto di time
+    return t1.endTime < t2.endTime;
+}
 
-void DataProcessor::updateStat(int id, double time){
-    //Se il varco con questo id non era già presente nella mappa lo aggiunge
-    Statistic& stat = statistics[id];
-
-    //Incrementa il numero di veicoli che hanno attraversato questo varco
-    stat.vehiclesNumber++;
-    
-    //Salva l'istante minimo e massimo in cui una macchina ha attraversato questo varco
-    stat.minTime = std::min(stat.minTime, time); 
-    stat.maxTime = std::max(stat.maxTime, time); 
+bool DataProcessor::compareTime(double value, const TripSegment& t1) {
+    //Confronto di time
+    return value < t1.endTime;
 }
 
 bool DataProcessor::stringToInt(const std::string& numberPart, int& result) {
@@ -234,7 +270,7 @@ bool DataProcessor::stringToDouble(const std::string& numberPart, double& result
 }
 
 
-void DataProcessor::loadFromFile(const std::string& filename){
+void DataProcessor::loadFromFile(const std::string& filename, std::unordered_map<std::string, std::vector<PassageByPlate>>& passages){
     //Apertura file
     std::ifstream file(filename);
     if (!file.is_open()) throw std::runtime_error("Errore! Impossibile aprire il file!");
