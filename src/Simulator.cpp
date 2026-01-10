@@ -30,6 +30,7 @@ int main(int argsNumber, char* args[])
     }
     catch(const std::runtime_error& e){
         std::cerr << e.what() << std::endl;
+        return 1;
     }
     
 
@@ -61,6 +62,7 @@ int main(int argsNumber, char* args[])
 
     return 0;
 }
+
 
 
 
