@@ -15,6 +15,7 @@ int main(int argsNumber, char* args[])
     
     std::unique_ptr<DataGenerator> simulator = nullptr; //Puntatore
     std::srand(static_cast<unsigned int>(std::time(NULL))); // Inizializzazione del seme per i numeri casuali
+    std::string filename = "";
 
     //Lettura del nome del file highway.txt
     if(argsNumber == 1){
@@ -25,7 +26,7 @@ int main(int argsNumber, char* args[])
         return 1;
     }
     else{
-        std::string filename = "../Data/"+std::string(args[1]);
+        filename = "../Data/"+std::string(args[1]);
     }
     
     //Inizializzazione del simulatore
@@ -67,6 +68,7 @@ int main(int argsNumber, char* args[])
 
     return 0;
 }
+
 
 
 
