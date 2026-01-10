@@ -37,20 +37,20 @@ private:
     const int SECONDS_IN_MINUTES = 60;
 
     double currentTime; //Conteggio del tempo
-    double totalAverageSpeed; //Velocità media di tutti i veicoli, utile a stats
+    int totalViolations; //Totale delle violazioni relative a currentTime
     Highway hw; //Oggetto autostrada, si occupa della lettura di Highway.txt
 
     struct PassageByPlate {int id; double time;};
     struct Violation {int gateStartId; int gateEndId; double averageSpeed; double gateStartTime; double gateEndTime;};
-    struct Statistic {int vehiclesNumber = 0; double minTime = std::numeric_limits<double>::infinity(); double maxTime = 0.0;};
+    struct TripSegment {double endTime; double distance; double duration;};
     
-    std::unordered_map<std::string, std::vector<PassageByPlate>> passages; //Contiene tutti i dati letti da passages.txt, organizzati per targa tramite la chiave
     std::unordered_map<std::string, std::vector<Violation>> violations; //Contiene tutte le violazioni, organizzate per targa
-    std::unordered_map<int, Statistic> statistics; //Contiene le statistiche di ciascun varco, organizzate per varco
+    std::unordered_map<int, std::vector<double>> statistics; //Contiene le statistiche di ciascun varco, organizzate per varco
+    std::vector<TripSegment> segments; //Contiene un segmento del tragitto percorso da un veicolo, cioè la distanza e tempo impiegato tra un varco e l'altro, utile per la velocita media totale
 
     //Processa tutti i dati contenuti in passages, riempiendo violations e statistics
     //Lancia un eccezione se i file sono scritti nella maniera errata
-    void processData();
+    void processData(std::string filenamePassages);
 
     //Funzione chiamata in set_time() per tradurre l'input ricevuto dall'utente
     //Parametro: input inserito dall'utente
@@ -58,12 +58,13 @@ private:
     int decodeInput(const std::string& input);
 
     //Funzione usata per il sort di passages, usata in processData()
-    static bool compareId(const PassageByPlate& p1, const PassageByPlate& p2);
+    static bool comparePassage(const PassageByPlate& p1, const PassageByPlate& p2);
 
-    //Aggiunge una nuova statistica se l'id non è presente, altrimenti aggiorna i dati già esistenti
-    //Primo parametro: id del varco da aggiungere
-    //Secondo parametro: tempo in cui il varco è stato attraversato da un veicolo qualsiasi
-    void updateStat(int id, double time);
+    //Funzione usata per il sort di segments, usata in processData()
+    static bool compareSegment(const TripSegment& t1, const TripSegment& t2);
+
+    //Funzione usata per upper_bound di segments, usata in stats()
+    static bool compareTime(double value, const TripSegment& t1);
 
     //Converte da stringa a intero
     //Primo parametro: numero da convertire
@@ -78,8 +79,9 @@ private:
     bool stringToDouble(const std::string& numberPart, double& result);
 
     //Legge i dati del file e li inserisce in passsages
-    //Parametro: percorso del file
-    void loadFromFile(const std::string& filename);
+    //Primo parametro: percorso del file
+    //Secondo parametro: variabile da riempire con i dati
+    void loadFromFile(const std::string& filename, std::unordered_map<std::string, std::vector<PassageByPlate>>& passages);
 
 };
 
