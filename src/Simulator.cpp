@@ -17,11 +17,16 @@ int main(int argsNumber, char* args[])
     std::srand(static_cast<unsigned int>(std::time(NULL))); // Inizializzazione del seme per i numeri casuali
 
     //Lettura del nome del file highway.txt
-    if (argsNumber != 2) {
+    if(argsNumber == 1){
+        filename = "../Data/Highway.txt";
+    }
+    else if (argsNumber != 2) {
         std::cerr << "Usare il comando: " << args[0] << " <nome_file>" << std::endl;
         return 1;
     }
-    std::string filename = "../Data/"+std::string(args[1]);
+    else{
+        std::string filename = "../Data/"+std::string(args[1]);
+    }
     
     //Inizializzazione del simulatore
     //In caso di errore nella lettura dei file lancia un eccezione
@@ -62,6 +67,7 @@ int main(int argsNumber, char* args[])
 
     return 0;
 }
+
 
 
 
