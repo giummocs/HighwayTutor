@@ -6,7 +6,6 @@
 #include <ctime>       
 #include <iomanip>  
 
-#include "Vehicle.h"
 #include "Highway.h"
 
 class DataGenerator
