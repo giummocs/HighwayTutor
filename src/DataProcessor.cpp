@@ -131,7 +131,7 @@ std::string DataProcessor::stats(){
     output << "\nStatistiche autostrada:";
 
     //Se non c'è nessuna statistica
-    if(statistics.size() == 0) return output.str()+"\nNessun veicolo transitato in nessun varco.";
+    if(statistics.size() == 0) return output.str()+"\nNessuna statistica disponibile, nessun veicolo transitato in nessun varco.";
 
     //Scorre tutti i varchi dell'autostrada
     for (int i=1; i <= totalGates; i++) {
@@ -270,6 +270,7 @@ void DataProcessor::loadFromFile(const std::string& filename){
     //Chiusura file
     file.close();
 }
+
 
 
 
