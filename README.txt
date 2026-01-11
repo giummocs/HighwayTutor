@@ -4,8 +4,8 @@ Funzione processData (DataProcessor.cpp):
 Nella classe DataProcessor, è stato scelto di processare i dati richiesti da set_time e stats ancora prima che le corrispettive funzioni vengano chiamate, 
 processando tutto una sola volta all'inizio e salvando il risultato. Questo viene fatto attraverso la funzione processData(), che viene infatti chiamata
 direttamente alla creazione dell'oggetto (tramite il costruttore). 
-Grazie a questa scelta, in un unico ciclo (O(n) dove n numero di righe di Passages.txt) vengono riempiti sia i sia i dati di stats sia i dati di set_time.
-Le corrispettive funzioni poi dovranno solo leggere i dati e selezionare solo quelli che rientrano nel tempo inserito in set_time.
+Grazie a questa scelta, in un unico ciclo (O(n) dove n numero di righe di Passages.txt) vengono riempiti sia i sia i dati di statistics sia i dati di violations.
+Le corrispettive funzioni (stats e set_time) poi dovranno solo leggere i dati e selezionare solo quelli che rientrano nel tempo inserito in set_time.
 Quindi digitare un gran numero di comandi non ha grande impatto nelle prestazioni, in quanto alla digitazione di un comando vengono letti solo i dati interessati.
 
 Uso di unordered_map (DataProcessor.cpp):
@@ -23,11 +23,6 @@ Nello specifico, come puntatore è stato usato proprio un tipo "unique_ptr" in q
 Generazione di Runs.txt:
 Nella consegna inizialmente viene scritto di inserire nel file Runs.txt anche "data e ora di entrata". Tuttavia poi quando viene illustrato il pattern
 che deve avere il file c'è scritto "<istante di partenza>", quindi abbiamo adottato la convenzione di inserire l'istante di partenza in secondi, non data e ora.
-
-Comando stats (DataProcessor.cpp):
-Non ci è molto chiaro se nel comando stats bisogni stampare le statistiche dall'istante 0 a quello corrente, o di tutta l'autostrada.
-Quindi è stata adottata la convenzione di stampare tutte le statistiche indipendentemente dall'istante corrente, non essendoci una voce nella consegna che
-specifichi questo punto.
 
 Inserimento file Highway da riga di comando:
 Principalmente per facilitare i test, è stato scelto di dare la possibilità di scegliere il nome del file Highway da selezionare, tramite i parametri della funzione main.
