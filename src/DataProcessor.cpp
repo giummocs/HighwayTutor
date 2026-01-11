@@ -109,7 +109,7 @@ std::string DataProcessor::set_time(const std::string& input){
             double averageSpeed = mapElement.second[i].averageSpeed;
 
             //Considera solo le violazioni che rientrano nel range di tempo richiesto da input
-            if(if(gateEndTime > currentTime && gateEndTime <= newTime)){
+            if(gateEndTime > currentTime && gateEndTime <= newTime){
                 output << "\n\n-Infrazione-"
                     << "\nTarga: " << mapElement.first
                     << "\nTratta: varco " << gateStartId
@@ -306,6 +306,7 @@ void DataProcessor::loadFromFile(const std::string& filename, std::unordered_map
     //Chiusura file
     file.close();
 }
+
 
 
 
