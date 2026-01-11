@@ -27,7 +27,7 @@ public:
     //Restituisce in un unica stringa tutti i dati richiesti (statistiche di ogni varco, velocità media totale e totale violazioni)
     std::string stats();
     
-    //Resetta il conteggio del tempo (currentTime) e restituisce l'esito
+    //Resetta il sistema e restituisce l'esito
     std::string reset();
     
 
@@ -49,6 +49,7 @@ private:
     std::vector<TripSegment> segments; //Contiene un segmento del tragitto percorso da un veicolo, cioè la distanza e tempo impiegato tra un varco e l'altro, utile per la velocita media totale
 
     //Processa tutti i dati contenuti in passages, riempiendo violations e statistics
+    //Parametro: nome del file passages.txt
     //Lancia un eccezione se i file sono scritti nella maniera errata
     void processData(std::string filenamePassages);
 
@@ -78,6 +79,14 @@ private:
     //Restituisce true se la conversione è andata a buon fine, false altrimenti
     bool stringToDouble(const std::string& numberPart, double& result);
 
+    //Costruisce l'output delle statistiche di ogni varco
+    //Restituisce una stringa con tutti i dati
+    std::string buildGateStats();
+
+    //Costruisce l'output delle statistiche generali (velocità media e numero sanzioni)
+    //Restituisce una stringa con tutti i dati
+    std::string buildStats();
+
     //Legge i dati del file e li inserisce in passsages
     //Primo parametro: percorso del file
     //Secondo parametro: variabile da riempire con i dati
@@ -87,6 +96,7 @@ private:
 
 
 #endif
+
 
 
 
