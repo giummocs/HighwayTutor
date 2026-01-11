@@ -43,23 +43,23 @@ int main(int argsNumber, char* args[])
     std::cout << "\n------INIZIALIZZAZIONE DEL SIMULATORE------" << std::endl;
     std::cout << "Generazione di 10000 veicoli in corso..." << std::endl;
 
-    // Nomi dei file di output
+    //Nomi dei file di output
     std::string pathRuns = "../Data/Runs.txt";
     std::string pathPassages = "../Data/Passages.txt";
 
     std::ofstream runsOutput(pathRuns);
     std::ofstream passOutput(pathPassages);
 
-    // Controllo se i file si sono aperti correttamente
+    //Controllo se i file si sono aperti correttamente
     if (!runsOutput || !passOutput) {
         std::cerr << "ERRORE: Impossibile aprire i file di output!" << std::endl;
         return 1;
     }
 
-    // CHIAMATA ALLA FUNZIONE
+    //Chiamata alla funzione per iniziare la simulazione
     simulator->startHighwaySimulation(runsOutput, passOutput);
 
-    // Chiusura dei file
+    //Chiusura dei file
     runsOutput.close();
     passOutput.close();
 
@@ -68,6 +68,7 @@ int main(int argsNumber, char* args[])
 
     return 0;
 }
+
 
 
 
