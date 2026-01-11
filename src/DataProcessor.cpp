@@ -73,12 +73,12 @@ void DataProcessor::processData(std::string filenamePassages){
         }
     }
 
-    // Alla fine di processData, ordina i tempi per ogni varco per permettere ricerche veloci
+    //Ordina i tempi per ogni varco, per permettere poi l'uso di upper_bound()
     for (auto& mapElement : statistics) {
         std::sort(mapElement.second.begin(), mapElement.second.end());
     }
 
-    // IMPORTANTE: Ordiniamo i segmenti per endTime per poter usare la ricerca binaria
+    //Ordina i segmenti per ordine di tempo, per permettere poi l'uso di upper_bound()
     std::sort(segments.begin(), segments.end(), compareSegment);
 }
 
@@ -136,6 +136,7 @@ std::string DataProcessor::set_time(const std::string& input){
 }
 
 std::string DataProcessor::stats(){
+    //Numero totale di varchi nel file highway
     int totalGates = hw.getSize('V');
 
     //Costruzione dell'output
@@ -147,17 +148,17 @@ std::string DataProcessor::stats(){
 
     //Scorre tutti i varchi dell'autostrada
     for (int i=1; i <= totalGates; i++) {
-        // Accediamo al vettore dei tempi per il varco corrente
+        //Accede al vettore dei tempi, del varco corrente
         const std::vector<double>& times = statistics[i];
 
-        // Troviamo quanti veicoli sono passati entro currentTime
-        // upper_bound ci serve ancora per l'efficienza (ricerca binaria),
-        // ma convertiamo subito il risultato in un numero (count)
+        //Cerca l'indice del primo tempo piu grande di currentTime
+        //Upper_bound restituisce l'iteratore del primo tempo piu grande di currentTime
+        //Distance poi restituisce la distanza tra l'inizio e l'iteratore, ovvero l'indice dell'elemento cercato
         int vehiclesCount = std::distance(times.begin(), std::upper_bound(times.begin(), times.end(), currentTime));
 
         double vehiclePerMinute = 0.0;
 
-        // Se abbiamo almeno 2 veicoli, possiamo calcolare la frequenza
+        //Se ci sono almeno due veicoli, calcolo la frequenza, altrimenti rimane 0
         if (vehiclesCount > 1) {
             double timeDifference = times[vehiclesCount - 1] - times[0];
             
@@ -174,15 +175,15 @@ std::string DataProcessor::stats(){
     double totalTime = 0.0;
     double totalAverageSpeed = 0.0;
 
-    // Troviamo fino a quale indice i segmenti sono validi (endTime <= currentTime)
-
-    // Sommiamo distanza e tempo dei segmenti validi senza usare iteratori nel ciclo
+    //Uso distance() e upper_bound() nello stesso modo di prima
+    //Cerca l'indice del primo tempo piu grande di currentTime
     int segmentCount = std::distance(segments.begin(), std::upper_bound(segments.begin(), segments.end(), currentTime, compareTime));
     for (int i = 0; i < segmentCount; ++i) {
         totalDistance += segments[i].distance;
         totalTime += segments[i].duration;
     }
 
+    //Se il tempo è valido calcola la velocità media
     if (totalTime > 0) {
         totalAverageSpeed = totalDistance / (totalTime / SECONDS_IN_HOURS);
     }
@@ -194,7 +195,6 @@ std::string DataProcessor::stats(){
 }
 
 std::string DataProcessor::reset(){
-    //Resetta il tempo a 0
     currentTime = 0;
     totalViolations = 0;
     return "\nSistema azzerrato con successo!";
@@ -306,6 +306,7 @@ void DataProcessor::loadFromFile(const std::string& filename, std::unordered_map
     //Chiusura file
     file.close();
 }
+
 
 
 
