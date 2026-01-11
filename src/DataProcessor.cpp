@@ -136,9 +136,6 @@ std::string DataProcessor::set_time(const std::string& input){
 }
 
 std::string DataProcessor::stats(){
-    //Numero totale di varchi nel file highway
-    int totalGates = hw.getSize('V');
-
     //Costruzione dell'output
     std::ostringstream output;
     output << "\nStatistiche autostrada dall'istante 0 fino a " << currentTime <<":";
@@ -226,6 +223,9 @@ bool DataProcessor::stringToDouble(const std::string& numberPart, double& result
 }
 
 std::string DataProcessor::buildGateStats(){
+    //Numero totale di varchi nel file highway
+    int totalGates = hw.getSize('V');
+    
     std::ostringstream output;
     
     //Se non c'è nessuna statistica
@@ -320,6 +320,7 @@ void DataProcessor::loadFromFile(const std::string& filename, std::unordered_map
     //Chiusura file
     file.close();
 }
+
 
 
 
