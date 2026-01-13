@@ -16,11 +16,15 @@ class DataGenerator
         void startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut);
         DataGenerator(const std::string& highwayFile, int num_vehicles);
     private:
+        //Vettore che mi serve nella funzione findFirstGateForJunctions
         std::vector<int> firstGateForJunction;
+        //Oggetto di tipo Highway
         Highway hw;
+        //Mappa chiave valore con chiave una targa e valore true o false per evitare coppie di targhe 
         std::unordered_map<std::string, bool> plates;
+        //Variabile che tiene traccia del tempo
         double currentSimulationTime;
-
+        //Costanti
         const int NUM_VEHICLES;
         const int HOURS_IN_SECONDS = 3600 ;         
         const double MIN_TIME_GAP = 0.5;        
@@ -31,14 +35,19 @@ class DataGenerator
         const int MAX_DURATION_MIN = 15;
         const int NUM_OF_LETTERS= 26;
         const int NUM_OF_DIGITS= 10;     
-
-        struct SpeedInterval {double speed; double duration;};
+        //Struct dove le variabili, generate randomicamente, sono il profilo del veicolo
         struct Vehicle {std::string plate; int startJunction; int endJunction; double startTime; std::vector<SpeedInterval> profile;};
-    
+        //Struct dove le variabili sono la velocità e l'intervallo di tempo generate randomicamente 
+        struct SpeedInterval {double speed; double duration;};
+        //Generatore di targhe randomico
         std::string generatePlate();
+        //Generatore di int randomico
         int randomInt(int min, int max);
-        double randomDouble(double min, double max);    
+        //Generatore di double randomico
+        double randomDouble(double min, double max);  
+        //Generatore di una riga di runs che poi gira in un for che scorre tutti i veicoli
         void generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle);
+        //Generatore 
         void generatePassages(std::ofstream& outFile, const Vehicle& vehicle,double kmEntry, double kmExit);
         int findFirstGateForJunctions(int junctionsId);
         void generateProfile(Vehicle& v, double totalDistance);
