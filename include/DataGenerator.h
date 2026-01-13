@@ -16,6 +16,7 @@ class DataGenerator
         //Funzione che mette insieme tutte le funzioni di DataGenerator 
         void startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut);
         //Costruttore che ha come parametri il file dell'autostrada e il numero di veicoli(che possono variare anche se standard sono 10000)
+        //Inizializza la simulazione e crea una mappatura tra svincoli (S) e varchi (V), per ogni svincolo, individua il varco successivo.
         DataGenerator(const std::string& highwayFile, int num_vehicles);
     private:
         //Vettore che mi serve nella funzione findFirstGateForJunctions
