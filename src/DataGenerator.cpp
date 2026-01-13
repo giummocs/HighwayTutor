@@ -4,8 +4,11 @@
 
 DataGenerator::DataGenerator(const std::string& filenameHighway, int num_vehicles) : hw(filenameHighway), NUM_VEHICLES(num_vehicles){
     currentSimulationTime = 0;
+    //Numero di svincoli
     int junctionsSize = hw.getSize('S');
+    //Numero di varchi
     int gatesSize = hw.getSize('V');
+    //firstGateForJunction è un vettore e come tale posso farne il resize
     firstGateForJunction.resize(junctionsSize + 1);
 
     for (int j_id = 1; j_id <= junctionsSize; j_id++) {
