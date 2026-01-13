@@ -7,7 +7,9 @@
 #include <iomanip>  
 
 #include "Highway.h"
-
+//La classe DataGenerator ha il compito di scrivere su due file di testo, in Runs.txt scrive il profilo del veicolo e le velocità nei vari intervalli
+//in Passages.txt scrive il numero del varco, la targa del veicolo passato per quel varco e l'istante di passaggio calcolato con le velocità e gli 
+//intervalli di tempo generati in modo randomico
 class DataGenerator
 {
     public:
