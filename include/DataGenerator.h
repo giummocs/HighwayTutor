@@ -13,7 +13,9 @@
 class DataGenerator
 {
     public:
+        //Funzione che mette insieme tutte le funzioni di DataGenerator 
         void startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut);
+        //Costruttore
         DataGenerator(const std::string& highwayFile, int num_vehicles);
     private:
         //Vettore che mi serve nella funzione findFirstGateForJunctions
@@ -37,7 +39,8 @@ class DataGenerator
         const int NUM_OF_DIGITS= 10;     
         //Struct dove le variabili, generate randomicamente, sono il profilo del veicolo
         struct Vehicle {std::string plate; int startJunction; int endJunction; double startTime; std::vector<SpeedInterval> profile;};
-        //Struct dove le variabili sono la velocità e l'intervallo di tempo generate randomicamente 
+        //Struct dove le variabili sono la velocità e l'intervallo di tempo generate randomicamente, 
+        //utile per la struct Vehicle dove c'è un vettore di SpeedInterval 
         struct SpeedInterval {double speed; double duration;};
         //Generatore di targhe randomico
         std::string generatePlate();
@@ -47,9 +50,11 @@ class DataGenerator
         double randomDouble(double min, double max);  
         //Generatore di una riga di runs che poi gira in un for che scorre tutti i veicoli
         void generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle);
-        //Generatore 
+        //Generatore di righe del file passages per veicolo
         void generatePassages(std::ofstream& outFile, const Vehicle& vehicle,double kmEntry, double kmExit);
+        //Funzione che mi serve per sapere il primo varco dopo uno svincolo sapendo l'ID 
         int findFirstGateForJunctions(int junctionsId);
+        //Creazione del profilo di un veicolo 
         void generateProfile(Vehicle& v, double totalDistance);
 };
 
