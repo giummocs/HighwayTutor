@@ -9,7 +9,7 @@ DataGenerator::DataGenerator(const std::string& filenameHighway, int num_vehicle
     firstGateForJunction.resize(junctionsSize + 1);
 
     for (int j_id = 1; j_id <= junctionsSize; j_id++) {
-        //Highway riceve l'ID(che partono da 1 e non da 0) e restituisce i km
+        //Highway riceve l'ID(che partono da 1 e non da 0, azione gestita da Highway) e restituisce i km
         double junctionsKm = hw.getDistance('S', j_id); 
         int g_id = 1;
         
@@ -122,6 +122,7 @@ void DataGenerator::generateRunsLine(std::ofstream& outFile, const Vehicle& vehi
     }
     outFile << std::endl;
 }
+//Generatore di targa del tipo AA000AA
 std::string DataGenerator::generatePlate() 
 {
     std::string plate = "";
@@ -135,6 +136,7 @@ std::string DataGenerator::generatePlate()
     return plate;
 }
 void DataGenerator::generateProfile(Vehicle& v, double totalDistance) {
+    //coveredDistance = km percorsi dal veicolo 
     double coveredDistance = 0.0;
     
     while (coveredDistance < totalDistance) {
