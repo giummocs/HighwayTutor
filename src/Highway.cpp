@@ -67,7 +67,31 @@ void Highway::loadFromFile(const std::string& filename) {
     //Verifica dei requisiti
     if (nodes['S'][0] > nodes['V'][0] || nodes['S'][nodes['S'].size()-1] < nodes['V'][nodes['V'].size()-1]) 
         throw std::runtime_error("Errore! Requisiti non soddisfatti: deve esserci uno svincolo prima del primo varco e uno svincolo dopo l'ultimo varco.");
-}
+
+    int i = 0;
+    int j = 0;
+    //Scorrimento finche' uno dei due vettori non viene analizzato completamente
+    while (i < nodes['V'].size() && j < nodes['S'].size()) {
+        double diff = nodes['V'][i] - nodes['S'][j];
+        if (diff > -1.0 && diff < 1.0) {
+            throw std::runtime_error("Errore! Requisiti non soddisfatti: minima distanza tra un varco e uno svincolo deve essere almeno 1km.");
+        }
+        //Se i-esimo varco ha distanza minore di j-esimo svincolo, passa al i+1-esimo varco
+        if (diff <= -1.0) {
+            i++;
+        }
+        //Altrimenti i-esimo varco ha distanza maggiore di j-esimo svincolo, passa al j+1-esimo svincolo
+        j++;
+    }
+
+    for (int i = 0; i < nodes['S'].size(); ++i) {
+        for (int j = 0; j < nodes['V'].size(); ++j) {
+            double diff = nodes['S'][i] - nodes['V'][j];
+            if (diff > -1.0 && diff < 1.0) {
+                throw std::runtime_error("Error! Requirements not met: minimum distance between junction and gate must be at least 1km.");
+            }
+        }
+    }
 
 int Highway::getSize(char key) {
     //Controllo della chiave
@@ -129,6 +153,7 @@ bool Highway::isValidKey(char key) {
 bool Highway::isValidId(int id, std::vector<double> v) {
     return (id >= 1 && id <= v.size());
 }
+
 
 
 
