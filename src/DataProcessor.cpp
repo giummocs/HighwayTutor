@@ -242,14 +242,18 @@ std::string DataProcessor::buildGateStats(){
         int vehiclesCount = std::distance(times.begin(), std::upper_bound(times.begin(), times.end(), currentTime));
 
         double vehiclePerMinute = 0.0;
+        double timeDifference = 0.0;
 
-        //Se ci sono almeno due veicoli, calcolo la frequenza, altrimenti rimane 0
+        //Se c'è almeno un veicolo, calcola la frequenza
         if (vehiclesCount > 1) {
-            double timeDifference = times[vehiclesCount - 1] - times[0];
-            
-            if (timeDifference > 0) {
-                vehiclePerMinute = vehiclesCount / (timeDifference / SECONDS_IN_MINUTES);
-            }
+            timeDifference = times[vehiclesCount - 1] - times[0];
+        }
+        else if(vehiclesCount == 1){
+            timeDifference = times[vehiclesCount - 1];
+        }
+        
+        if (timeDifference > 0) {
+            vehiclePerMinute = vehiclesCount / (timeDifference / SECONDS_IN_MINUTES);
         }
 
         output << "\nVarco " << i << ": " << vehiclesCount << " veicoli transitati, " 
@@ -320,6 +324,7 @@ void DataProcessor::loadFromFile(const std::string& filename, std::unordered_map
     //Chiusura file
     file.close();
 }
+
 
 
 
