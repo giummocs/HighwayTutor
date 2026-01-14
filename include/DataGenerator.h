@@ -15,9 +15,11 @@ class DataGenerator
     public:
         //Funzione che mette insieme tutte le funzioni di DataGenerator 
         void startHighwaySimulation(std::ofstream& runsOut, std::ofstream& passOut);
+
         //Costruttore che ha come parametri il file dell'autostrada e il numero di veicoli(che possono variare anche se standard sono 10000)
         //Inizializza la simulazione e crea una mappatura tra svincoli (S) e varchi (V), per ogni svincolo, individua il varco successivo.
         DataGenerator(const std::string& highwayFile, int num_vehicles);
+
     private:
         //Vettore che mi serve nella funzione findFirstGateForJunctions
         std::vector<int> firstGateForJunction;
@@ -27,6 +29,7 @@ class DataGenerator
         std::unordered_map<std::string, bool> plates;
         //Variabile che tiene traccia del tempo
         double currentSimulationTime;
+
         //Costanti
         const int NUM_VEHICLES;
         const int HOURS_IN_SECONDS = 3600 ;         
@@ -36,25 +39,34 @@ class DataGenerator
         const int MAX_SPEED = 190;
         const int MIN_DURATION_MIN = 5;
         const int MAX_DURATION_MIN = 15;
-        const int NUM_OF_LETTERS= 26;
-        const int NUM_OF_DIGITS= 10;     
-        //Struct dove le variabili, generate randomicamente, sono il profilo del veicolo
-        struct Vehicle {std::string plate; int startJunction; int endJunction; double startTime; std::vector<SpeedInterval> profile;};
+        const int NUM_OF_LETTERS = 26;
+        const int NUM_OF_DIGITS = 10;
+
         //Struct dove le variabili sono la velocità e l'intervallo di tempo generate randomicamente, 
         //utile per la struct Vehicle dove c'è un vettore di SpeedInterval 
         struct SpeedInterval {double speed; double duration;};
+
+        //Struct dove le variabili, generate randomicamente, sono il profilo del veicolo
+        struct Vehicle {std::string plate; int startJunction; int endJunction; double startTime; std::vector<SpeedInterval> profile;};
+        
         //Generatore di targhe randomico
         std::string generatePlate();
+
         //Generatore di int randomico
         int randomInt(int min, int max);
+
         //Generatore di double randomico
         double randomDouble(double min, double max);  
+
         //Generatore di una riga di runs che poi gira in un for che scorre tutti i veicoli
         void generateRunsLine(std::ofstream& outFile, const Vehicle& vehicle);
+
         //Generatore di righe del file passages per veicolo
         void generatePassages(std::ofstream& outFile, const Vehicle& vehicle,double kmEntry, double kmExit);
+
         //Funzione che mi serve per sapere il primo varco dopo uno svincolo sapendo l'ID 
         int findFirstGateForJunctions(int junctionsId);
+
         //Creazione del profilo di un veicolo 
         void generateProfile(Vehicle& v, double totalDistance);
 };
