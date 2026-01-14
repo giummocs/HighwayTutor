@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.84)
 set(CMAKE_CXX_STANDARD 14)
+add_compile_options(-O2)
 project(HighwayTutor)
 
 include_directories(include)
@@ -17,6 +18,7 @@ target_link_libraries(Simulator libdatagenerator)
 
 add_executable(Tutor src/Tutor.cpp)
 target_link_libraries(Tutor libdataprocessor)
+
 
 
 
