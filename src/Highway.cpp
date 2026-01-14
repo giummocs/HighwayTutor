@@ -70,7 +70,7 @@ void Highway::loadFromFile(const std::string& filename) {
 
     int i = 0;
     int j = 0;
-    //Scorrimento finche' uno dei due vettori non viene analizzato completamente
+    //Scorrimento finche' il vettore dei varchi non viene analizzato completamente
     while (i < nodes['V'].size()) {
         double diff = nodes['V'][i] - nodes['S'][j];
         if (diff > -1.0 && diff < 1.0) {
@@ -145,6 +145,7 @@ bool Highway::isValidKey(char key) {
 bool Highway::isValidId(int id, std::vector<double> v) {
     return (id >= 1 && id <= v.size());
 }
+
 
 
 
