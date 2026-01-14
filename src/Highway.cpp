@@ -65,23 +65,30 @@ void Highway::loadFromFile(const std::string& filename) {
     std::sort(nodes['S'].begin(), nodes['S'].end());
 
     //Verifica dei requisiti
-    if (nodes['S'][0] > nodes['V'][0] || nodes['S'][nodes['S'].size()-1] < nodes['V'][nodes['V'].size()-1]) 
+    if (nodes['S'].front() > nodes['V'].front() || nodes['S'].back() < nodes['V'].back()) 
         throw std::runtime_error("Errore! Requisiti non soddisfatti: deve esserci uno svincolo prima del primo varco e uno svincolo dopo l'ultimo varco.");
 
     int i = 0;
-    int j = 0;
-    //Scorrimento finche' il vettore dei varchi non viene analizzato completamente
-    while (i < nodes['V'].size()) {
-        double diff = nodes['V'][i] - nodes['S'][j];
-        if (diff > -1.0 && diff < 1.0) {
-            throw std::runtime_error("Errore! Requisiti non soddisfatti: minima distanza tra un varco e uno svincolo deve essere almeno 1km.");
-        }
-        //Se i-esimo varco ha distanza minore di j-esimo svincolo, passa al i+1-esimo varco
-        if (diff <= -1.0) {
+    for (int j = 0; j < nodes['V'].size(); j++) {
+        double v_dist = nodes['V'][j];
+        //Ricerca dello svincolo piu' vicino
+        while (i < nodes['S'].size() && nodes['S'][i] < v_dist) {
+            //Controllo dello svincolo appena superato
+            if (std::abs(v_dist - nodes['S'][i]) < 1.0) {
+                throw std::runtime_error("Errore! Requisiti non soddisfatti: distanza tra varco e svincolo inferiore a 1km.");
+            }
             i++;
         }
-        //Altrimenti i-esimo varco ha distanza maggiore di j-esimo svincolo, passa al j+1-esimo svincolo
-        j++;
+        
+        //Controllo dello svincolo corrente
+        if (i < nodes['S'].size()) {
+            if (std::abs(v_dist - nodes['S'][i]) < 1.0) {
+                throw std::runtime_error("Errore! Requisiti non soddisfatti: distanza tra varco e svincolo inferiore a 1km.");
+            }
+        }
+        
+        //Reset dell'indice per il prossimo varco
+        if (i > 0) i--; 
     }
 }
 
@@ -145,6 +152,7 @@ bool Highway::isValidKey(char key) {
 bool Highway::isValidId(int id, std::vector<double> v) {
     return (id >= 1 && id <= v.size());
 }
+
 
 
 
